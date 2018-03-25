@@ -143,9 +143,8 @@ bool GraphicsClass::Render()
     XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
     bool result;
 
-
     // Clear the buffers to begin the scene.
-    m_pDirect3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+    m_pDirect3D->BeginScene(1.0f, 0.41f, 0.70f, 1.0f);
 
     // Generate the view matrix based on the camera's position.
     m_Camera->Render();
@@ -164,11 +163,7 @@ bool GraphicsClass::Render()
     {
         return false;
     }
-
-    // Clear the buffers to begin the scene.
-    m_pDirect3D->BeginScene(1.0f, 0.41f, 0.70f, 1.0f);
-
-
+    
     // Present the rendered scene to the screen.
     m_pDirect3D->EndScene();
 
