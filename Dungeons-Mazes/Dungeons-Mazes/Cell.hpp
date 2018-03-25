@@ -3,10 +3,13 @@
 
 class Cell : public GameObject {
 private:
-	vector<Cell> m_Neighbors;
+	Maze* m_pMaze;
 	bool m_IsWall;
 public:	
-	Cell(Point p);
+	vector<Cell*> m_pNeighbors;
+
+	Cell(Point p, Maze* maze);
 	~Cell();
 	void show() override;
+	void addNeighbors();
 };
