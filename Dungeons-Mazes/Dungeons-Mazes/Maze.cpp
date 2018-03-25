@@ -9,7 +9,8 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 	}
 	for (int i = 0; i < mapSizeY; i++) {
 		for (int j = 0; j < mapSizeY; j++) {
-			m_pMap[i][j] = new Cell(Point(i,j));
+			m_pMap[i][j] = new Cell(Point(i,j), this);
+			dynamic_cast<Cell*>(m_pMap[i][j])->addNeighbors();
 		}
 	}
 
@@ -32,4 +33,9 @@ void Maze::Print() {
 			}
 		}
 	}
+}
+
+bool Maze::ifCoordExist(int p, int mapSize) {
+	if (p >= 0 && p < mapSize) return true;
+	else return false;
 }
