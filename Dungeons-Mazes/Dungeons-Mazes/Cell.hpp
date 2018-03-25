@@ -1,6 +1,7 @@
 #pragma once
 #include "Config.hpp"
 
+class Maze;
 class Cell : public GameObject {
 private:
 	Maze* m_pMaze;
