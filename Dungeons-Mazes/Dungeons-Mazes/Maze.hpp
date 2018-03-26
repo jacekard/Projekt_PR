@@ -4,7 +4,6 @@
 class GameObject;
 
 class Maze {
-private:
 public:
 	uint32_t m_MapSizeX, m_MapSizeY;
 	GameObject ***m_pMap;

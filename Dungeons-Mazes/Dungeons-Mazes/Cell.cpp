@@ -18,6 +18,10 @@ void Cell::addNeighbors() {
 Cell::Cell(Point p, Maze* maze) : GameObject(p) {
 	m_pMaze = maze;
 
+	m_F = 0;
+	m_G = 0;
+	m_H = 0;
+
 	if (random() < 0.2) {
 		m_IsWall = true;
 	}

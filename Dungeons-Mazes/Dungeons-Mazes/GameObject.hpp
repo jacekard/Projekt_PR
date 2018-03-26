@@ -4,10 +4,8 @@
 #include "UtilsConfig.hpp"
 
 class GameObject {
-protected:
-	Point m_Position;
-	//Maze m_Maze;
 public:
+	Point m_Position;
 	std::string m_Name;
 	virtual void show() = 0;
 	GameObject(Point p) : m_Position(p) {};

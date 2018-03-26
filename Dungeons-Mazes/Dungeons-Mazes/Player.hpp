@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.hpp"
+#include "AbstractPlayer.hpp"
 
-class Player : public GameObject {
+class Player : public AbstractPlayer {
 public:
-	virtual void show();
+	void show() override;
 	void move();
-	Player(Point p) : GameObject(p) {};
+	Player(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {};
 	~Player();
 };

@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Maze.cpp" />
@@ -130,6 +131,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\SystemClass.hpp" />
+    <ClInclude Include="AbstractPlayer.hpp" />
+    <ClInclude Include="Bot.hpp" />
     <ClInclude Include="Cell.hpp" />
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="GameObject.hpp" />
