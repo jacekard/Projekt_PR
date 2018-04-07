@@ -25,8 +25,8 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 }
 
 Maze::~Maze() {
-	for (int i = 0; i < m_MapSizeY; i++) {
-		for (int j = 0; j < m_MapSizeY; j++) {
+	for (size_t i = 0; i < m_MapSizeY; i++) {
+		for (size_t j = 0; j < m_MapSizeY; j++) {
 			//delete m_pMap[i][j].cell;
 			//delete m_pMap[i][j].NPC;
 		}
@@ -34,8 +34,8 @@ Maze::~Maze() {
 }
 
 void Maze::Print() {
-	for (int i = 0; i < m_MapSizeY; i++) {
-		for (int j = 0; j < m_MapSizeX; j++) {
+	for (size_t i = 0; i < m_MapSizeY; i++) {
+		for (size_t j = 0; j < m_MapSizeX; j++) {
 			if (m_pMap[i][j].NPC == nullptr)
 				(m_pMap[i][j].cell)->show();
 			else 

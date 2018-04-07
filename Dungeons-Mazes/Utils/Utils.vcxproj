@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Point.hpp" />
+    <ClInclude Include="random.hpp" />
     <ClInclude Include="UtilsConfig.hpp" />
   </ItemGroup>
   <ItemGroup>

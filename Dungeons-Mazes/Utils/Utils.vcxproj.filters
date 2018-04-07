@@ -21,6 +21,9 @@
     <ClInclude Include="Point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

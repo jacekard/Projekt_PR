@@ -21,8 +21,7 @@ void Bot::move() {
 		if (!dynamic_cast<Cell*>(m_pMaze->m_pMap[tmp.x][tmp.y].cell)->m_IsWall) {
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
 			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-			m_Position.x = tmp.x;
-			m_Position.y = tmp.y;
+			m_Position = tmp;
 		}
 		else {
 			move();
