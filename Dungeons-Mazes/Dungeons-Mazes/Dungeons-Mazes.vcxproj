@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractPlayer.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="InputClass.cpp" />

@@ -1,42 +1,45 @@
 #include "Maze.hpp"
+#include "Cell.hpp"
+#include "Bot.hpp"
+#include "Player.hpp"
 
 Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY) {
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
-	m_pMap = new GameObject**[mapSizeY];
+	m_pMap = new Node*[mapSizeY];
 	for (int i = 0; i < mapSizeY; i++) {
-		m_pMap[i] = new GameObject*[mapSizeX];
+		m_pMap[i] = new Node[mapSizeX];
 	}
 	for (int i = 0; i < mapSizeY; i++) {
 		for (int j = 0; j < mapSizeX; j++) {
-			m_pMap[i][j] = new Cell(Point(i,j), this);
-			dynamic_cast<Cell*>(m_pMap[i][j])->addNeighbors();
+			m_pMap[i][j].cell = new Cell(Point(i,j), this);
+			m_pMap[i][j].NPC = nullptr;
+			dynamic_cast<Cell*>(m_pMap[i][j].cell)->addNeighbors();
 		}
 	}
-
+	Bot* bot = new Bot(Point(10, 10), "KUPA NA GLOWIE", this);
+	this->m_List.push_back(bot);
+	this->bots.push_back(bot);
+	m_pMap[10][10].NPC = bot;
 	
 }
 
 Maze::~Maze() {
 	for (int i = 0; i < m_MapSizeY; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
-			delete m_pMap[i][j];
+			//delete m_pMap[i][j].cell;
+			//delete m_pMap[i][j].NPC;
 		}
 	}
 }
 
 void Maze::Print() {
-	for (int i = 1; i <= m_MapSizeY; i++) {
-		for (int j = 1; j <= m_MapSizeX; j++) {
-			if ((i == 1 && j == 1) || (i == m_MapSizeX && j == m_MapSizeY))
-				cout << "#";
-			else if (i == 1 || i == m_MapSizeX)
-				cout << "-";
-			else if (j == 1 || j == m_MapSizeY)
-				cout << "|";
- 			else if (m_pMap[i-1][j-1] != nullptr) {
-				m_pMap[i][j]->show();
-			}
+	for (int i = 0; i < m_MapSizeY; i++) {
+		for (int j = 0; j < m_MapSizeX; j++) {
+			if (m_pMap[i][j].NPC == nullptr)
+				(m_pMap[i][j].cell)->show();
+			else 
+				(m_pMap[i][j].NPC)->show();
 		}
 		cout << endl;
 	}

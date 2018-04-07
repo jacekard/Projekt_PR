@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractPlayer.hpp"
+#include "Cell.hpp"
 
 class Bot : public AbstractPlayer {
 public:

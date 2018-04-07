@@ -1,7 +1,7 @@
 #pragma once
-#include "Config.hpp"
+#include "GameObject.hpp"
+#include "Maze.hpp"
 
-class Maze;
 class Cell : public GameObject {
 public:	
 	bool m_IsWall;

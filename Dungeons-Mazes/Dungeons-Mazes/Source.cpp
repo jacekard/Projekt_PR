@@ -1,15 +1,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename: main.cpp
 ////////////////////////////////////////////////////////////////////////////////
-#include "Config.hpp"
-#include <conio.h>]
-
+#include <conio.h>
+#include "Maze.hpp"
+#include "Bot.hpp"
 int main() {
 	Maze* maze = new Maze(20, 20);
-	//AbstractPlayer* bot;
-	while (_getch() != 'q') {
+	int i = 0;
+	while (i < 100000000000) {
 		system("cls");
+		for(auto character : maze->m_List) {
+			dynamic_cast<AbstractPlayer*>(character)->move();
+		}
 		maze->Print();
+		i++;
+		Sleep(100);
 	}
 	cout << endl;
 	system("pause");

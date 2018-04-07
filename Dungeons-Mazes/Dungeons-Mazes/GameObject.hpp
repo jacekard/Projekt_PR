@@ -1,8 +1,6 @@
 #pragma once
-//#include "Config.hpp"
 #include <string>
-#include "UtilsConfig.hpp"
-
+#include "Config.hpp"
 
 class Maze;
 class GameObject {
