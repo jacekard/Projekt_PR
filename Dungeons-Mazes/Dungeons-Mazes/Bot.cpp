@@ -1,6 +1,9 @@
 #include "Bot.hpp"
+#include "Artifact.hpp"
 
 void Bot::move() {
+	static int moveCount = 0;
+	assert(moveCount < 10);
 	int a = random(0, 3);
 	Point tmp;
 	switch (a) {
@@ -18,14 +21,24 @@ void Bot::move() {
 		break;
 	}
 	if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX) && m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
-		if (!dynamic_cast<Cell*>(m_pMaze->m_pMap[tmp.x][tmp.y].cell)->m_IsWall) {
+		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact!=nullptr) {
+			cout << "ZEBRALES ARTEFAKT!" << endl;
+			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
+			m_pMaze->m_pMap[tmp.x][tmp.y].artifact = nullptr;
+			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
+			m_Position.x = tmp.x;
+			m_Position.y = tmp.y;
+			Sleep(3000);
+		}else if (!m_pMaze->m_pMap[tmp.x][tmp.y].cell->m_IsWall) {
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
 			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
 			m_Position = tmp;
 		}
 		else {
+			moveCount++;
 			move();
 		}
+		moveCount = 0;
 	}
 }
 void Bot::reconstruct_path(Cell* current) {

@@ -9,8 +9,8 @@ int main() {
 	int i = 0;
 	while (i < 100000000000) {
 		system("cls");
-		for(auto character : maze->m_List) {
-			dynamic_cast<AbstractPlayer*>(character)->move();
+		for (auto character : maze->m_Characters) {
+			character->move();
 		}
 		maze->Print();
 		i++;
