@@ -1,7 +1,10 @@
 #include "Cell.hpp"
 
 void Cell::show() {
-	std::cout << "*";
+	if (m_IsWall)
+		std::cout << "*";
+	else
+		std::cout << " ";
 }
 
 void Cell::addNeighbors() {
@@ -15,9 +18,7 @@ void Cell::addNeighbors() {
 		m_pNeighbors.push_back((Cell*)m_pMaze->m_pMap[m_Position.x][m_Position.y + 1]);
 }
 
-Cell::Cell(Point p, Maze* maze) : GameObject(p) {
-	m_pMaze = maze;
-
+Cell::Cell(Point p, Maze* maze) : GameObject(p, maze) {
 	m_F = 0;
 	m_G = 0;
 	m_H = 0;

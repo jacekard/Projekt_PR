@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dungeons-Mazes", "Dungeons-Mazes\Dungeons-Mazes.vcxproj", "{CAE9B16A-C86D-4656-8434-C4ED2359CE45}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,7 +30,6 @@ Global
 		{CAE9B16A-C86D-4656-8434-C4ED2359CE45}.Release|x86.ActiveCfg = Release|Win32
 		{CAE9B16A-C86D-4656-8434-C4ED2359CE45}.Release|x86.Build.0 = Release|Win32
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Debug|x64.ActiveCfg = Debug|x64
-		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Debug|x64.Build.0 = Debug|x64
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Debug|x86.ActiveCfg = Debug|Win32
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Debug|x86.Build.0 = Debug|Win32
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Release|x64.ActiveCfg = Release|x64
@@ -38,7 +37,6 @@ Global
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Release|x86.ActiveCfg = Release|Win32
 		{75788AE6-0219-47EB-B3C3-7C6BA329F402}.Release|x86.Build.0 = Release|Win32
 		{C9E04A8B-A85C-4A78-9D0E-CBA3106793DB}.Debug|x64.ActiveCfg = Debug|x64
-		{C9E04A8B-A85C-4A78-9D0E-CBA3106793DB}.Debug|x64.Build.0 = Debug|x64
 		{C9E04A8B-A85C-4A78-9D0E-CBA3106793DB}.Debug|x86.ActiveCfg = Debug|Win32
 		{C9E04A8B-A85C-4A78-9D0E-CBA3106793DB}.Debug|x86.Build.0 = Debug|Win32
 		{C9E04A8B-A85C-4A78-9D0E-CBA3106793DB}.Release|x64.ActiveCfg = Release|x64

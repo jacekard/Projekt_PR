@@ -1,15 +1,15 @@
 #include "Bot.hpp"
-Bot::Bot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
-}
 
 void Bot::move() {
 	m_OpenSet.push_back((Cell*)m_pMaze->m_pMap[m_Position.x][m_Position.y]);
 	bool hasFoundPath = false;
 	Cell* end = nullptr; //end is destination of Artifact
 	Cell* start = nullptr; //start is the last/actual position
-	Cell* current;
+	Cell* current = nullptr;
 	do {
-		if (m_OpenSet.size > 0) {
+		int size = 0;//m_OpenSet.size();
+		
+		if (size > 0) {
 			current = nullptr;
 			current = m_OpenSet[0];
 			for (auto node : m_OpenSet) {
@@ -17,7 +17,7 @@ void Bot::move() {
 					current = node;
 				}
 			}
-
+		}
 			if (current == end) {
 				m_Path.clear();
 				//done!
@@ -25,7 +25,7 @@ void Bot::move() {
 				hasFoundPath = true;
 				break;
 			}
-
+/*
 			m_OpenSet.erase(std::remove(m_OpenSet.begin(), m_OpenSet.end(), 8),
 				m_OpenSet.end());
 			m_ClosedSet.push_back(current);
@@ -55,17 +55,17 @@ void Bot::move() {
 						neighbor->m_Previous = current;
 					}
 				}
-			}
+			}*/
 
-		}
-		else { //keep searching for path
-			m_Path.clear();
-		}
+		//}
+		//else { //keep searching for path
+		//	m_Path.clear();
+		//}
 
 
 	} while (!hasFoundPath);
 
-	this->reconstruct_path(current);
+	//this->reconstruct_path(current);
 }
 
 void Bot::reconstruct_path(Cell* current) {
@@ -81,5 +81,5 @@ void Bot::reconstruct_path(Cell* current) {
 }
 
 void Bot::show() {
-
+	cout << "B";
 }

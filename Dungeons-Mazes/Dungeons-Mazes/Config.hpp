@@ -18,8 +18,10 @@ static const float SCREEN_NEAR = 0.1f;
 #include "UtilsConfig.hpp"
 #include "GameObject.hpp"
 #include "Maze.hpp"
+
 #include "AbstractPlayer.hpp"
 #include "Cell.hpp"
+
 #include "InputClass.hpp"
 #include "GraphicsClass.hpp"
 #include "SystemClass.hpp"

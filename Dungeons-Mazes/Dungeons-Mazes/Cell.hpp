@@ -4,7 +4,6 @@
 class Maze;
 class Cell : public GameObject {
 public:	
-	Maze* m_pMaze;
 	bool m_IsWall;
 	Cell* m_Previous;
 	vector<Cell*> m_pNeighbors;

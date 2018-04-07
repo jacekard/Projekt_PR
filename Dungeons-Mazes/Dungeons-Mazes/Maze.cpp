@@ -8,7 +8,7 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 		m_pMap[i] = new GameObject*[mapSizeX];
 	}
 	for (int i = 0; i < mapSizeY; i++) {
-		for (int j = 0; j < mapSizeY; j++) {
+		for (int j = 0; j < mapSizeX; j++) {
 			m_pMap[i][j] = new Cell(Point(i,j), this);
 			dynamic_cast<Cell*>(m_pMap[i][j])->addNeighbors();
 		}
@@ -26,12 +26,19 @@ Maze::~Maze() {
 }
 
 void Maze::Print() {
-	for (int i = 0; i < m_MapSizeY; i++) {
-		for (int j = 0; j < m_MapSizeY; j++) {
-			if (m_pMap[i][j] != nullptr) {
-				//m_pMap[i][j]->show();
+	for (int i = 1; i <= m_MapSizeY; i++) {
+		for (int j = 1; j <= m_MapSizeX; j++) {
+			if ((i == 1 && j == 1) || (i == m_MapSizeX && j == m_MapSizeY))
+				cout << "#";
+			else if (i == 1 || i == m_MapSizeX)
+				cout << "-";
+			else if (j == 1 || j == m_MapSizeY)
+				cout << "|";
+ 			else if (m_pMap[i-1][j-1] != nullptr) {
+				m_pMap[i][j]->show();
 			}
 		}
+		cout << endl;
 	}
 }
 
