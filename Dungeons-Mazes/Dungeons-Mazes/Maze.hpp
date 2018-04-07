@@ -4,18 +4,20 @@
 
 class GameObject;
 class AbstractPlayer;
+class Artifact;
+class Cell;
 struct Node {
-	GameObject* cell;
-	GameObject* NPC;
+	Cell* cell;
+	AbstractPlayer* NPC;
+	Artifact * artifact;
 };
 class Maze {
 public:
 	uint32_t m_MapSizeX, m_MapSizeY;
 	Node **m_pMap;
 	Node **m_pinitMap;
-	vector<GameObject*> m_List;
-	vector<AbstractPlayer*> bots;
-	vector<AbstractPlayer*> players;
+	vector<Artifact*> m_Artifacts;
+	vector<AbstractPlayer*> m_Characters;
 	Maze(int mapSizeX, int mapSizeY);
 	~Maze();
 	void Print();
