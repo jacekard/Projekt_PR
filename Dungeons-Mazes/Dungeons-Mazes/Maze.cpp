@@ -4,16 +4,18 @@
 #include "Player.hpp"
 #include "Artifact.hpp"
 
-Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY) {
+Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
+	: m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY), m_MaxArtifactCount(maxArtifactCount) {
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
-	m_pMap = new Node*[mapSizeY];
-	for (int i = 0; i < mapSizeY; i++) {
-		m_pMap[i] = new Node[mapSizeX];
+
+	m_pMap = new Node*[m_MapSizeX];
+	for (int i = 0; i < m_MapSizeX; i++) {
+		m_pMap[i] = new Node[m_MapSizeY];
 	}
-	for (int i = 0; i < mapSizeY; i++) {
-		for (int j = 0; j < mapSizeX; j++) {
-			m_pMap[i][j].cell = new Cell(Point(i,j), this);
+	for (int i = 0; i < m_MapSizeX; i++) {
+		for (int j = 0; j < m_MapSizeY; j++) {
+			m_pMap[i][j].cell = new Cell(Point(i, j), this);
 			m_pMap[i][j].NPC = nullptr;
 			m_pMap[i][j].artifact = nullptr;
 			m_Cells.push_back(m_pMap[i][j].cell);
@@ -24,19 +26,16 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 		cell->addNeighbors();
 	}
 
-	////ADDING OBJECTS
-	Bot* bot = new Bot(Point(random(0,m_MapSizeX - 1), random(0,m_MapSizeY - 1)), "KUPA NA GLOWIE", this);
-	Artifact* coin = new Artifact(Point(random(0,m_MapSizeX - 1), random(0,m_MapSizeY - 1)), "a", this);
-	this->m_Characters.push_back(bot);
-	this->m_Artifacts.push_back(coin);
-	m_pMap[bot->m_Position.x][bot->m_Position.y].NPC = bot;
-	m_pMap[bot->m_Position.x][bot->m_Position.y].cell->m_IsWall = false; //usuwa ewentualna sciane na miejscu bota
+	//initializeRandomMaze(0.3);
+	initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(10)), 0.1);
+	//initializeProceduralMaze();
 
-	m_pMap[coin->m_Position.x][coin->m_Position.y].artifact = coin;
+	spawnArtifact(1.0);
+	spawnBot("A*");
 }
 
 Maze::~Maze() {
-	for (size_t i = 0; i < m_MapSizeY; i++) {
+	for (size_t i = 0; i < m_MapSizeY; i++) {///XD
 		for (size_t j = 0; j < m_MapSizeY; j++) {
 			//delete m_pMap[i][j].cell;
 			//delete m_pMap[i][j].NPC;
@@ -44,12 +43,45 @@ Maze::~Maze() {
 	}
 }
 
+void Maze::initializeRandomMaze(double randomFactor) {
+	//randomFactor is floating point number between 0 and 1.0
+	for (int i = 0; i < m_MapSizeX; i++) {
+		for (int j = 0; j < m_MapSizeY; j++) {
+			if (random() < randomFactor) {
+				m_pMap[i][j].cell->m_IsWall = true;
+			}
+			else
+				m_pMap[i][j].cell->m_IsWall = false;
+		}
+	}
+}
+
+void Maze::initializeIsleMaze(int isleCount, double randomFactor) {
+	//randomFactor is floating point number between 0 and 1.0
+	Point r;
+	Cell *cell;
+	for (int i = 0; i < isleCount; i++) {
+		r = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
+		cell = m_pMap[r.x][r.y].cell;
+		cell->m_IsWall = true;
+		recursiveWallPlacing(cell, randomFactor);
+	}
+}
+
+void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
+	for (auto neighbor : cell->m_pNeighbors) {
+		neighbor->m_IsWall = true;
+		if (random() < randomFactor && randomFactor >= 0.0)
+			recursiveWallPlacing(neighbor, randomFactor - 0.05);
+	}
+}
+
 void Maze::Print() {
-	for (size_t i = 0; i < m_MapSizeY; i++) {
-		for (size_t j = 0; j < m_MapSizeX; j++) {
-			if(m_pMap[i][j].artifact!=nullptr)
+	for (size_t i = 0; i < m_MapSizeX; i++) {
+		for (size_t j = 0; j < m_MapSizeY; j++) {
+			if (m_pMap[i][j].artifact != nullptr)
 				(m_pMap[i][j].artifact)->show();
-			if (m_pMap[i][j].NPC != nullptr)
+			else if (m_pMap[i][j].NPC != nullptr)
 				(m_pMap[i][j].NPC)->show();
 			else
 				(m_pMap[i][j].cell)->show();
@@ -59,6 +91,29 @@ void Maze::Print() {
 }
 
 bool Maze::ifCoordExist(int p, int mapSize) {
-	if (p >= 0 && p < mapSize) return true;
-	else return false;
+	return (p >= 0 && p < mapSize) ? true : false;
+}
+
+void Maze::spawnArtifact(double randomFactor) {
+	if (m_Artifacts.size() >= m_MaxArtifactCount
+		|| random() > randomFactor)
+		return;
+	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
+	Artifact* artifact = new Artifact(p, "", this);
+	m_pMap[p.x][p.y].artifact = artifact;
+	m_pMap[p.x][p.y].cell->m_IsWall = false;
+	m_Artifacts.push_back(artifact);
+}
+
+void Maze::spawnBot(string type) {
+	AbstractPlayer* bot;
+	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
+	if (type == "A*")
+		bot = new Bot(p, "A* Bot", this);
+	else if (type == "different")
+		;///...
+	this->m_Characters.push_back(bot);
+	m_pMap[p.x][p.y].NPC = bot;
+	m_pMap[p.x][p.y].cell->m_IsWall = false; 
+	//usuwa ewentualna sciane na miejscu bota
 }

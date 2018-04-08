@@ -4,21 +4,26 @@
 #include <conio.h>
 #include "Maze.hpp"
 #include "Bot.hpp"
+#include "Artifact.hpp"
+
+//TODO:
+//jak bot dojdzie do end, to jego start = end;
+
 
 int main() {
-	Maze* maze = new Maze(25, 25);
+
+	Maze* maze = new Maze(40, 80, 1);
 	int i = 0;
 	maze->Print();
 	Sleep(2000);
 	while (i < 100) {
 		system("cls");
-		maze->m_Characters[0]->move();
 		maze->Print();
-		//for (auto character : maze->m_Characters) {
-		//	character->();
-		//}
+		for (auto character : maze->m_Characters) {
+			character->move();
+		}
 		i++;
-		Sleep(100);
+		Sleep(0);
 	}
 	cout << endl;
 	system("pause");

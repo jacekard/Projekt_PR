@@ -1,46 +1,6 @@
-#include "Bot.hpp"
+ï»¿#include "Bot.hpp"
 #include "Artifact.hpp"
 
-//void Bot::move() {
-//	static int moveCount = 0;
-//	assert(moveCount < 10);
-//	int a = random(0, 3);
-//	Point tmp;
-//	switch (a) {
-//	case 0: //right
-//		tmp = Point(m_Position.x + 1, m_Position.y);
-//		break;
-//	case 1:
-//		tmp = Point(m_Position.x - 1, m_Position.y);
-//		break;
-//	case 2:
-//		tmp = Point(m_Position.x, m_Position.y + 1);
-//		break;
-//	case 3:
-//		tmp = Point(m_Position.x, m_Position.y - 1);
-//		break;
-//	}
-//	if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX) && m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
-//		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact != nullptr) {
-//			cout << "ZEBRALES ARTEFAKT!" << endl;
-//			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
-//			m_pMaze->m_pMap[tmp.x][tmp.y].artifact = nullptr;
-//			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-//			m_Position = tmp;
-//			Sleep(3000);
-//		}
-//		else if (!m_pMaze->m_pMap[tmp.x][tmp.y].cell->m_IsWall) {
-//			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
-//			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-//			m_Position = tmp;
-//		}
-//		else {
-//			moveCount++;
-//			move();
-//		}
-//		moveCount = 0;
-//	}
-//}
 
 void Bot::reconstruct_path(Cell* current) {
 	m_Path.clear();
@@ -75,15 +35,13 @@ void Bot::move() {
 		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact != nullptr) {
 			cout << "ZEBRALES ARTEFAKT!" << endl;
 
-			//gdyby uzyc s³ownika usuwanie byloby szybsze??
+			//gdyby uzyc sï¿½ownika usuwanie byloby szybsze??
 			m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
 				m_pMaze->m_pMap[tmp.x][tmp.y].artifact));
 
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
 			m_pMaze->m_pMap[tmp.x][tmp.y].artifact = nullptr;
 			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-
-
 
 			m_Position = tmp;
 			isPathSet = false;
@@ -93,6 +51,9 @@ void Bot::move() {
 			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
 			m_Position = tmp;
 		}
+	}
+	else {
+		int a = 3 + 5;
 	}
 
 	m_Path.erase(m_Path.begin());
@@ -127,7 +88,9 @@ Cell* Bot::findNearestArtifact() {
 
 void Bot::A_Star_Algorithm() {
 	//DEBUG
+#if defined(_DEBUG)
 	int blockedNeighbors = 0;
+#endif
 	//DEBUG
 	Cell* end = findNearestArtifact(); //end is destination of Artifact
 	if (end == nullptr)
@@ -189,11 +152,6 @@ void Bot::A_Star_Algorithm() {
 						neighbor->m_Previous = current;
 					}
 				}
-				else {
-					blockedNeighbors++;
-					if (blockedNeighbors == neighbors.size())
-						return;
-				}
 			}
 		}
 		else { //keep searching for path
@@ -203,3 +161,44 @@ void Bot::A_Star_Algorithm() {
 
 	this->reconstruct_path(current);
 }
+
+//void Bot::move() {
+//	static int moveCount = 0;
+//	assert(moveCount < 10);
+//	int a = random(0, 3);
+//	Point tmp;
+//	switch (a) {
+//	case 0: //right
+//		tmp = Point(m_Position.x + 1, m_Position.y);
+//		break;
+//	case 1:
+//		tmp = Point(m_Position.x - 1, m_Position.y);
+//		break;
+//	case 2:
+//		tmp = Point(m_Position.x, m_Position.y + 1);
+//		break;
+//	case 3:
+//		tmp = Point(m_Position.x, m_Position.y - 1);
+//		break;
+//	}
+//	if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX) && m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
+//		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact != nullptr) {
+//			cout << "ZEBRALES ARTEFAKT!" << endl;
+//			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
+//			m_pMaze->m_pMap[tmp.x][tmp.y].artifact = nullptr;
+//			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
+//			m_Position = tmp;
+//			Sleep(3000);
+//		}
+//		else if (!m_pMaze->m_pMap[tmp.x][tmp.y].cell->m_IsWall) {
+//			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
+//			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
+//			m_Position = tmp;
+//		}
+//		else {
+//			moveCount++;
+//			move();
+//		}
+//		moveCount = 0;
+//	}
+//}

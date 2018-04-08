@@ -16,7 +16,19 @@ inline int random(int a) {
 	return dist(rd);
 }
 
-
+//inline uint8_t random(uint8_t a, uint8_t b) {
+//	//random number between a and b
+//	random_device rd;
+//	uniform_int_distribution<uint8_t> dist(a, b);
+//	return dist(rd);
+//}
+//
+//inline uint8_t random(uint8_t a) {
+//	//random number between a and b
+//	random_device rd;
+//	uniform_int_distribution<uint8_t> dist(0, a);
+//	return dist(rd);
+//}
 
 inline int random(int a, int b) {
 	//random number between a and b
