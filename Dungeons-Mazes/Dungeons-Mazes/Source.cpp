@@ -6,7 +6,7 @@
 #include "Bot.hpp"
 
 int main() {
-	Maze* maze = new Maze(15, 15);
+	Maze* maze = new Maze(25, 25);
 	int i = 0;
 	maze->Print();
 	Sleep(2000);
@@ -18,7 +18,7 @@ int main() {
 		//	character->();
 		//}
 		i++;
-		Sleep(900);
+		Sleep(100);
 	}
 	cout << endl;
 	system("pause");

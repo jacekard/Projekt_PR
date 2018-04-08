@@ -16,6 +16,8 @@ inline int random(int a) {
 	return dist(rd);
 }
 
+
+
 inline int random(int a, int b) {
 	//random number between a and b
 	random_device rd;
