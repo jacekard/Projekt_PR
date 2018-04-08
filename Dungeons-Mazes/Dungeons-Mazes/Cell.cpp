@@ -8,14 +8,12 @@ void Cell::show() {
 }
 
 void Cell::addNeighbors() {
-	if (m_pMaze->ifCoordExist(m_Position.x - 1, m_pMaze->m_MapSizeX)) 
-		m_pNeighbors.push_back(m_pMaze->m_pMap[m_Position.x - 1][m_Position.y].cell);
-	if (m_pMaze->ifCoordExist(m_Position.x + 1, m_pMaze->m_MapSizeX))
-		m_pNeighbors.push_back(m_pMaze->m_pMap[m_Position.x + 1][m_Position.y].cell);
-	if (m_pMaze->ifCoordExist(m_Position.y - 1, m_pMaze->m_MapSizeY))
-		m_pNeighbors.push_back(m_pMaze->m_pMap[m_Position.x][m_Position.y - 1].cell);
-	if (m_pMaze->ifCoordExist(m_Position.y + 1, m_pMaze->m_MapSizeY))
-		m_pNeighbors.push_back(m_pMaze->m_pMap[m_Position.x][m_Position.y + 1].cell);
+	for (int i = -1; i <= 1; i++)
+		for (int j = -1; j <= 1; j++)
+			if (i*j == 0 && i + j != 0)	//delete "i*j==0" to get 8 neighbors instead of 4
+				if (m_pMaze->ifCoordExist(m_Position.x + i, m_pMaze->m_MapSizeX) &&
+					m_pMaze->ifCoordExist(m_Position.y + j, m_pMaze->m_MapSizeY))
+					m_pNeighbors.push_back(m_pMaze->m_pMap[m_Position.x + i][m_Position.y + j].cell);
 }
 
 Cell::Cell(Point p, Maze* maze) : GameObject(p, maze) {
