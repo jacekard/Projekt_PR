@@ -5,6 +5,7 @@
 class Bot : public AbstractPlayer {
 public:
 	bool isPathSet = false;
+	bool pathEstablished = false;
 	vector<Cell*> m_Path, m_OpenSet, m_ClosedSet;
 	Bot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {};
 	~Bot();

@@ -25,13 +25,20 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 	}
 
 	////ADDING OBJECTS
-	Bot* bot = new Bot(Point(4, 4), "KUPA NA GLOWIE", this);
+	Bot* bot = new Bot(Point(14, 14), "KUPA NA GLOWIE", this);
 	Artifact* coin = new Artifact(Point(0, 0), "a", this);
 	this->m_Characters.push_back(bot);
 	this->m_Artifacts.push_back(coin);
 	m_pMap[bot->m_Position.x][bot->m_Position.y].NPC = bot;
+	m_pMap[bot->m_Position.x][bot->m_Position.y].cell->m_IsWall = false; //usuwa ewentualna sciane na miejscu bota
+
+	//DEBUG Gdy zablokujemy œciany wokó³ bota program nie wywala sie!
+	m_pMap[13][13].cell->m_IsWall = false;
+	m_pMap[14][13].cell->m_IsWall = false;
+	m_pMap[13][14].cell->m_IsWall = false;
+	//DEBUG
+
 	m_pMap[coin->m_Position.x][coin->m_Position.y].artifact = coin;
-	/////
 }
 
 Maze::~Maze() {

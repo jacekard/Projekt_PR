@@ -6,16 +6,19 @@
 #include "Bot.hpp"
 
 int main() {
-	Maze* maze = new Maze(5, 5);
+	Maze* maze = new Maze(15, 15);
 	int i = 0;
 	maze->Print();
-	while (_getch() != 'q') {
+	Sleep(2000);
+	while (i < 100) {
 		system("cls");
 		maze->m_Characters[0]->move();
 		maze->Print();
 		//for (auto character : maze->m_Characters) {
 		//	character->();
 		//}
+		i++;
+		Sleep(900);
 	}
 	cout << endl;
 	system("pause");
