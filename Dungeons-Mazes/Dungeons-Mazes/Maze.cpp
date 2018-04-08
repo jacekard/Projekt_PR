@@ -16,17 +16,21 @@ Maze::Maze(int mapSizeX, int mapSizeY) : m_MapSizeX(mapSizeX), m_MapSizeY(mapSiz
 			m_pMap[i][j].cell = new Cell(Point(i,j), this);
 			m_pMap[i][j].NPC = nullptr;
 			m_pMap[i][j].artifact = nullptr;
-			m_pMap[i][j].cell->addNeighbors();
+			m_Cells.push_back(m_pMap[i][j].cell);
 		}
 	}
 
+	for (auto cell : m_Cells) {
+		cell->addNeighbors();
+	}
+
 	////ADDING OBJECTS
-	Bot* bot = new Bot(Point(10, 10), "KUPA NA GLOWIE", this);
-	Artifact* coin = new Artifact(Point(8, 8), "a", this);
+	Bot* bot = new Bot(Point(4, 4), "KUPA NA GLOWIE", this);
+	Artifact* coin = new Artifact(Point(0, 0), "a", this);
 	this->m_Characters.push_back(bot);
 	this->m_Artifacts.push_back(coin);
-	m_pMap[10][10].NPC = bot;
-	m_pMap[8][8].artifact = coin;
+	m_pMap[bot->m_Position.x][bot->m_Position.y].NPC = bot;
+	m_pMap[coin->m_Position.x][coin->m_Position.y].artifact = coin;
 	/////
 }
 

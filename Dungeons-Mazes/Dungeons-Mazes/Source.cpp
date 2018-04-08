@@ -4,17 +4,18 @@
 #include <conio.h>
 #include "Maze.hpp"
 #include "Bot.hpp"
+
 int main() {
-	Maze* maze = new Maze(20, 20);
+	Maze* maze = new Maze(5, 5);
 	int i = 0;
-	while (i < 100000000000) {
+	maze->Print();
+	while (_getch() != 'q') {
 		system("cls");
-		for (auto character : maze->m_Characters) {
-			character->move();
-		}
+		maze->m_Characters[0]->move();
 		maze->Print();
-		i++;
-		Sleep(100);
+		//for (auto character : maze->m_Characters) {
+		//	character->();
+		//}
 	}
 	cout << endl;
 	system("pause");

@@ -16,6 +16,7 @@ public:
 	uint32_t m_MapSizeX, m_MapSizeY;
 	Node **m_pMap;
 	Node **m_pinitMap;
+	vector<Cell*> m_Cells;
 	vector<Artifact*> m_Artifacts;
 	vector<AbstractPlayer*> m_Characters;
 	Maze(int mapSizeX, int mapSizeY);

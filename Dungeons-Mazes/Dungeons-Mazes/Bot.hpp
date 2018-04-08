@@ -4,10 +4,13 @@
 
 class Bot : public AbstractPlayer {
 public:
+	bool isPathSet = false;
 	vector<Cell*> m_Path, m_OpenSet, m_ClosedSet;
 	Bot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {};
 	~Bot();
 	void show() override; //display
 	void move() override; //finding path
+	void A_Star_Algorithm();
 	void reconstruct_path(Cell* current);
+	Cell* findNearestArtifact();
 };
