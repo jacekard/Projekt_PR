@@ -32,7 +32,7 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 	//initializeProceduralMaze();
 
 	spawnArtifact(1.0);
-	//spawnBot("A*");
+	spawnBot("A*");
 	spawnBot("Mouse");
 }
 
