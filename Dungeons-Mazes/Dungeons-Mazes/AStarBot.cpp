@@ -17,9 +17,9 @@ void AStarBot::reconstruct_path(Cell* current) {
 }
 
 void AStarBot::move() {
-	if (!isPathSet) {
+	//if (!isPathSet) {
 		A_Star_Algorithm();
-	}
+	//}
 	Point tmp;
 
 	if (m_Path.size() <= 0) {
@@ -52,11 +52,6 @@ void AStarBot::move() {
 			m_Position = tmp;
 		}
 	}
-	else {
-		int a = 3 + 5;
-	}
-
-	m_Path.erase(m_Path.begin());
 }
 
 void AStarBot::show() {
@@ -87,11 +82,14 @@ Cell* AStarBot::findNearestArtifact() {
 }
 
 void AStarBot::A_Star_Algorithm() {
-	//DEBUG
 #if defined(_DEBUG)
+	m_OpenSet.clear();
+	m_ClosedSet.clear();
+	m_Path.clear();
 	int blockedNeighbors = 0;
 #endif
-	//DEBUG
+
+
 	Cell* end = findNearestArtifact(); //end is destination of Artifact
 	if (end == nullptr)
 		return;
@@ -100,10 +98,16 @@ void AStarBot::A_Star_Algorithm() {
 	Cell* current = nullptr;
 	m_OpenSet.push_back(start);
 
-	do {
-		size_t size = m_OpenSet.size();
+	for (auto cell : m_pMaze->m_Cells) {
+		cell->m_F = 0.0;
+		cell->m_G = 0.0;
+		cell->m_H = 0.0;
+		cell->m_Previous = nullptr;
+	}
 
-		if (size > 0) {
+
+	do {
+		if (m_OpenSet.size() > 0) {
 			current = nullptr;
 			current = m_OpenSet[0];
 			for (auto node : m_OpenSet) {

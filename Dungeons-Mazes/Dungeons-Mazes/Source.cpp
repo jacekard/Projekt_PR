@@ -12,18 +12,19 @@
 
 int main() {
 
-	Maze* maze = new Maze(20, 20, 1);
+	Maze* maze = new Maze(30, 30, 3); //(maxX, maxY, maxArtifacts)
 	int i = 0;
 	maze->Print();
 	Sleep(2000);
-	while (i < 100) {
+	while (i < 200) {
 		system("cls");
 		maze->Print();
+		maze->spawnArtifact(0.3);
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
 		i++;
-		Sleep(0);
+		//Sleep(200);
 	}
 	cout << endl;
 	system("pause");
