@@ -1,6 +1,7 @@
 #include "Maze.hpp"
 #include "Cell.hpp"
 #include "AStarBot.hpp"
+#include "MouseBot.hpp"
 #include "Player.hpp"
 #include "Artifact.hpp"
 
@@ -26,12 +27,13 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 		cell->addNeighbors();
 	}
 
-	//initializeRandomMaze(0.3);
-	initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(10)), 0.1);
+	initializeRandomMaze(0.3);
+	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(10)), 0.1);
 	//initializeProceduralMaze();
 
 	spawnArtifact(1.0);
-	spawnBot("A*");
+	//spawnBot("A*");
+	spawnBot("Mouse");
 }
 
 Maze::~Maze() {
@@ -110,10 +112,12 @@ void Maze::spawnBot(string type) {
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (type == "A*")
 		bot = new AStarBot(p, "A* Bot", this);
-	else if (type == "different")
+	else if (type == "Mouse") {
+		bot = new MouseBot(p, "Mouse Bot", this);
+	}else if (type == "different")
 		;///...
 	this->m_Characters.push_back(bot);
 	m_pMap[p.x][p.y].NPC = bot;
-	m_pMap[p.x][p.y].cell->m_IsWall = false; 
+	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	//usuwa ewentualna sciane na miejscu bota
 }

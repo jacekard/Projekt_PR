@@ -50,3 +50,30 @@ inline float random(float a, float b) {
 	uniform_real_distribution<float> dist(a, b);
 	return dist(rd);
 }
+
+inline Point randomVector(Point p) {
+	int a = random(0, 3);
+	switch (a) {
+		case 0:
+			if (p == UP)
+				return LEFT;
+			return UP;
+			break;
+		case 1:
+			if (p == DOWN)
+				return RIGHT;
+			return DOWN;
+			break;
+		case 2:
+			if (p == LEFT)
+				return DOWN;
+			return LEFT;
+			break;
+		case 3:
+			if (p == RIGHT)
+				return UP;
+			return RIGHT;
+			break;
+	}
+
+}

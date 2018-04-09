@@ -12,7 +12,7 @@
 
 int main() {
 
-	Maze* maze = new Maze(40, 80, 1);
+	Maze* maze = new Maze(20, 20, 1);
 	int i = 0;
 	maze->Print();
 	Sleep(2000);

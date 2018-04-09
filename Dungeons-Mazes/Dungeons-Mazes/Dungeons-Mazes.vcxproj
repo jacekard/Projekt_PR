@@ -127,6 +127,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Maze.cpp" />
+    <ClCompile Include="MouseBot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SystemClass.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="InputClass.hpp" />
     <ClInclude Include="Maze.hpp" />
+    <ClInclude Include="MouseBot.hpp" />
     <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
