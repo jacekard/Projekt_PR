@@ -123,7 +123,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractPlayer.cpp" />
     <ClCompile Include="Artifact.cpp" />
-    <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="AStarBot.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Maze.cpp" />
@@ -135,7 +135,7 @@
     <ClInclude Include="..\Graphics\SystemClass.hpp" />
     <ClInclude Include="AbstractPlayer.hpp" />
     <ClInclude Include="Artifact.hpp" />
-    <ClInclude Include="Bot.hpp" />
+    <ClInclude Include="AStarBot.hpp" />
     <ClInclude Include="Cell.hpp" />
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="GameObject.hpp" />

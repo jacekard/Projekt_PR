@@ -3,11 +3,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <conio.h>
 #include "Maze.hpp"
-#include "Bot.hpp"
+#include "AStarBot.hpp"
 #include "Artifact.hpp"
 
 //TODO:
-//jak bot dojdzie do end, to jego start = end;
+//jak AStarBot dojdzie do end, to jego start = end;
 
 
 int main() {

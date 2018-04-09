@@ -1,8 +1,8 @@
-﻿#include "Bot.hpp"
+﻿#include "AStarBot.hpp"
 #include "Artifact.hpp"
 
 
-void Bot::reconstruct_path(Cell* current) {
+void AStarBot::reconstruct_path(Cell* current) {
 	m_Path.clear();
 	Cell* tmp = current;
 	m_Path.push_back(tmp);
@@ -16,7 +16,7 @@ void Bot::reconstruct_path(Cell* current) {
 	pathEstablished = true;
 }
 
-void Bot::move() {
+void AStarBot::move() {
 	if (!isPathSet) {
 		A_Star_Algorithm();
 	}
@@ -59,11 +59,11 @@ void Bot::move() {
 	m_Path.erase(m_Path.begin());
 }
 
-void Bot::show() {
+void AStarBot::show() {
 	cout << "B";
 }
 
-Cell* Bot::findNearestArtifact() {
+Cell* AStarBot::findNearestArtifact() {
 	Artifact* nearest;
 	Point p;
 	size_t size = m_pMaze->m_Artifacts.size();
@@ -86,7 +86,7 @@ Cell* Bot::findNearestArtifact() {
 	return m_pMaze->m_pMap[p.x][p.y].cell;
 }
 
-void Bot::A_Star_Algorithm() {
+void AStarBot::A_Star_Algorithm() {
 	//DEBUG
 #if defined(_DEBUG)
 	int blockedNeighbors = 0;

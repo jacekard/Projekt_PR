@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "GameObject.hpp"
 
 class AbstractPlayer : public GameObject {
@@ -11,5 +10,5 @@ public:
 		m_Name = name;
 	};
 
-	~AbstractPlayer();
+	~AbstractPlayer() {};
 };

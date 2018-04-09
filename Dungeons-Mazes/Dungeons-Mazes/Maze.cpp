@@ -1,6 +1,6 @@
 #include "Maze.hpp"
 #include "Cell.hpp"
-#include "Bot.hpp"
+#include "AStarBot.hpp"
 #include "Player.hpp"
 #include "Artifact.hpp"
 
@@ -109,7 +109,7 @@ void Maze::spawnBot(string type) {
 	AbstractPlayer* bot;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (type == "A*")
-		bot = new Bot(p, "A* Bot", this);
+		bot = new AStarBot(p, "A* Bot", this);
 	else if (type == "different")
 		;///...
 	this->m_Characters.push_back(bot);
