@@ -26,8 +26,8 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 		cell->addNeighbors();
 	}
 
-	//initializeRandomMaze(0.3);
-	initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(10)), 0.1);
+	initializeRandomMaze(0.2);
+	//initializeIsleMaze(m_MapSizeX*m_MapSizeY/random(2,20), 0.2);
 	//initializeProceduralMaze();
 
 	spawnArtifact(1.0);
@@ -70,8 +70,9 @@ void Maze::initializeIsleMaze(int isleCount, double randomFactor) {
 
 void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 	for (auto neighbor : cell->m_pNeighbors) {
+		if(random() < randomFactor)
 		neighbor->m_IsWall = true;
-		if (random() < randomFactor && randomFactor >= 0.0)
+		if (random() < randomFactor && randomFactor >= 0.0000001)
 			recursiveWallPlacing(neighbor, randomFactor - 0.05);
 	}
 }
