@@ -1,6 +1,24 @@
 ﻿#include "AStarBot.hpp"
 #include "Artifact.hpp"
 
+AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+	if (m_pMaze->m_Artifacts.size() >= 1) {
+		m_pNearestArtifact = m_pMaze->m_Artifacts[0];
+	}
+	updateNearest();
+};
+
+void AStarBot::updateNearest() {
+	size_t size = m_pMaze->m_Artifacts.size();
+	double dist = distance(m_pNearestArtifact->m_Position, this->m_Position);
+	for (size_t i = 1; i < size; i++) {
+		if (distance(m_pMaze->m_Artifacts[i]->m_Position,
+			this->m_Position) < dist) {
+			m_pNearestArtifact = m_pMaze->m_Artifacts[i];
+		}
+		//else if ( dist == ...)
+	}
+}
 
 void AStarBot::reconstruct_path(Cell* current) {
 	m_Path.clear();
@@ -11,15 +29,18 @@ void AStarBot::reconstruct_path(Cell* current) {
 		m_Path.push_back(tmp->m_pPrevious);
 		tmp = tmp->m_pPrevious;
 	}
-	for (auto cell : m_Path) {
+	for (auto cell : m_pMaze->m_Cells) {
 		cell->m_pPrevious = nullptr;
+		cell->m_F = 0.0;
+		cell->m_G = 0.0;
+		cell->m_H = 0.0;
 	}
 }
 
 void AStarBot::move() {
 	A_Star_Algorithm();
 
-	if (m_Path.size() <= 0) {
+	if (m_Path.size() <= 1) {
 		return;
 	}
 	Point next;
@@ -43,6 +64,8 @@ void AStarBot::move() {
 			m_pMaze->m_pMap[next.x][next.y].artifact = nullptr;
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
+
+			findNearestArtifact();
 		}
 		else if (!m_pMaze->m_pMap[next.x][next.y].cell->m_IsWall) {
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
@@ -53,25 +76,22 @@ void AStarBot::move() {
 }
 
 Cell* AStarBot::findNearestArtifact() {
-	Artifact* nearest;
 	Point p;
 	size_t size = m_pMaze->m_Artifacts.size();
 	if (size == 0) {
 		return nullptr;
 	}
-	else if (size == 1) {
-		p = m_pMaze->m_Artifacts[0]->m_Position;
-		return m_pMaze->m_pMap[p.x][p.y].cell;
+	else {
+		m_pNearestArtifact = m_pMaze->m_Artifacts[random(0, size - 1)];
 	}
-	nearest = m_pMaze->m_Artifacts[0]; //...
-	double dist = distance(nearest->m_Position, this->m_Position);
-	for (size_t i = 0; i < size; i++) {
-		if (distance(m_pMaze->m_Artifacts[i]->m_Position,
-			this->m_Position) < dist) {
-			nearest = m_pMaze->m_Artifacts[i];
+
+	for (size_t i = 1; i < size; i++) {
+		if (distance(m_pMaze->m_Artifacts[i]->m_Position, m_Position) 
+			< distance(m_pNearestArtifact->m_Position, m_Position)) {
+			m_pNearestArtifact = m_pMaze->m_Artifacts[i];
 		}
 	}
-	p = nearest->m_Position;
+	p = m_pNearestArtifact->m_Position;
 	return m_pMaze->m_pMap[p.x][p.y].cell;
 }
 
@@ -83,8 +103,9 @@ void AStarBot::A_Star_Algorithm() {
 	int blockedNeighbors = 0;
 #endif
 
-
-	Cell* end = findNearestArtifact(); //end is destination of Artifact
+	updateNearest();
+	//end is destination of Artifact
+	Cell* end = m_pMaze->m_pMap[m_pNearestArtifact->m_Position.x][m_pNearestArtifact->m_Position.y].cell; 
 	if (end == nullptr)
 		return;
 	bool hasFoundPath = false;
