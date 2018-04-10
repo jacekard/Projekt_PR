@@ -3,7 +3,23 @@
 #include "Cell.hpp"
 
 void MouseBot::move() {
-	Point tmp = Point(m_Position.x + m_Vector.x, m_Position.y + m_Vector.y);
+	Point tmp;
+	if (straight) {
+		Point tmpVector = m_Vector;
+		tmpVector.turnRight();
+		tmp = m_Position + tmpVector;
+		if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX) && m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
+			if (!m_pMaze->m_pMap[tmp.x][tmp.y].cell->m_IsWall) {
+				straight = false;
+				m_Vector = tmpVector;
+				move();
+			}
+		}
+	}
+	straight = true;
+	tmp = m_Position + m_Vector;
+
+
 	if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX) && m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
 		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact != nullptr) {
 			cout << "ZEBRALES ARTEFAKT!" << endl;
@@ -18,13 +34,13 @@ void MouseBot::move() {
 			m_Position = tmp;
 		}
 		else {
-			m_Vector = randomVector(m_Vector); //przyjecie parametru wyklucza go z losowania
-			move();
+			straight = false;
+			m_Vector.turnRight();
 		}
 	}
 	else {
-		m_Vector = randomVector(m_Vector); //przyjecie parametru wyklucza go z losowania
-		move();
+		straight = false;
+		m_Vector.turnRight();
 	}
 }
 
@@ -34,4 +50,5 @@ void MouseBot::show() {
 
 MouseBot::MouseBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
 	m_Vector = UP;
+	straight = false;
 };
