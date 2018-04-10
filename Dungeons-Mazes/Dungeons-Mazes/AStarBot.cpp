@@ -52,10 +52,6 @@ void AStarBot::move() {
 	}
 }
 
-void AStarBot::show() {
-	cout << "B";
-}
-
 Cell* AStarBot::findNearestArtifact() {
 	Artifact* nearest;
 	Point p;
@@ -154,6 +150,10 @@ void AStarBot::A_Star_Algorithm() {
 	} while (!hasFoundPath);
 
 	this->reconstruct_path(current);
+}
+
+void AStarBot::show() {
+	cout << "B";
 }
 
 //void Bot::move() {

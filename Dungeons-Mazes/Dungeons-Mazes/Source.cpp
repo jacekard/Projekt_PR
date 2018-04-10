@@ -18,23 +18,21 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(10, 10, 2); //(maxX, maxY, maxArtifacts)
+	Maze* maze = new Maze(30, 60, 10); //(maxX, maxY, maxArtifacts)
 	maze->spawnArtifact(1.0);
 	maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
 
 	maze->Print();
 	Sleep(2000);
-	int i = 0;
-	while (i < 200) {
-		//system("cls");
+	while (true) {
 		maze->Print();
 		maze->spawnArtifact(0.3);
-		for (auto character : maze->m_Characters) {
+
+		for (auto character : maze->m_Characters) 
 			character->move();
-		}
-		i++;
-		Sleep(200);
+		
+		Sleep(20);
 	}
 	cout << endl;
 	system("pause");

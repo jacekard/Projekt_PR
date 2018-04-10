@@ -2,7 +2,7 @@
 
 void Cell::show() {
 	if (m_IsWall)
-		std::cout << "*";
+		std::cout << (char)178;
 	else
 		std::cout << " ";
 }
@@ -21,7 +21,6 @@ Cell::Cell(Point p, Maze* maze, bool isWall) : GameObject(p, maze) {
 	m_F = 0.0;
 	m_G = 0.0;
 	m_H = 0.0;
-
 	m_IsWall = isWall ? true : false;
 }
 

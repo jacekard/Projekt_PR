@@ -9,12 +9,21 @@ public:
 	int x, y;
 	Point() : x(0), y(0) {}
 	Point(int a, int b) : x(a), y(b) {}
+	Point(const Point& other) : x(other.x), y(other.y) {}
 	friend bool operator== (const Point &p1, const Point &p2);
 	friend bool operator!= (const Point &p1, const Point &p2);
 	void operator= (const Point &other) {
 		x = other.x;
 		y = other.y;
 	}
+	Point operator+ (const Point &other)const {
+		return Point(x + other.x, y + other.y);
+	}
+	Point operator- (const Point &other) const {
+		return Point(x - other.x, y - other.y);
+
+	}
+
 };
 
 inline bool operator== (const Point &p1, const Point &p2) {
