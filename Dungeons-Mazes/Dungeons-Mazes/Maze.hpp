@@ -22,6 +22,7 @@ public:
 	vector<AbstractPlayer*> m_Characters;
 	Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t m_MaximumArtifactCount);
 	~Maze();
+	void initializeMap(bool isWall);
 	void initializeRandomMaze(double randomFactor);
 	void initializeIsleMaze(int isleCount, double randomFactor);
 	void initializeProceduralMaze();

@@ -10,23 +10,6 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
 
-	m_pMap = new Node*[m_MapSizeX];
-	for (int i = 0; i < m_MapSizeX; i++) {
-		m_pMap[i] = new Node[m_MapSizeY];
-	}
-	for (int i = 0; i < m_MapSizeX; i++) {
-		for (int j = 0; j < m_MapSizeY; j++) {
-			m_pMap[i][j].cell = new Cell(Point(i, j), this);
-			m_pMap[i][j].NPC = nullptr;
-			m_pMap[i][j].artifact = nullptr;
-			m_Cells.push_back(m_pMap[i][j].cell);
-		}
-	}
-
-	for (auto cell : m_Cells) {
-		cell->addNeighbors();
-	}
-
 	initializeRandomMaze(0.3);
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
 	//initializeProceduralMaze();
@@ -40,12 +23,30 @@ Maze::~Maze() {
 			delete m_pMap[i][j].artifact;
 		}
 	}
+}
 
-	
+void Maze::initializeMap(bool isWall) {
+	m_pMap = new Node*[m_MapSizeX];
+	for (int i = 0; i < m_MapSizeX; i++) {
+		m_pMap[i] = new Node[m_MapSizeY];
+	}
+
+	for (int i = 0; i < m_MapSizeX; i++) {
+		for (int j = 0; j < m_MapSizeY; j++) {
+			m_pMap[i][j].cell = new Cell(Point(i, j), this, isWall);
+			m_pMap[i][j].NPC = nullptr;
+			m_pMap[i][j].artifact = nullptr;
+			m_Cells.push_back(m_pMap[i][j].cell);
+		}
+	}
+
+	for (auto cell : m_Cells) {
+		cell->addNeighbors();
+	}
 }
 
 void Maze::initializeProceduralMaze() {
-
+	initializeMap(true);
 
 
 
@@ -53,6 +54,8 @@ void Maze::initializeProceduralMaze() {
 
 void Maze::initializeRandomMaze(double randomFactor) {
 	//randomFactor is floating point number between 0 and 1.0
+	initializeMap(false);
+
 	for (int i = 0; i < m_MapSizeX; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
 			if (random() < randomFactor) {
@@ -66,6 +69,8 @@ void Maze::initializeRandomMaze(double randomFactor) {
 
 void Maze::initializeIsleMaze(int isleCount, double randomFactor) {
 	//randomFactor is floating point number between 0 and 1.0
+	initializeMap(false); 
+
 	Point r;
 	Cell *cell;
 	for (int i = 0; i < isleCount; i++) {
