@@ -10,9 +10,16 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
 
-	//initializeRandomMaze(0.3);
+
+	//initializeRandomMaze(0.0);
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
 	initializeProceduralMaze();
+
+	//for (int i = 0; i < 300; i++) {
+	//	int p = random(0, m_Cells.size() - 1);
+	//	if (m_Cells[p]->m_IsWall)
+	//		m_Cells[p]->m_IsWall = false;
+	//}
 }
 
 void Maze::initializeMap(bool isWall) {
@@ -75,7 +82,8 @@ void Maze::initializeProceduralMaze() {
 			}
 		}
 	}
-	makeOurMazeNotPerfectAgain();
+	
+	//makeOurMazeNotPerfectAgain();
 }
 
 void Maze::makeOurMazeNotPerfectAgain() {
@@ -179,6 +187,7 @@ void Maze::spawnArtifact(double randomFactor) {
 void Maze::spawnBot(string type) {
 	AbstractPlayer* bot;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
+
 	if (type == "A*")
 		bot = new AStarBot(p, "A* Bot", this);
 	else if (type == "Mouse") {

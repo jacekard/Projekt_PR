@@ -18,20 +18,21 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(30, 60, 10); //(maxX, maxY, maxArtifacts)
-	maze->spawnArtifact(1.0);
+	Maze* maze = new Maze(40, 50, 25); //(maxX, maxY, maxArtifacts)
+	maze->spawnArtifact(1.0); //to jest wazne, zeby bylo przed Botem, bo sie pewnie wyjebie
 	maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
 
 	maze->Print();
 	Sleep(2000);
+	int i = 0;
 	while (true) {
 		maze->Print();
 		maze->spawnArtifact(0.3);
-
-		for (auto character : maze->m_Characters) 
+		for (auto character : maze->m_Characters) {
 			character->move();
-		
+		}
+		i++;
 		Sleep(20);
 	}
 	cout << endl;
