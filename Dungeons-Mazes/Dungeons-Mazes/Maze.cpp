@@ -86,6 +86,7 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 }
 
 void Maze::Print() {
+	gotoxy(0, 0);
 	for (size_t i = 0; i < m_MapSizeX; i++) {
 		for (size_t j = 0; j < m_MapSizeY; j++) {
 			if (m_pMap[i][j].artifact != nullptr)

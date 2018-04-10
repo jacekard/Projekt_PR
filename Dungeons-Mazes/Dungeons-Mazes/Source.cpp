@@ -5,10 +5,10 @@
 #include "Maze.hpp"
 #include "AStarBot.hpp"
 #include "Artifact.hpp"
+#include "Console.hpp"
 
 //TODO:
 //jak AStarBot dojdzie do end, to jego start = end;
-
 
 //Optymalizacje:
 //A* nie trzeba zerowaæ wag komórek
@@ -16,25 +16,25 @@
 //Do przemyœlenia.
 
 int main() {
+	HideCursor();
 
 	Maze* maze = new Maze(10, 10, 2); //(maxX, maxY, maxArtifacts)
 	maze->spawnArtifact(1.0);
 	maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
+
 	maze->Print();
 	Sleep(2000);
-
-
 	int i = 0;
 	while (i < 200) {
-		system("cls");
+		//system("cls");
 		maze->Print();
 		maze->spawnArtifact(0.3);
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
 		i++;
-		Sleep(250);
+		Sleep(200);
 	}
 	cout << endl;
 	system("pause");
