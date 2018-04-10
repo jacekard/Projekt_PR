@@ -16,20 +16,6 @@ inline int random(int a) {
 	return dist(rd);
 }
 
-//inline uint8_t random(uint8_t a, uint8_t b) {
-//	//random number between a and b
-//	random_device rd;
-//	uniform_int_distribution<uint8_t> dist(a, b);
-//	return dist(rd);
-//}
-//
-//inline uint8_t random(uint8_t a) {
-//	//random number between a and b
-//	random_device rd;
-//	uniform_int_distribution<uint8_t> dist(0, a);
-//	return dist(rd);
-//}
-
 inline int random(int a, int b) {
 	//random number between a and b
 	random_device rd;
@@ -54,26 +40,25 @@ inline float random(float a, float b) {
 inline Point randomVector(Point p) {
 	int a = random(0, 3);
 	switch (a) {
-		case 0:
-			if (p == UP)
-				return LEFT;
-			return UP;
-			break;
-		case 1:
-			if (p == DOWN)
-				return RIGHT;
-			return DOWN;
-			break;
-		case 2:
-			if (p == LEFT)
-				return DOWN;
+	case 0:
+		if (p == UP)
 			return LEFT;
-			break;
-		case 3:
-			if (p == RIGHT)
-				return UP;
+		return UP;
+		break;
+	case 1:
+		if (p == DOWN)
 			return RIGHT;
-			break;
+		return DOWN;
+		break;
+	case 2:
+		if (p == LEFT)
+			return DOWN;
+		return LEFT;
+		break;
+	case 3:
+		if (p == RIGHT)
+			return UP;
+		return RIGHT;
+		break;
 	}
-
 }

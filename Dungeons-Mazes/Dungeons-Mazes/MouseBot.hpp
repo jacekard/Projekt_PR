@@ -1,13 +1,12 @@
 #pragma once
 #include "AbstractPlayer.hpp"
 
-class MouseBot : public 
-	AbstractPlayer {
+class MouseBot : public AbstractPlayer {
 private:
 	Point m_Vector;
 public:
-	void move();
-	void show();
+	void move() override;
+	void show() override;
 	MouseBot(Point, string, Maze*);
 	~MouseBot() {};
 };

@@ -5,7 +5,7 @@
 class Cell : public GameObject {
 public:	
 	bool m_IsWall;
-	Cell* m_Previous;
+	Cell* m_pPrevious;
 	vector<Cell*> m_pNeighbors;
 	double m_F; // funkcja minimalizacyjna drogi
 	double m_G; // ca³a przebyta droga od pocz¹tku do aktualnego

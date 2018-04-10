@@ -10,12 +10,22 @@
 //jak AStarBot dojdzie do end, to jego start = end;
 
 
+//Optymalizacje:
+//A* nie trzeba zerowaæ wag komórek
+//ale trzeba za ka¿dym razem resetowaæ pole Cell.m_pPrevious = nullptr;
+//Do przemyœlenia.
+
 int main() {
 
-	Maze* maze = new Maze(30, 30, 3); //(maxX, maxY, maxArtifacts)
-	int i = 0;
+	Maze* maze = new Maze(10, 10, 2); //(maxX, maxY, maxArtifacts)
+	maze->spawnArtifact(1.0);
+	//maze->spawnBot("A*");
+	maze->spawnBot("Mouse");
 	maze->Print();
 	Sleep(2000);
+
+
+	int i = 0;
 	while (i < 200) {
 		system("cls");
 		maze->Print();
@@ -24,7 +34,7 @@ int main() {
 			character->move();
 		}
 		i++;
-		//Sleep(200);
+		Sleep(250);
 	}
 	cout << endl;
 	system("pause");

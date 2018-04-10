@@ -1,6 +1,6 @@
 #include "MouseBot.hpp"
 #include "Maze.hpp"
-#include "Cell.hpp";
+#include "Cell.hpp"
 
 void MouseBot::move() {
 	Point tmp = Point(m_Position.x + m_Vector.x, m_Position.y + m_Vector.y);
@@ -21,7 +21,8 @@ void MouseBot::move() {
 			m_Vector = randomVector(m_Vector); //przyjecie parametru wyklucza go z losowania
 			move();
 		}
-	}else {
+	}
+	else {
 		m_Vector = randomVector(m_Vector); //przyjecie parametru wyklucza go z losowania
 		move();
 	}

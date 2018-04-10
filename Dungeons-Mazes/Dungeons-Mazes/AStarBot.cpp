@@ -6,50 +6,49 @@ void AStarBot::reconstruct_path(Cell* current) {
 	m_Path.clear();
 	Cell* tmp = current;
 	m_Path.push_back(tmp);
-	while (tmp->m_Previous) {
-		m_Path.push_back(tmp->m_Previous);
-		tmp = tmp->m_Previous;
+	while (tmp->m_pPrevious) {
+		m_Path.push_back(tmp->m_pPrevious);
+		tmp = tmp->m_pPrevious;
 	}
 	isPathSet = true;
-	std::reverse(m_Path.begin(), m_Path.end());
+	//std::reverse(m_Path.begin(), m_Path.end());
 	//Now it has path, so it can actually move
 	pathEstablished = true;
 }
 
 void AStarBot::move() {
-	//if (!isPathSet) {
-		A_Star_Algorithm();
-	//}
-	Point tmp;
+	A_Star_Algorithm();
 
 	if (m_Path.size() <= 0) {
-		isPathSet = false;
 		return;
 	}
-	if (m_Path[0] != nullptr && m_Path[0]->m_Position == m_Position)
-		m_Path.erase(m_Path.begin());
+	Point next;
+	if (m_Path[m_Path.size() - 1] != nullptr
+		&& m_Path[m_Path.size() - 2] != nullptr) // && m_Path[m_Path.size() - 1]->m_Position == m_Position ) 
+	{
+		m_Path.erase(m_Path.end() - 1);
+		next = m_Path[m_Path.size() - 1]->m_Position;
 
-	tmp = m_Path[0]->m_Position;
-	if (m_pMaze->ifCoordExist(tmp.x, m_pMaze->m_MapSizeX)
-		&& m_pMaze->ifCoordExist(tmp.y, m_pMaze->m_MapSizeY)) {
-		if (m_pMaze->m_pMap[tmp.x][tmp.y].artifact != nullptr) {
+	}
+
+	if (m_pMaze->ifCoordExist(next.x, m_pMaze->m_MapSizeX)
+		&& m_pMaze->ifCoordExist(next.y, m_pMaze->m_MapSizeY)) {
+		if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 			cout << "ZEBRALES ARTEFAKT!" << endl;
 
-			//gdyby uzyc s�ownika usuwanie byloby szybsze??
+			//gdyby uzyc słownika usuwanie byloby szybsze??
 			m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
-				m_pMaze->m_pMap[tmp.x][tmp.y].artifact));
+				m_pMaze->m_pMap[next.x][next.y].artifact));
 
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
-			m_pMaze->m_pMap[tmp.x][tmp.y].artifact = nullptr;
-			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-
-			m_Position = tmp;
-			isPathSet = false;
+			m_pMaze->m_pMap[next.x][next.y].artifact = nullptr;
+			m_pMaze->m_pMap[next.x][next.y].NPC = this;
+			m_Position = next;
 		}
-		else if (!m_pMaze->m_pMap[tmp.x][tmp.y].cell->m_IsWall) {
+		else if (!m_pMaze->m_pMap[next.x][next.y].cell->m_IsWall) {
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
-			m_pMaze->m_pMap[tmp.x][tmp.y].NPC = this;
-			m_Position = tmp;
+			m_pMaze->m_pMap[next.x][next.y].NPC = this;
+			m_Position = next;
 		}
 	}
 }
@@ -98,13 +97,11 @@ void AStarBot::A_Star_Algorithm() {
 	Cell* current = nullptr;
 	m_OpenSet.push_back(start);
 
+	//* bez tego nie działa
 	for (auto cell : m_pMaze->m_Cells) {
-		cell->m_F = 0.0;
-		cell->m_G = 0.0;
-		cell->m_H = 0.0;
-		cell->m_Previous = nullptr;
+		cell->m_pPrevious = nullptr;
 	}
-
+	//*
 
 	do {
 		if (m_OpenSet.size() > 0) {
@@ -153,7 +150,7 @@ void AStarBot::A_Star_Algorithm() {
 					if (newPath) {
 						neighbor->m_H = heuristic(neighbor->m_Position, end->m_Position);
 						neighbor->m_F = neighbor->m_G + neighbor->m_H;
-						neighbor->m_Previous = current;
+						neighbor->m_pPrevious = current;
 					}
 				}
 			}

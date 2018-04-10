@@ -28,12 +28,8 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 	}
 
 	initializeRandomMaze(0.3);
-	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(10)), 0.1);
+	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
 	//initializeProceduralMaze();
-
-	spawnArtifact(1.0);
-	spawnBot("A*");
-	spawnBot("Mouse");
 }
 
 Maze::~Maze() {
