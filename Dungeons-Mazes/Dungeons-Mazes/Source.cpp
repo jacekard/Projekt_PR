@@ -5,26 +5,26 @@
 #include "Maze.hpp"
 #include "AStarBot.hpp"
 #include "Artifact.hpp"
+#include "Console.hpp"
 
 //TODO:
 //jak AStarBot dojdzie do end, to jego start = end;
 
-
 int main() {
-
+	HideCursor();
 	Maze* maze = new Maze(30, 30, 3); //(maxX, maxY, maxArtifacts)
 	int i = 0;
 	maze->Print();
 	Sleep(2000);
 	while (i < 200) {
-		system("cls");
+		//system("cls");
 		maze->Print();
 		maze->spawnArtifact(0.3);
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
 		i++;
-		//Sleep(200);
+		Sleep(200);
 	}
 	cout << endl;
 	system("pause");
