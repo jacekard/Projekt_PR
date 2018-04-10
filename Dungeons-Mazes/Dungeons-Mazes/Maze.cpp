@@ -35,10 +35,20 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 Maze::~Maze() {
 	for (size_t i = 0; i < m_MapSizeY; i++) {///XD
 		for (size_t j = 0; j < m_MapSizeY; j++) {
-			//delete m_pMap[i][j].cell;
-			//delete m_pMap[i][j].NPC;
+			delete m_pMap[i][j].cell;
+			delete m_pMap[i][j].NPC;
+			delete m_pMap[i][j].artifact;
 		}
 	}
+
+	
+}
+
+void Maze::initializeProceduralMaze() {
+
+
+
+
 }
 
 void Maze::initializeRandomMaze(double randomFactor) {

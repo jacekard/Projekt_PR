@@ -60,5 +60,8 @@ inline Point randomVector(Point p) {
 			return UP;
 		return RIGHT;
 		break;
+	default:
+		return DOWN;
+		break;
 	}
 }

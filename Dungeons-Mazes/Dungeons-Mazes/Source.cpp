@@ -19,8 +19,8 @@ int main() {
 
 	Maze* maze = new Maze(10, 10, 2); //(maxX, maxY, maxArtifacts)
 	maze->spawnArtifact(1.0);
-	//maze->spawnBot("A*");
-	maze->spawnBot("Mouse");
+	maze->spawnBot("A*");
+	//maze->spawnBot("Mouse");
 	maze->Print();
 	Sleep(2000);
 

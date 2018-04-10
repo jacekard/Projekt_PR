@@ -5,15 +5,15 @@
 void AStarBot::reconstruct_path(Cell* current) {
 	m_Path.clear();
 	Cell* tmp = current;
+	Cell* delPrevious = current;
 	m_Path.push_back(tmp);
 	while (tmp->m_pPrevious) {
 		m_Path.push_back(tmp->m_pPrevious);
 		tmp = tmp->m_pPrevious;
 	}
-	isPathSet = true;
-	//std::reverse(m_Path.begin(), m_Path.end());
-	//Now it has path, so it can actually move
-	pathEstablished = true;
+	for (auto cell : m_Path) {
+		cell->m_pPrevious = nullptr;
+	}
 }
 
 void AStarBot::move() {
@@ -36,7 +36,6 @@ void AStarBot::move() {
 		if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 			cout << "ZEBRALES ARTEFAKT!" << endl;
 
-			//gdyby uzyc słownika usuwanie byloby szybsze??
 			m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
 				m_pMaze->m_pMap[next.x][next.y].artifact));
 
@@ -96,12 +95,6 @@ void AStarBot::A_Star_Algorithm() {
 	Cell* start = m_pMaze->m_pMap[m_Position.x][m_Position.y].cell; //start is the last/actual position
 	Cell* current = nullptr;
 	m_OpenSet.push_back(start);
-
-	//* bez tego nie działa
-	for (auto cell : m_pMaze->m_Cells) {
-		cell->m_pPrevious = nullptr;
-	}
-	//*
 
 	do {
 		if (m_OpenSet.size() > 0) {
