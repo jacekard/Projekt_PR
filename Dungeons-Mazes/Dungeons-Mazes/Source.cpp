@@ -12,25 +12,31 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(40, 50, 25); //(maxX, maxY, maxArtifacts)
-	maze->spawnArtifact(1.0); //to jest wazne, zeby bylo przed Botem, bo sie pewnie wyjebie
+	Maze* maze = new Maze(50, 50, 25); //(maxX, maxY, maxArtifacts)
 	maze->spawnBot("A*");
-	maze->spawnBot("A*");
+	//maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
-
+	Timer timer = Timer();
+	timer.start();
 	maze->Print();
+	timer.end();
+	cout << timer.getResultMillis();
 	Sleep(2000);
 	double i = 0.0;
 	while (true) {
-		maze->Print();
 		maze->spawnArtifact(1.0 - i);
+
 		for (auto character : maze->m_Characters) {
 			character->move();
+			cout << character->timer.getCycleMillis() << endl;
 		}
-		i += 0.1;
-		Sleep(20);
+		maze->Print();
+		i += 0.05;
+		if (maze->m_Artifacts.size() == 0)
+			break;
 	}
-	cout << endl;
+	
+	Sleep(3000);
 	system("pause");
 	return 0;
 }

@@ -9,14 +9,14 @@ public:
 	vector<Cell*> m_Path, m_OpenSet, m_ClosedSet;
 	Artifact* m_pNearestArtifact;
 	struct Data {
-		Cell* m_pPrevious;
-		double m_F; // funkcja minimalizacyjna drogi
-		double m_G; // ca³a przebyta droga od pocz¹tku do aktualnego
-		double m_H; //przewidywana przez heurystykê droga 
+		Cell* m_pPrevious = nullptr;
+		double m_F = 0.0; // funkcja minimalizacyjna drogi
+		double m_G = 0.0; // ca³a przebyta droga od pocz¹tku do aktualnego
+		double m_H = 0.0; //przewidywana przez heurystykê droga 
 	};
 	map<Cell*, Data*> m_DataSet;
-	void A_Star_Algorithm();
-	void reconstruct_path(Cell* current);
+	vector<Cell*> A_Star_Algorithm(Cell *end, Cell* start);
+	vector<Cell*> reconstruct_path(Cell* current);
 	Cell* findNearestArtifact();
 	void updateNearest();
 	void show() override; //display
