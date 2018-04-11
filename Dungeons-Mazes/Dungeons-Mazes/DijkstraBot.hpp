@@ -4,14 +4,14 @@
 
 class DijkstraBot : public AbstractPlayer {
 public:
+	stack<Cell*> m_Path;
 	struct Data {
-		int finalDist;
-		int distance;
+		unsigned int distance;
 	};
 	map<Cell*, Data*> m_DataSet;
-	Artifact* m_pNearestArtifact;
 
 	void DijkstraAlgotithm();
+	void getPath();
 	void show() override;
 	void move() override;
 	DijkstraBot(Point p, string name, Maze* maze);

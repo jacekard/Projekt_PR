@@ -2,6 +2,7 @@
 #include "Cell.hpp"
 #include "AStarBot.hpp"
 #include "MouseBot.hpp"
+#include "DijkstraBot.hpp"
 #include "Player.hpp"
 #include "Artifact.hpp"
 
@@ -82,7 +83,7 @@ void Maze::initializeProceduralMaze() {
 			}
 		}
 	}
-	
+
 	//makeOurMazeNotPerfectAgain();
 }
 
@@ -182,6 +183,10 @@ void Maze::spawnArtifact(double randomFactor) {
 	m_pMap[p.x][p.y].artifact = artifact;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
+
+	if (dynamic_cast<DijkstraBot*>(m_Characters[0])) {
+		dynamic_cast<DijkstraBot*>(m_Characters[0])->DijkstraAlgotithm();
+	}
 }
 
 void Maze::spawnBot(string type) {
@@ -192,6 +197,9 @@ void Maze::spawnBot(string type) {
 		bot = new AStarBot(p, "A* Bot", this);
 	else if (type == "Mouse") {
 		bot = new MouseBot(p, "Mouse Bot", this);
+	}
+	else if (type == "Dijkstra") {
+		bot = new DijkstraBot(p, "Dijkstra", this);
 	}
 	else if (type == "different")
 		;///...

@@ -19,10 +19,11 @@ int main() {
 	HideCursor();
 
 	Maze* maze = new Maze(40, 50, 25); //(maxX, maxY, maxArtifacts)
-	maze->spawnArtifact(1.0); //to jest wazne, zeby bylo przed Botem, bo sie pewnie wyjebie
-	maze->spawnBot("A*");
-	maze->spawnBot("A*");
-	//maze->spawnBot("Mouse");
+	
+	maze->spawnBot("Dijkstra");	//narazie aby dzia³a³ dijkstra, musi byc dodany jako pierwszy
+	//maze->spawnBot("A*");
+
+	maze->spawnArtifact(1.0); 
 
 	maze->Print();
 	Sleep(2000);
