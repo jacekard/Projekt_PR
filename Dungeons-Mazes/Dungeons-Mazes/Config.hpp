@@ -15,6 +15,7 @@ static const float SCREEN_NEAR = 0.1f;
 #include <vector>
 #include <string>
 #include <map>
+#include <queue>
 #include "UtilsConfig.hpp"
 #include "Console.hpp"
 

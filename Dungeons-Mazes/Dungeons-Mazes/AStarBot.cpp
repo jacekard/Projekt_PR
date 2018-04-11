@@ -32,7 +32,6 @@ void AStarBot::move() {
 		next = m_Path[m_Path.size() - 1]->m_Position;
 
 	}
-
 	if (m_pMaze->ifCoordExist(next.x, m_pMaze->m_MapSizeX)
 		&& m_pMaze->ifCoordExist(next.y, m_pMaze->m_MapSizeY)) {
 		if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
