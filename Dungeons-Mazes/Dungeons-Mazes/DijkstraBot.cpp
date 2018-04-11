@@ -1,9 +1,9 @@
 #include "DijkstraBot.hpp"
 #include "Artifact.hpp"
-#define INF 1337
 void DijkstraBot::move() {
-	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, tutaj tylko okreslac pole
+	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, a tutaj tylko okreslac pole
 	if (m_Path.empty()) return;
+
 	Point next = m_Path.top()->m_Position;
 	m_Path.pop();
 	if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
@@ -30,8 +30,9 @@ void DijkstraBot::move() {
 
 void DijkstraBot::getPath() {
 	Artifact* nearestArtifact = nullptr;
-	unsigned int minDistance = INF;
+	unsigned int minDistance = INFINITE;
 
+	if (m_pMaze->m_Artifacts.size() == 0) return;
 	for (auto artifact : m_pMaze->m_Artifacts) {
 		Cell* motherCell = artifact->getMotherCell();
 
@@ -43,7 +44,7 @@ void DijkstraBot::getPath() {
 
 	m_Path = stack<Cell*>();
 	Cell* actualCell = nearestArtifact->getMotherCell();
-	//m_Path.push_back(actualCell); zbedne?
+	m_Path.push(actualCell);
 	while (actualCell != getMotherCell()) {
 		for (auto neighbor : actualCell->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
@@ -55,6 +56,7 @@ void DijkstraBot::getPath() {
 			}
 		}
 	}
+	m_Path.pop();
 }
 struct comp {
 	comp(pair<Cell*, unsigned int> input) : _input(input) {}
@@ -64,6 +66,7 @@ struct comp {
 	}
 	pair<Cell*, unsigned int> _input;
 };
+
 void DijkstraBot::DijkstraAlgotithm() {
 	//ten algorytm jest teraz praktycznie BFSem, zmieni to siê kiedy dodane zostan¹ wagi terenu
 	//zmieni³em go w taki sposob, ze tak naprawde naszym celem jest bot, a to artefakty chca sie do niego dostac
@@ -74,8 +77,8 @@ void DijkstraBot::DijkstraAlgotithm() {
 
 	for (auto cell : m_pMaze->m_Cells) {
 		if (cell != source && !cell->m_IsWall) {
-			m_DataSet[cell]->distance = INF;
-			Q.push_back(pair<Cell*, unsigned int>(cell, INF));
+			m_DataSet[cell]->distance = INFINITE;
+			Q.push_back(pair<Cell*, unsigned int>(cell, INFINITE));
 		}
 	}
 	while (!Q.empty()) {
@@ -83,7 +86,7 @@ void DijkstraBot::DijkstraAlgotithm() {
 		Q.erase(Q.cbegin());
 		for (auto neighbor : min->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
-				unsigned int alt = m_DataSet[min]->distance + 1;//+waga(min, neighbor); tutaj zamiast 1 bedzie
+				unsigned int alt = m_DataSet[min]->distance + 1;//+waga(min, neighbor); tutaj zamiast 1 bedzie waga
 				if (alt < m_DataSet[neighbor]->distance) {
 
 					auto it = find_if(Q.begin(), Q.end(), comp(pair<Cell*, unsigned int>(neighbor, m_DataSet[neighbor]->distance)));
@@ -99,17 +102,17 @@ void DijkstraBot::DijkstraAlgotithm() {
 			}
 		}
 	}
-
 	getPath();
 }
 
 void DijkstraBot::show() {
 	cout << "D";
 }
+
 DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
 	for (auto cell : m_pMaze->m_Cells) {
 		Data* data = new Data;
-		data->distance = INF;
+		data->distance = INFINITE;
 		m_DataSet[cell] = data;
 	}
 }

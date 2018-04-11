@@ -11,7 +11,7 @@ int main() {
 
 	Maze* maze = new Maze(50, 50, 25); //(maxX, maxY, maxArtifacts)
 
-	maze->spawnBot("Dijkstra");	//narazie aby dzialal Dijkstra, musi byc dodany jako pierwszy
+	maze->spawnBot("Dijkstra");
 	//maze->spawnBot("A*");
 	
 	Timer timer = Timer();

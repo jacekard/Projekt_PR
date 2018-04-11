@@ -166,7 +166,7 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 }
 
 void Maze::Print() {
-#if defined(CONSOLE_VIEW_BUILD)
+	#if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
 
 	for (size_t i = 0; i < m_MapSizeX; i++) {
@@ -191,7 +191,7 @@ void Maze::Print() {
 		}
 		cout << endl;
 	}
-#endif
+	#endif
 }
 
 bool Maze::ifCoordExist(int p, int mapSize) {
@@ -210,8 +210,10 @@ void Maze::spawnArtifact(double randomFactor) {
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
 
-	if (dynamic_cast<DijkstraBot*>(m_Characters[0])) {
-		dynamic_cast<DijkstraBot*>(m_Characters[0])->DijkstraAlgotithm();
+	for (auto bot : m_Characters) {
+		if (dynamic_cast<DijkstraBot*>(bot)) {
+			dynamic_cast<DijkstraBot*>(bot)->DijkstraAlgotithm();
+		}
 	}
 }
 
