@@ -82,7 +82,7 @@ void Maze::initializeProceduralMaze() {
 			}
 		}
 	}
-	
+
 	//makeOurMazeNotPerfectAgain();
 }
 
