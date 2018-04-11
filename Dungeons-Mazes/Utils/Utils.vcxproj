@@ -118,6 +118,7 @@
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="Point.hpp" />
     <ClInclude Include="random.hpp" />
+    <ClInclude Include="Timer.hpp" />
     <ClInclude Include="UtilsConfig.hpp" />
   </ItemGroup>
   <ItemGroup>

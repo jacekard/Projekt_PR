@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+ï»¿////////////////////////////////////////////////////////////////////////////////
 // Filename: main.cpp
 ////////////////////////////////////////////////////////////////////////////////
 #include <conio.h>
@@ -7,13 +7,7 @@
 #include "Artifact.hpp"
 #include "Console.hpp"
 
-//TODO:
-//jak AStarBot dojdzie do end, to jego start = end;
 
-//Optymalizacje:
-//A* nie trzeba zerowaæ wag komórek
-//ale trzeba za ka¿dym razem resetowaæ pole Cell.m_pPrevious = nullptr;
-//Do przemyœlenia.
 
 int main() {
 	HideCursor();
@@ -26,14 +20,14 @@ int main() {
 
 	maze->Print();
 	Sleep(2000);
-	int i = 0;
+	double i = 0.0;
 	while (true) {
 		maze->Print();
-		maze->spawnArtifact(0.3);
+		maze->spawnArtifact(1.0 - i);
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
-		i++;
+		i += 0.1;
 		Sleep(20);
 	}
 	cout << endl;

@@ -1,6 +1,25 @@
 ﻿#include "AStarBot.hpp"
 #include "Artifact.hpp"
 
+AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+	if (m_pMaze->m_Artifacts.size() >= 1) {
+		m_pNearestArtifact = m_pMaze->m_Artifacts[0];
+	}
+	updateNearest();
+};
+
+void AStarBot::updateNearest() { // ???????
+	size_t size = m_pMaze->m_Artifacts.size();
+	double dist = distance(m_pNearestArtifact->m_Position, this->m_Position);
+	for (size_t i = 1; i < size; i++) {
+		if (distance(m_pMaze->m_Artifacts[i]->m_Position,
+			this->m_Position) < dist) {
+			m_pNearestArtifact = m_pMaze->m_Artifacts[i];
+		}
+		//else if ( dist == ...)
+	}
+}
+
 void AStarBot::reconstruct_path(Cell* current) {
 	m_Path.clear();
 	Cell* tmp = current;
@@ -19,6 +38,11 @@ void AStarBot::reconstruct_path(Cell* current) {
 }
 
 void AStarBot::move() {
+	if (!hasMoved) {
+		timer.start();
+		hasMoved = true;
+	}
+
 	A_Star_Algorithm();
 
 	if (m_Path.size() <= 1) {
@@ -46,7 +70,8 @@ void AStarBot::move() {
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
 
-			findNearestArtifact();
+			findNearestArtifact(); // ?????
+
 		}
 		else if (m_pMaze->m_pMap[next.x][next.y].NPC!=nullptr) {
 			cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
@@ -56,6 +81,11 @@ void AStarBot::move() {
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
 		}
+	}
+
+	if (m_pMaze->m_Artifacts.size() == 0) { 	//warunek zakończenia mierzenia czasu
+		timer.end();
+		cout << timer.getSecondsFromStart() << endl;
 	}
 }
 
@@ -77,18 +107,6 @@ Cell* AStarBot::findNearestArtifact() {
 	}
 	p = m_pNearestArtifact->m_Position;
 	return m_pMaze->m_pMap[p.x][p.y].cell;
-}
-
-void AStarBot::updateNearest() {
-	size_t size = m_pMaze->m_Artifacts.size();
-	double dist = distance(m_pNearestArtifact->m_Position, this->m_Position);
-	for (size_t i = 1; i < size; i++) {
-		if (distance(m_pMaze->m_Artifacts[i]->m_Position,
-			this->m_Position) < dist) {
-			m_pNearestArtifact = m_pMaze->m_Artifacts[i];
-		}
-		//else if ( dist == ...)
-	}
 }
 
 void AStarBot::A_Star_Algorithm() {
