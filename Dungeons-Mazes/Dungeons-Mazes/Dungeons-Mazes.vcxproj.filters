@@ -80,11 +80,10 @@
     <ClInclude Include="MouseBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="SystemClass.hpp">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DijkstraBot.hpp">
->>>>>>> Grzesiu
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
