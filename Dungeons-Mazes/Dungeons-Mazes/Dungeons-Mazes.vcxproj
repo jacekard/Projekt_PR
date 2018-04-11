@@ -130,6 +130,8 @@
     <ClCompile Include="Artifact.cpp" />
     <ClCompile Include="AStarBot.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="DijkstraBot.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="MouseBot.cpp" />
@@ -143,6 +145,7 @@
     <ClInclude Include="AStarBot.hpp" />
     <ClInclude Include="Cell.hpp" />
     <ClInclude Include="Config.hpp" />
+    <ClInclude Include="DijkstraBot.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="InputClass.hpp" />
     <ClInclude Include="Maze.hpp" />

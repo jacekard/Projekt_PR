@@ -42,6 +42,12 @@
     <ClCompile Include="MouseBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DijkstraBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.hpp">
@@ -74,7 +80,11 @@
     <ClInclude Include="MouseBot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="SystemClass.hpp">
+=======
+    <ClInclude Include="DijkstraBot.hpp">
+>>>>>>> Grzesiu
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

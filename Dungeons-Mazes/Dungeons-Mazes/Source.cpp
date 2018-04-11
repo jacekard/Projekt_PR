@@ -10,11 +10,13 @@ int main() {
 	HideCursor();
 
 	Maze* maze = new Maze(50, 50, 25); //(maxX, maxY, maxArtifacts)
-	maze->spawnBot("A*");
+
+	maze->spawnBot("Dijkstra");	//narazie aby dzialal Dijkstra, musi byc dodany jako pierwszy
 	//maze->spawnBot("A*");
-	//maze->spawnBot("Mouse");
+	
 	Timer timer = Timer();
 	timer.start();
+	
 	maze->Print();
 	timer.end();
 	cout << timer.getResultMillis();
