@@ -1,4 +1,5 @@
 #pragma once
+#if defined(CONSOLE_VIEW_BUILD)
 #include <windows.h>
 
 inline void gotoxy(int x, int y) {
@@ -14,3 +15,4 @@ inline void HideCursor() {
 	hCCI.bVisible = FALSE;
 	SetConsoleCursorInfo(hConsoleOut, &hCCI);
 }
+#endif

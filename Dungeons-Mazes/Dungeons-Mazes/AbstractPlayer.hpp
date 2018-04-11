@@ -5,13 +5,13 @@
 class AbstractPlayer : public GameObject {
 public:
 	string m_Name;
-	Timer timer;
-	bool hasMoved;
+	Timer m_timer;
+	bool m_hasMoved;
 
 	AbstractPlayer(Point p, string name, Maze* maze) : GameObject(p, maze) {
 		m_Name = name;
-		timer = Timer();
-		hasMoved = false;
+		m_timer = Timer();
+		m_hasMoved = false;
 	};
 	~AbstractPlayer() {};
 	virtual void move() = 0;

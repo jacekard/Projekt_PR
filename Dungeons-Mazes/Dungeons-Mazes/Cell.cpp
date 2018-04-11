@@ -1,10 +1,12 @@
 #include "Cell.hpp"
 
 void Cell::show() {
+#if defined(CONSOLE_VIEW_BUILD)
 	if (m_IsWall)
 		std::cout << (char)178;
 	else
 		std::cout << " ";
+#endif
 }
 
 void Cell::addNeighbors() {

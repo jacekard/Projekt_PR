@@ -1,7 +1,8 @@
 ﻿#include "AStarBot.hpp"
 #include "Artifact.hpp"
 
-void AStarBot::updateNearest() { // ???????
+///Could use some brief explaination to not forget what is it
+void AStarBot::updateNearest() {
 	size_t size = m_pMaze->m_Artifacts.size();
 	double dist = distance(m_pNearestArtifact->m_Position, this->m_Position);
 	for (size_t i = 1; i < size; i++) {
@@ -13,6 +14,7 @@ void AStarBot::updateNearest() { // ???????
 	}
 }
 
+///Could use some brief explaination to not forget what is it
 vector<Cell*> AStarBot::reconstruct_path(Cell* current) {
 	Cell* tmp = current;
 	vector<Cell*> path;
@@ -33,9 +35,9 @@ vector<Cell*> AStarBot::reconstruct_path(Cell* current) {
 }
 
 void AStarBot::move() {
-	if (!hasMoved) {
-		timer.start();
-		hasMoved = true;
+	if (!m_hasMoved) {
+		m_timer.start();
+		m_hasMoved = true;
 	}
 
 	Cell* start = m_pMaze->m_pMap[m_Position.x][m_Position.y].cell; //start is the last/actual position
@@ -100,8 +102,8 @@ void AStarBot::move() {
 
 	if (m_pMaze->m_Artifacts.size() == 0) {
 		//warunek zakończenia mierzenia czasu
-		timer.end();
-		cout << timer.getResultSeconds() << endl;
+		m_timer.end();
+		cout << m_timer.getResultSeconds() << endl;
 	}
 }
 
@@ -186,8 +188,11 @@ vector<Cell*> AStarBot::A_Star_Algorithm(Cell *end, Cell* start) {
 }
 
 void AStarBot::show() {
-	cout << "B";
+#if defined(CONSOLE_VIEW_BUILD)
+    cout << "B";
+#endif
 }
+
 AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
 	for (auto cell : m_pMaze->m_Cells) {
 		Data* data = new Data;
@@ -199,6 +204,7 @@ AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, m
 	}
 };
 
+///Will this be ever used ? leave it be : delete
 //void Bot::move() {
 //	static int moveCount = 0;
 //	assert(moveCount < 10);

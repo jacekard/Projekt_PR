@@ -6,11 +6,13 @@ class GameObject;
 class AbstractPlayer;
 class Artifact;
 class Cell;
+
 struct Node {
 	Cell* cell;
 	AbstractPlayer* NPC;
 	Artifact * artifact;
 };
+
 class Maze {
 public:
 	uint8_t m_MapSizeX, m_MapSizeY;

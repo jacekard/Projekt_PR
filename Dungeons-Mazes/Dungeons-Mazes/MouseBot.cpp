@@ -2,6 +2,11 @@
 #include "Maze.hpp"
 #include "Cell.hpp"
 
+////////////////////////////////////////////////////////////
+/// Function move
+/// @brief this bot moves forward, when stumbling on wall
+///     tries to turn right and continue
+////////////////////////////////////////////////////////////
 void MouseBot::move() {
 	Point tmp;
 	if (straight) {

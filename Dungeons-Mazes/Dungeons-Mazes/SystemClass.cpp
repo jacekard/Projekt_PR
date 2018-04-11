@@ -20,6 +20,7 @@ SystemClass::~SystemClass()
 
 bool SystemClass::Initialize()
 {
+#if defined (DIRECTX_VIEW_BUILD)
     int screenWidth, screenHeight;
     bool result;
 
@@ -55,11 +56,13 @@ bool SystemClass::Initialize()
         return false;
     }
 
+#endif
     return true;
 }
 
 void SystemClass::Shutdown()
 {
+#if defined (DIRECTX_VIEW_BUILD)
     // Release the graphics object.
     if (m_Graphics)
     {
@@ -79,10 +82,12 @@ void SystemClass::Shutdown()
     ShutdownWindows();
 
     return;
+#endif
 }
 
 void SystemClass::Run()
 {
+#if defined (DIRECTX_VIEW_BUILD)
     MSG msg;
     bool done, result;
 
@@ -119,10 +124,12 @@ void SystemClass::Run()
     }
 
     return;
+#endif
 }
 
 bool SystemClass::Frame()
 {
+#if defined (DIRECTX_VIEW_BUILD)
     bool result;
 
 
@@ -139,11 +146,13 @@ bool SystemClass::Frame()
         return false;
     }
 
+#endif
     return true;
 }
 
 LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
+#if defined (DIRECTX_VIEW_BUILD)
     switch (umsg)
     {
         // Check if a key has been pressed on the keyboard.
@@ -168,10 +177,15 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam
         return DefWindowProc(hwnd, umsg, wparam, lparam);
     }
     }
+#else
+    return 0;
+#endif
+
 }
 
 void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 {
+#if defined (DIRECTX_VIEW_BUILD)
     WNDCLASSEX wc;
     DEVMODE dmScreenSettings;
     int posX, posY;
@@ -249,10 +263,12 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
     ShowCursor(false);
 
     return;
+#endif
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
+#if defined (DIRECTX_VIEW_BUILD)
     switch (umessage)
     {
         // Check if the window is being destroyed.
@@ -275,10 +291,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
         return ApplicationHandle->MessageHandler(hwnd, umessage, wparam, lparam);
     }
     }
+#else
+    return 0;
+#endif
 }
 
 void SystemClass::ShutdownWindows()
 {
+#if defined (DIRECTX_VIEW_BUILD)
     // Show the mouse cursor.
     ShowCursor(true);
 
@@ -300,5 +320,6 @@ void SystemClass::ShutdownWindows()
     ApplicationHandle = NULL;
 
     return;
+#endif
 }
 

@@ -39,10 +39,20 @@ inline bool operator!= (const Point &p1, const Point &p2) {
 	return !(p1.x == p2.x && p1.y == p2.y);
 }
 
+////////////////////////////////////////////////////////////
+/// Function distance
+/// @brief calculates distance from pitagorean algorithm
+/// @in a, b - points to calculate distance between
+////////////////////////////////////////////////////////////
 inline double distance(Point a, Point b) {
 	return sqrt(pow((a.x - b.x), 2) + pow(a.y - b.y, 2));
 }
 
+////////////////////////////////////////////////////////////
+/// Function heuristic
+/// @brief SOME BLACK MAGICKFUCKERY
+/// @in a, b - points to calculate distance between
+////////////////////////////////////////////////////////////
 inline double heuristic(Point a, Point b) {
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }

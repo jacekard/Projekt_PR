@@ -1,14 +1,11 @@
-﻿////////////////////////////////////////////////////////////////////////////////
-// Filename: main.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include <conio.h>
+﻿#include <conio.h>
 #include "Maze.hpp"
 #include "AStarBot.hpp"
 #include "Artifact.hpp"
 #include "Console.hpp"
 
 
-
+#if defined(CONSOLE_VIEW_BUILD)
 int main() {
 	HideCursor();
 
@@ -28,7 +25,7 @@ int main() {
 
 		for (auto character : maze->m_Characters) {
 			character->move();
-			cout << character->timer.getCycleMillis() << endl;
+			cout << character->m_timer.getCycleMillis() << endl;
 		}
 		maze->Print();
 		i += 0.05;
@@ -40,31 +37,35 @@ int main() {
 	system("pause");
 	return 0;
 }
+#endif
 
-//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
-//{
-//    SystemClass* System;
-//    bool result;
-//
-//
-//    // Create the system object.
-//    System = new SystemClass;
-//    if (!System)
-//    {
-//        return 0;
-//    }
-//
-//    // Initialize and run the system object.
-//    result = System->Initialize();
-//    if (result)
-//    {
-//        System->Run();
-//    }
-//
-//    // Shutdown and release the system object.
-//    System->Shutdown();
-//    delete System;
-//    System = 0;
-//
-//    return 0;
-//}
+#if defined(DIRECTX_VIEW_BUILD)
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
+{
+    SystemClass* System;
+    bool result;
+
+
+    // Create the system object.
+    System = new SystemClass;
+    if (!System)
+    {
+        return 0;
+    }
+
+    // Initialize and run the system object.
+    result = System->Initialize();
+    if (result)
+    {
+        System->Run();
+    }
+
+    // Shutdown and release the system object.
+    System->Shutdown();
+    delete System;
+    System = 0;
+
+    return 0;
+}
+#endif

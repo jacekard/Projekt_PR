@@ -86,6 +86,11 @@ void Maze::initializeProceduralMaze() {
 	//makeOurMazeNotPerfectAgain();
 }
 
+////////////////////////////////////////////////////////////
+/// Function makeOurMazeNotPerfectAgain
+/// @brief Ensures that there is more than one way to move
+///         in the maze
+////////////////////////////////////////////////////////////
 void Maze::makeOurMazeNotPerfectAgain() {
 	for (auto cell : m_Cells) {
 		if (cell->m_IsWall) {
@@ -102,8 +107,14 @@ void Maze::makeOurMazeNotPerfectAgain() {
 	}
 }
 
+
+////////////////////////////////////////////////////////////
+/// Function initializeRandomMaze
+/// @brief Initializes maze
+/// @in randomFactor - value between 0 and 1 determining
+///     number of walls
+////////////////////////////////////////////////////////////
 void Maze::initializeRandomMaze(double randomFactor) {
-	//randomFactor is floating point number between 0 and 1.0
 	initializeMap(false);
 
 	for (int i = 0; i < m_MapSizeX; i++) {
@@ -117,8 +128,14 @@ void Maze::initializeRandomMaze(double randomFactor) {
 	}
 }
 
+////////////////////////////////////////////////////////////
+/// Function initializeIsleMaze
+/// @brief Initializes maze containing "isles" of walls
+/// @in isleCount - number of isles generated
+/// @in randomFactor - value between 0 and 1 determining
+///     number of walls
+////////////////////////////////////////////////////////////
 void Maze::initializeIsleMaze(int isleCount, double randomFactor) {
-	//randomFactor is floating point number between 0 and 1.0
 	initializeMap(false);
 
 	Point r;
@@ -131,6 +148,13 @@ void Maze::initializeIsleMaze(int isleCount, double randomFactor) {
 	}
 }
 
+////////////////////////////////////////////////////////////
+/// Function recursiveWallPlacing
+/// @brief recursively places wall
+/// @in cell - cell ...
+/// @in randomFactor - value between 0 and 1 determining
+///     chance of spawning walls
+////////////////////////////////////////////////////////////
 void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 	for (auto neighbor : cell->m_pNeighbors) {
 		if (random() < randomFactor)
@@ -141,6 +165,7 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 }
 
 void Maze::Print() {
+#if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
 
 	for (size_t i = 0; i < m_MapSizeX; i++) {
@@ -165,6 +190,7 @@ void Maze::Print() {
 		}
 		cout << endl;
 	}
+#endif
 }
 
 bool Maze::ifCoordExist(int p, int mapSize) {

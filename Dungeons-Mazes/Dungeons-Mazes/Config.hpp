@@ -20,5 +20,7 @@ static const float SCREEN_NEAR = 0.1f;
 #include "Console.hpp"
 
 #include "InputClass.hpp"
+#if defined(DIRECTX_VIEW_BUILD)
 #include "GraphicsClass.hpp"
 #include "SystemClass.hpp"
+#endif
