@@ -5,14 +5,11 @@
 class Cell : public GameObject {
 public:	
 	bool m_IsWall;
-	Cell* m_pPrevious;
 	Point m_Vector;
 	vector<Cell*> m_pNeighbors;
-	double m_F; // funkcja minimalizacyjna drogi
-	double m_G; // ca³a przebyta droga od pocz¹tku do aktualnego
-	double m_H; //przewidywana przez heurystykê droga 
+
+	void addNeighbors();
+	void show() override;
 	Cell(Point p, Maze* maze, bool isWall);
 	~Cell();
-	void show() override;
-	void addNeighbors();
 };

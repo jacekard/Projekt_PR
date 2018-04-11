@@ -7,12 +7,12 @@ void AStarBot::reconstruct_path(Cell* current) {
 	Cell* tmp = current;
 	Cell* delPrevious = current;
 	m_Path.push_back(tmp);
-	while (tmp->m_pPrevious) {
-		m_Path.push_back(tmp->m_pPrevious);
-		tmp = tmp->m_pPrevious;
+	while (m_DataSet[tmp]->m_pPrevious) {
+		m_Path.push_back(m_DataSet[tmp]->m_pPrevious);
+		tmp = m_DataSet[tmp]->m_pPrevious;
 	}
 	for (auto cell : m_Path) {
-		cell->m_pPrevious = nullptr;
+		m_DataSet[cell]->m_pPrevious = nullptr;
 	}
 }
 
@@ -44,7 +44,10 @@ void AStarBot::move() {
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
 		}
-		else if (!m_pMaze->m_pMap[next.x][next.y].cell->m_IsWall) {
+		else if (m_pMaze->m_pMap[next.x][next.y].NPC!=nullptr) {
+			cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
+
+		}else if (!m_pMaze->m_pMap[next.x][next.y].cell->m_IsWall) {
 			m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
@@ -76,12 +79,12 @@ Cell* AStarBot::findNearestArtifact() {
 }
 
 void AStarBot::A_Star_Algorithm() {
-#if defined(_DEBUG)
+	#if defined(_DEBUG)
 	m_OpenSet.clear();
 	m_ClosedSet.clear();
 	m_Path.clear();
 	int blockedNeighbors = 0;
-#endif
+	#endif
 
 
 	Cell* end = findNearestArtifact(); //end is destination of Artifact
@@ -97,7 +100,7 @@ void AStarBot::A_Star_Algorithm() {
 			current = nullptr;
 			current = m_OpenSet[0];
 			for (auto node : m_OpenSet) {
-				if (node->m_F < current->m_F) {
+				if (m_DataSet[node]->m_F < m_DataSet[current]->m_F) {
 					current = node;
 				}
 			}
@@ -122,24 +125,24 @@ void AStarBot::A_Star_Algorithm() {
 					blockedNeighbors = 0;
 					//DEBUG
 
-					double tmp_G = current->m_G + 1.0;
+					double tmp_G = m_DataSet[current]->m_G + 1.0;
 					bool newPath = false;
 					if (std::find(m_OpenSet.begin(), m_OpenSet.end(), neighbor) != m_OpenSet.end()) {
-						if (tmp_G < neighbor->m_G) {
-							neighbor->m_G = tmp_G;
+						if (tmp_G < m_DataSet[neighbor]->m_G) {
+							m_DataSet[neighbor]->m_G = tmp_G;
 							newPath = true;
 						}
 					}
 					else {
-						neighbor->m_G = tmp_G;
+						m_DataSet[neighbor]->m_G = tmp_G;
 						newPath = true;
 						m_OpenSet.push_back(neighbor);
 					}
 
 					if (newPath) {
-						neighbor->m_H = heuristic(neighbor->m_Position, end->m_Position);
-						neighbor->m_F = neighbor->m_G + neighbor->m_H;
-						neighbor->m_pPrevious = current;
+						m_DataSet[neighbor]->m_H = heuristic(neighbor->m_Position, end->m_Position);
+						m_DataSet[neighbor]->m_F = m_DataSet[neighbor]->m_G + m_DataSet[neighbor]->m_H;
+						m_DataSet[neighbor]->m_pPrevious = current;
 					}
 				}
 			}
@@ -155,6 +158,17 @@ void AStarBot::A_Star_Algorithm() {
 void AStarBot::show() {
 	cout << "B";
 }
+AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+	for (auto cell : m_pMaze->m_Cells) {
+		Data* data = new Data;
+		data->m_F = 0.0;
+		data->m_G = 0.0;
+		data->m_H = 0.0;
+		data->m_pPrevious = nullptr;
+		m_DataSet[cell] = data;
+	}
+
+};
 
 //void Bot::move() {
 //	static int moveCount = 0;

@@ -21,6 +21,7 @@ int main() {
 	Maze* maze = new Maze(30, 60, 10); //(maxX, maxY, maxArtifacts)
 	maze->spawnArtifact(1.0);
 	maze->spawnBot("A*");
+	maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
 
 	maze->Print();
