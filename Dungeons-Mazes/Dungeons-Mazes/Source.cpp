@@ -21,6 +21,7 @@ int main() {
 	Maze* maze = new Maze(40, 50, 25); //(maxX, maxY, maxArtifacts)
 	maze->spawnArtifact(1.0); //to jest wazne, zeby bylo przed Botem, bo sie pewnie wyjebie
 	maze->spawnBot("A*");
+	maze->spawnBot("A*");
 	//maze->spawnBot("Mouse");
 
 	maze->Print();
