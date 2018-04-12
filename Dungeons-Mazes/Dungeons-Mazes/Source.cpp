@@ -11,8 +11,8 @@ int main() {
 
 	Maze* maze = new Maze(20, 40, 20); //(maxX, maxY, maxArtifacts)
 
-	//maze->spawnBot("Dijkstra");
-	maze->spawnBot("A*");
+	maze->spawnBot("Dijkstra");
+	//maze->spawnBot("A*");
 	
 	Timer mainTimer = Timer();
 	mainTimer.start();
