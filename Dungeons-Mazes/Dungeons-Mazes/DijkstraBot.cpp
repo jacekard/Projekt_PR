@@ -4,7 +4,7 @@ void DijkstraBot::move() {
 	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, a tutaj tylko okreslac pole
 	m_Timer.tick();
 
-	if (m_pMaze->artifactHasJustSpawned) //trzeba tez zrobic dijkstre kiedy docelowe pole straci artefakt, 
+	if (m_pMaze->artifactHasJustSpawned) //trzeba tez zrobic dijkstre kiedy docelowe pole straci artefakt (np w skutek zebrania przez innego bota), 
 		DijkstraAlgotithm();			 //czyli cos w stylu if(m_Path.bot ->artifact == nullptr), wiec chyba nie obejdzie sie bez zmiany
 										 //stack na vector
 
@@ -58,7 +58,7 @@ void DijkstraBot::getPath() {
 	m_Path = stack<Cell*>();
 	Cell* actualCell = nearestArtifact->getMotherCell();
 	m_Path.push(actualCell);
-	while (actualCell != getMotherCell()) {
+	while (actualCell != getMotherCell()){
 		for (auto neighbor : actualCell->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
 				if (m_DataSet[neighbor]->distance == m_DataSet[actualCell->getMotherCell()]->distance - 1) {//ten warunek trzeba zmienic, gdy wprowadzimy koszty
@@ -101,7 +101,6 @@ void DijkstraBot::DijkstraAlgotithm() {
 			if (!neighbor->m_IsWall) {
 				unsigned int alt = m_DataSet[min]->distance + 1;//+waga(min, neighbor); tutaj zamiast 1 bedzie waga
 				if (alt < m_DataSet[neighbor]->distance) {
-
 					auto it = find_if(Q.begin(), Q.end(), comp(pair<Cell*, unsigned int>(neighbor, m_DataSet[neighbor]->distance)));
 					if (it != Q.end()) {
 						Q.erase(it);
