@@ -2,12 +2,23 @@
 #include "Artifact.hpp"
 void DijkstraBot::move() {
 	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, a tutaj tylko okreslac pole
-	if (m_Path.empty()) return;
+	m_Timer.tick();
+
+	if (m_pMaze->artifactHasJustSpawned) //trzeba tez zrobic dijkstre kiedy docelowe pole straci artefakt, 
+		DijkstraAlgotithm();			 //czyli cos w stylu if(m_Path.bot ->artifact == nullptr), wiec chyba nie obejdzie sie bez zmiany
+										 //stack na vector
+
+	if (m_Path.empty()) {
+		DijkstraAlgotithm();
+		if (m_Path.empty())
+			return;
+	}
 
 	Point next = m_Path.top()->m_Position;
 	m_Path.pop();
 	if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 		cout << "ZEBRALES ARTEFAKT!" << endl;
+		artifactsObtained++;
 
 		m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
 			m_pMaze->m_pMap[next.x][next.y].artifact));
@@ -26,6 +37,8 @@ void DijkstraBot::move() {
 		m_pMaze->m_pMap[next.x][next.y].NPC = this;
 		m_Position = next;
 	}
+
+	m_Timer.tock();
 }
 
 void DijkstraBot::getPath() {
@@ -58,10 +71,10 @@ void DijkstraBot::getPath() {
 	}
 	m_Path.pop();
 }
+
 struct comp {
 	comp(pair<Cell*, unsigned int> input) : _input(input) {}
-	bool operator()(pair<Cell*, unsigned int> iPair)
-	{
+	bool operator()(pair<Cell*, unsigned int> iPair) {
 		return (iPair.first == _input.first && iPair.second == _input.second);
 	}
 	pair<Cell*, unsigned int> _input;

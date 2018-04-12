@@ -21,6 +21,7 @@ public:
 	vector<Cell*> m_Cells;
 	vector<Artifact*> m_Artifacts;
 	vector<AbstractPlayer*> m_Characters;
+	bool artifactHasJustSpawned;
 	Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t m_MaximumArtifactCount);
 	~Maze();
 	void initializeMap(bool isWall);
@@ -32,5 +33,6 @@ public:
 	void recursiveWallPlacing(Cell *cell, double randomFactor);
 	void spawnArtifact(double randomFactor);
 	void spawnBot(string type);
+	void endSimulation();
 	void Print();
 };

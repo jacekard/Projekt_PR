@@ -3,9 +3,9 @@
 
 ///Could use some brief explaination to not forget what is it
 void AStarBot::updateNearest() {
-	size_t size = m_pMaze->m_Artifacts.size();
+	int size = m_pMaze->m_Artifacts.size();
 	double dist = distance(m_pNearestArtifact->m_Position, this->m_Position);
-	for (size_t i = 1; i < size; i++) {
+	for (int i = 1; i < size; i++) {
 		if (distance(m_pMaze->m_Artifacts[i]->m_Position,
 			this->m_Position) < dist) {
 			m_pNearestArtifact = m_pMaze->m_Artifacts[i];
@@ -35,16 +35,13 @@ vector<Cell*> AStarBot::reconstruct_path(Cell* current) {
 }
 
 void AStarBot::move() {
-	if (!m_hasMoved) {
-		m_timer.start();
-		m_hasMoved = true;
-	}
+	m_Timer.tick();
 
 	Cell* start = m_pMaze->m_pMap[m_Position.x][m_Position.y].cell; //start is the last/actual position
 	Cell* end = nullptr;
 	vector<Cell*> path, nextPath;
 	Point tmp;
-	size_t artifactCount = m_pMaze->m_Artifacts.size();
+	int artifactCount = m_pMaze->m_Artifacts.size();
 	if (artifactCount == 0)
 		return;
 	else if (artifactCount >= 1) {
@@ -79,7 +76,7 @@ void AStarBot::move() {
 		&& m_pMaze->ifCoordExist(next.y, m_pMaze->m_MapSizeY)) {
 		if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 			cout << "ZEBRALES ARTEFAKT!" << endl;
-
+			artifactsObtained++;
 			m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
 				m_pMaze->m_pMap[next.x][next.y].artifact));
 
@@ -87,6 +84,8 @@ void AStarBot::move() {
 			m_pMaze->m_pMap[next.x][next.y].artifact = nullptr;
 			m_pMaze->m_pMap[next.x][next.y].NPC = this;
 			m_Position = next;
+			cout << m_pMaze->m_Artifacts.size();
+			
 		}
 		else if (m_pMaze->m_pMap[next.x][next.y].NPC != nullptr) {
 			cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
@@ -99,12 +98,7 @@ void AStarBot::move() {
 		}
 	}
 
-
-	if (m_pMaze->m_Artifacts.size() == 0) {
-		//warunek zakończenia mierzenia czasu
-		m_timer.end();
-		cout << m_timer.getResultSeconds() << endl;
-	}
+	m_Timer.tock();
 }
 
 //Cell* AStarBot::findNearestArtifact() {
@@ -189,7 +183,7 @@ vector<Cell*> AStarBot::A_Star_Algorithm(Cell *end, Cell* start) {
 
 void AStarBot::show() {
 #if defined(CONSOLE_VIEW_BUILD)
-    cout << "B";
+    cout << "A";
 #endif
 }
 

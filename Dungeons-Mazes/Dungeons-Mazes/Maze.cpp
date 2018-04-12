@@ -11,11 +11,13 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
 
+	artifactHasJustSpawned = false;
 
 	//initializeRandomMaze(0.0);
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
 	initializeProceduralMaze();
 
+	spawnArtifact(1.0);
 	//for (int i = 0; i < 300; i++) {
 	//	int p = random(0, m_Cells.size() - 1);
 	//	if (m_Cells[p]->m_IsWall)
@@ -169,8 +171,8 @@ void Maze::Print() {
 	#if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
 
-	for (size_t i = 0; i < m_MapSizeX; i++) {
-		for (size_t j = 0; j < m_MapSizeY; j++) {
+	for (int i = 0; i < m_MapSizeX; i++) {
+		for (int j = 0; j < m_MapSizeY; j++) {
 			gotoxy(j + 1, i + 1);
 			if (m_pMap[i][j].artifact != nullptr)
 				(m_pMap[i][j].artifact)->show();
@@ -181,8 +183,8 @@ void Maze::Print() {
 		}
 		cout << endl;
 	}
-	for (size_t i = 0; i < m_MapSizeX + 2; i++) {
-		for (size_t j = 0; j < m_MapSizeY + 2; j++) {
+	for (int i = 0; i < m_MapSizeX + 2; i++) {
+		for (int j = 0; j < m_MapSizeY + 2; j++) {
 			if (i == 0 || j == 0 || i == m_MapSizeX + 1 || j == m_MapSizeY + 1) {
 				gotoxy(j, i);
 				cout << (char)178;
@@ -199,24 +201,25 @@ bool Maze::ifCoordExist(int p, int mapSize) {
 }
 
 void Maze::spawnArtifact(double randomFactor) {
+	artifactHasJustSpawned = false;
+
+	static double i = 0.00;
 	if (m_Artifacts.size() >= m_MaxArtifactCount
-		|| random() > randomFactor)
+		|| random() > randomFactor - i)
 		return;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (m_pMap[p.x][p.y].cell->m_IsWall) {
-		spawnArtifact(randomFactor);
+		spawnArtifact(randomFactor -i);
 		return;
 	}
 	Artifact* artifact = new Artifact(p, "", this);
 	m_pMap[p.x][p.y].artifact = artifact;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
+	i += 0.05;
 
-	for (auto bot : m_Characters) {
-		if (dynamic_cast<DijkstraBot*>(bot)) {
-			dynamic_cast<DijkstraBot*>(bot)->DijkstraAlgotithm();
-		}
-	}
+	artifactHasJustSpawned = true;
+	
 }
 
 void Maze::spawnBot(string type) {
@@ -229,7 +232,7 @@ void Maze::spawnBot(string type) {
 		bot = new MouseBot(p, "Mouse Bot", this);
 	}
 	else if (type == "Dijkstra") {
-		bot = new DijkstraBot(p, "Dijkstra", this);
+		bot = new DijkstraBot(p, "Dijkstra Bot", this);
 	}
 	else if (type == "different")
 		;///...
@@ -239,9 +242,15 @@ void Maze::spawnBot(string type) {
 	//usuwa ewentualna sciane na miejscu bota
 }
 
+void Maze::endSimulation() {
+	for (auto character : m_Characters) {
+		character->m_Timer.countResults();
+	}
+}
+
 Maze::~Maze() {
-	for (size_t i = 0; i < m_MapSizeY; i++) {///XD
-		for (size_t j = 0; j < m_MapSizeY; j++) {
+	for (int i = 0; i < m_MapSizeY; i++) {///XD
+		for (int j = 0; j < m_MapSizeY; j++) {
 			delete m_pMap[i][j].cell;
 			delete m_pMap[i][j].NPC;
 			delete m_pMap[i][j].artifact;

@@ -9,33 +9,43 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(50, 50, 25); //(maxX, maxY, maxArtifacts)
+	Maze* maze = new Maze(20, 40, 20); //(maxX, maxY, maxArtifacts)
 
-	maze->spawnBot("Dijkstra");
-	//maze->spawnBot("A*");
+	//maze->spawnBot("Dijkstra");
+	maze->spawnBot("A*");
 	
-	Timer timer = Timer();
-	timer.start();
+	Timer mainTimer = Timer();
+	mainTimer.start();
 	
+	for (auto character : maze->m_Characters) {
+		character->m_Timer.start();
+	}
+
 	maze->Print();
-	timer.end();
-	cout << timer.getResultMillis();
 	Sleep(2000);
-	double i = 0.0;
+	
 	while (true) {
-		maze->spawnArtifact(1.0 - i);
+		maze->spawnArtifact(1.0);
 
 		for (auto character : maze->m_Characters) {
 			character->move();
-			cout << character->m_timer.getCycleMillis() << endl;
 		}
 		maze->Print();
-		i += 0.05;
-		if (maze->m_Artifacts.size() == 0)
+
+		if (maze->m_Artifacts.size() == 0) {
+			maze->Print();
+			maze->endSimulation();
 			break;
+		}
 	}
 	
-	Sleep(3000);
+	cout << "Simulation ended with total time of " << mainTimer.end() / 1000.0 << "s" << endl;
+	for (auto pl : maze->m_Characters) {
+		cout << pl->m_Name << " has finished with total time of moving: " << (double)pl->m_Timer.time.first / 1000.0
+			<< "s and with average per move: " << pl->m_Timer.time.second << "ms." << endl;
+
+	}
+	
 	system("pause");
 	return 0;
 }
