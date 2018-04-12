@@ -203,8 +203,10 @@ void Maze::spawnArtifact(double randomFactor) {
 		|| random() > randomFactor)
 		return;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
-	if (m_pMap[p.x][p.y].cell->m_IsWall)
+	if (m_pMap[p.x][p.y].cell->m_IsWall) {
 		spawnArtifact(randomFactor);
+		return;
+	}
 	Artifact* artifact = new Artifact(p, "", this);
 	m_pMap[p.x][p.y].artifact = artifact;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
