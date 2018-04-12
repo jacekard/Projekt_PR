@@ -9,11 +9,11 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(20, 40, 20); //(maxX, maxY, maxArtifacts)
+	Maze* maze = new Maze(30, 40, 20, 3); //(maxX, maxY, maxArtifacts, scale)
 
 	maze->spawnBot("Dijkstra");
 	//maze->spawnBot("A*");
-	
+	 
 	Timer mainTimer = Timer();
 	mainTimer.start();
 	

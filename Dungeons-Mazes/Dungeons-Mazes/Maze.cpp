@@ -6,23 +6,19 @@
 #include "Player.hpp"
 #include "Artifact.hpp"
 
-Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount)
+Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int scale)
 	: m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY), m_MaxArtifactCount(maxArtifactCount) {
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
 
 	artifactHasJustSpawned = false;
 
-	//initializeRandomMaze(0.0);
+	initializeRandomMaze(0.0);
+	createETISymbol();
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
-	initializeProceduralMaze();
-
+	//initializeProceduralMaze();
+	//scaleProceduralMaze(scale);
 	spawnArtifact(1.0);
-	//for (int i = 0; i < 300; i++) {
-	//	int p = random(0, m_Cells.size() - 1);
-	//	if (m_Cells[p]->m_IsWall)
-	//		m_Cells[p]->m_IsWall = false;
-	//}
 }
 
 void Maze::initializeMap(bool isWall) {
@@ -41,7 +37,7 @@ void Maze::initializeMap(bool isWall) {
 	}
 
 	for (auto cell : m_Cells) {
-		cell->addNeighbors();
+		cell->addNeighbors(m_pMap);
 	}
 }
 
@@ -87,6 +83,45 @@ void Maze::initializeProceduralMaze() {
 	}
 
 	//makeOurMazeNotPerfectAgain();
+}
+
+void Maze::scaleProceduralMaze(int scale) {
+	if (scale == 1) return;
+	Node **m_pScaleMap = new Node*[m_MapSizeX*scale];
+	for (int i = 0; i < m_MapSizeX*scale; i++) {
+		m_pScaleMap[i] = new Node[m_MapSizeY*scale];
+	}
+
+	m_Cells.clear();
+
+	for (int i = 0; i < m_MapSizeX*scale; i++) {
+		for (int j = 0; j < m_MapSizeY*scale; j++) {
+			m_pScaleMap[i][j].cell = new Cell(Point(i, j), this, false);
+			m_pScaleMap[i][j].NPC = nullptr;
+			m_pScaleMap[i][j].artifact = nullptr;
+			m_Cells.push_back(m_pScaleMap[i][j].cell);
+		}
+	}
+
+	for (int i = 0; i < m_MapSizeX; i++) {
+		for (int j = 0; j < m_MapSizeY; j++) {
+			if (m_pMap[i][j].cell->m_IsWall) {
+				for (int h = 0; h < scale; h++) {
+					for (int l = 0; l < scale; l++) {
+						m_pScaleMap[i*scale+h][j*scale+l].cell->m_IsWall = true;
+					}
+				}
+			}
+		}
+	}
+
+	m_MapSizeX *= scale;
+	m_MapSizeY *= scale;
+	m_pMap = m_pScaleMap; //wyciek xDDD
+
+	for (auto cell : m_Cells) {
+		cell->addNeighbors(m_pMap);
+	}
 }
 
 ////////////////////////////////////////////////////////////
@@ -168,7 +203,7 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 }
 
 void Maze::Print() {
-	#if defined(CONSOLE_VIEW_BUILD)
+#if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
 
 	for (int i = 0; i < m_MapSizeX; i++) {
@@ -193,7 +228,7 @@ void Maze::Print() {
 		}
 		cout << endl;
 	}
-	#endif
+#endif
 }
 
 bool Maze::ifCoordExist(int p, int mapSize) {
@@ -209,7 +244,7 @@ void Maze::spawnArtifact(double randomFactor) {
 		return;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
-		spawnArtifact(randomFactor -i);
+		spawnArtifact(randomFactor - i);
 		return;
 	}
 	Artifact* artifact = new Artifact(p, "", this);
@@ -219,7 +254,7 @@ void Maze::spawnArtifact(double randomFactor) {
 	i += 0.05;
 
 	artifactHasJustSpawned = true;
-	
+
 }
 
 void Maze::spawnBot(string type) {
@@ -243,6 +278,30 @@ void Maze::spawnBot(string type) {
 	m_pMap[p.x][p.y].NPC = bot;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	//usuwa ewentualna sciane na miejscu bota
+}
+
+void Maze::createETISymbol() {
+	int os_x = 1, os_y = 1;
+	m_pMap[os_x][os_y].cell->m_IsWall = true;
+	m_pMap[os_x+1][os_y].cell->m_IsWall = true;
+	m_pMap[os_x+2][os_y].cell->m_IsWall = true;
+	m_pMap[os_x+3][os_y].cell->m_IsWall = true;
+	m_pMap[os_x+4][os_y].cell->m_IsWall = true;
+
+	m_pMap[os_x][os_y+1].cell->m_IsWall = true;
+	m_pMap[os_x][os_y+2].cell->m_IsWall = true;
+	m_pMap[os_x][os_y + 3].cell->m_IsWall = true;
+
+	m_pMap[os_x+2][os_y + 1].cell->m_IsWall = true;
+	m_pMap[os_x+2][os_y + 2].cell->m_IsWall = true;
+	m_pMap[os_x+2][os_y + 3].cell->m_IsWall = true;
+
+	m_pMap[os_x+4][os_y + 1].cell->m_IsWall = true;
+	m_pMap[os_x+4][os_y + 2].cell->m_IsWall = true;
+	m_pMap[os_x+4][os_y + 3].cell->m_IsWall = true;
+
+
+
 }
 
 void Maze::endSimulation() {

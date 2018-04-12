@@ -5,11 +5,11 @@ void DijkstraBot::move() {
 	m_Timer.tick();
 
 	if (m_pMaze->artifactHasJustSpawned) //trzeba tez zrobic dijkstre kiedy docelowe pole straci artefakt (np w skutek zebrania przez innego bota), 
-		DijkstraAlgotithm();			 //czyli cos w stylu if(m_Path.bot ->artifact == nullptr), wiec chyba nie obejdzie sie bez zmiany
+		DijkstraAlgorithm();			 //czyli cos w stylu if(m_Path.bot ->artifact == nullptr), wiec chyba nie obejdzie sie bez zmiany
 										 //stack na vector
 
 	if (m_Path.empty()) {
-		DijkstraAlgotithm();
+		DijkstraAlgorithm();
 		if (m_Path.empty())
 			return;
 	}
@@ -27,10 +27,11 @@ void DijkstraBot::move() {
 		m_pMaze->m_pMap[next.x][next.y].artifact = nullptr;
 		m_pMaze->m_pMap[next.x][next.y].NPC = this;
 		m_Position = next;
-		DijkstraAlgotithm();
+		DijkstraAlgorithm();
 	}
 	else if (m_pMaze->m_pMap[next.x][next.y].NPC != nullptr) {
 		cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
+		//DijkstraAlgorithm(); ???
 	}
 	else {
 		m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
@@ -80,7 +81,7 @@ struct comp {
 	pair<Cell*, unsigned int> _input;
 };
 
-void DijkstraBot::DijkstraAlgotithm() {
+void DijkstraBot::DijkstraAlgorithm() {
 	//ten algorytm jest teraz praktycznie BFSem, zmieni to siê kiedy dodane zostan¹ wagi terenu
 	//zmieni³em go w taki sposob, ze tak naprawde naszym celem jest bot, a to artefakty chca sie do niego dostac
 	vector<pair<Cell*, unsigned int>> Q;
@@ -89,7 +90,7 @@ void DijkstraBot::DijkstraAlgotithm() {
 	Q.push_back(pair<Cell*, unsigned int>(source, 0));
 
 	for (auto cell : m_pMaze->m_Cells) {
-		if (cell != source && !cell->m_IsWall) {
+		if (cell != source && !cell->m_IsWall) {//potraktuj gracza jako sciane
 			m_DataSet[cell]->distance = INFINITE;
 			Q.push_back(pair<Cell*, unsigned int>(cell, INFINITE));
 		}

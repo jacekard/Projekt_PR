@@ -8,7 +8,7 @@ public:
 	Point m_Vector;
 	vector<Cell*> m_pNeighbors;
 
-	void addNeighbors();
+	void addNeighbors(Node** map);
 	void show() override;
 	Cell(Point p, Maze* maze, bool isWall);
 	~Cell();
