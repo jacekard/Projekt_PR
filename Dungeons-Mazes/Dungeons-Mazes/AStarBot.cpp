@@ -198,6 +198,12 @@ AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, m
 	}
 };
 
+AStarBot::~AStarBot() {
+	for (auto cell : m_pMaze->m_Cells) 
+		delete m_DataSet[cell];
+	
+}
+
 ///Will this be ever used ? leave it be : delete
 //void Bot::move() {
 //	static int moveCount = 0;

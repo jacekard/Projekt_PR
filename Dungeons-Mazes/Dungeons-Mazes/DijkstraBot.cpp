@@ -1,5 +1,6 @@
 #include "DijkstraBot.hpp"
 #include "Artifact.hpp"
+
 void DijkstraBot::move() {
 	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, a tutaj tylko okreslac pole
 	m_Timer.tick();
@@ -131,5 +132,6 @@ DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, n
 }
 
 DijkstraBot::~DijkstraBot() {
-
+	for (auto cell : m_pMaze->m_Cells) 
+		delete m_DataSet[cell];
 }
