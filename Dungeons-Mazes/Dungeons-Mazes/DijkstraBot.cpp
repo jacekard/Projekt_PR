@@ -120,7 +120,9 @@ void DijkstraBot::DijkstraAlgorithm() {
 }
 
 void DijkstraBot::show() {
+#if defined(CONSOLE_VIEW_BUILD)
 	cout << "D";
+#endif
 }
 
 DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
