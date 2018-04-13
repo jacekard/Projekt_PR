@@ -23,13 +23,13 @@ public:
 	vector<AbstractPlayer*> m_Characters;
 	bool artifactHasJustSpawned;
 	Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t m_MaximumArtifactCount, int scale);
+	Maze(string mazeName, uint8_t m_MaximumArtifactCount, int scale);
 	~Maze();
 	void initializeMap(bool isWall);
 	void initializeRandomMaze(double randomFactor);
 	void initializeIsleMaze(int isleCount, double randomFactor);
 	void initializeProceduralMaze();
-	void scaleProceduralMaze(int scale);
-	void createETISymbol();
+	void scaleMaze(int scale);
 	void makeOurMazeNotPerfectAgain();
 	bool ifCoordExist(int p, int mapSize);
 	void recursiveWallPlacing(Cell *cell, double randomFactor);

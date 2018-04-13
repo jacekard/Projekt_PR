@@ -10,7 +10,7 @@ public:
 	};
 	map<Cell*, Data*> m_DataSet;
 
-	void DijkstraAlgotithm();
+	void DijkstraAlgorithm();
 	void getPath();
 	void show() override;
 	void move() override;

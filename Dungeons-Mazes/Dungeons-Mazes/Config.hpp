@@ -12,6 +12,7 @@ static const float SCREEN_NEAR = 0.1f;
 #include <cstdint>
 #include <windows.h>
 #include <assert.h>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <map>

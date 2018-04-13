@@ -14,11 +14,38 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int sca
 	artifactHasJustSpawned = false;
 
 	initializeRandomMaze(0.0);
-	createETISymbol();
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
 	//initializeProceduralMaze();
-	//scaleProceduralMaze(scale);
-	spawnArtifact(1.0);
+}
+
+Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {
+	artifactHasJustSpawned = false;
+
+	fstream file;
+	file.open("Mazes/"+mazeName+".txt", ios::in);
+	assert(file.good());
+
+	int mapSizeX, mapSizeY, offset;
+	file >> mapSizeX;
+	file >> mapSizeY;
+	file >> offset;
+
+	m_MapSizeX = mapSizeX+offset*2;
+	m_MapSizeY = mapSizeY+offset*2;
+	initializeMap(false);
+
+	while (!file.eof()) {
+		int x, y;
+		file >> y;
+		file >> x;
+		y += offset;
+		x += offset;
+		m_pMap[x][y].cell->m_IsWall = true;
+	}
+
+	file.close();
+
+	scaleMaze(scale);
 }
 
 void Maze::initializeMap(bool isWall) {
@@ -85,7 +112,7 @@ void Maze::initializeProceduralMaze() {
 	//makeOurMazeNotPerfectAgain();
 }
 
-void Maze::scaleProceduralMaze(int scale) {
+void Maze::scaleMaze(int scale) {
 	if (scale == 1) return;
 	Node **m_pScaleMap = new Node*[m_MapSizeX*scale];
 	for (int i = 0; i < m_MapSizeX*scale; i++) {
@@ -278,30 +305,6 @@ void Maze::spawnBot(string type) {
 	m_pMap[p.x][p.y].NPC = bot;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	//usuwa ewentualna sciane na miejscu bota
-}
-
-void Maze::createETISymbol() {
-	int os_x = 1, os_y = 1;
-	m_pMap[os_x][os_y].cell->m_IsWall = true;
-	m_pMap[os_x+1][os_y].cell->m_IsWall = true;
-	m_pMap[os_x+2][os_y].cell->m_IsWall = true;
-	m_pMap[os_x+3][os_y].cell->m_IsWall = true;
-	m_pMap[os_x+4][os_y].cell->m_IsWall = true;
-
-	m_pMap[os_x][os_y+1].cell->m_IsWall = true;
-	m_pMap[os_x][os_y+2].cell->m_IsWall = true;
-	m_pMap[os_x][os_y + 3].cell->m_IsWall = true;
-
-	m_pMap[os_x+2][os_y + 1].cell->m_IsWall = true;
-	m_pMap[os_x+2][os_y + 2].cell->m_IsWall = true;
-	m_pMap[os_x+2][os_y + 3].cell->m_IsWall = true;
-
-	m_pMap[os_x+4][os_y + 1].cell->m_IsWall = true;
-	m_pMap[os_x+4][os_y + 2].cell->m_IsWall = true;
-	m_pMap[os_x+4][os_y + 3].cell->m_IsWall = true;
-
-
-
 }
 
 void Maze::endSimulation() {
