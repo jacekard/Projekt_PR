@@ -56,11 +56,12 @@ void DijkstraBot::getPath() {
 			nearestArtifact = artifact;
 		}
 	}
+	if (nearestArtifact == nullptr) return;
 
 	m_Path = stack<Cell*>();
 	Cell* actualCell = nearestArtifact->getMotherCell();
 	m_Path.push(actualCell);
-	while (actualCell != getMotherCell()){
+	while (actualCell != getMotherCell()) {
 		for (auto neighbor : actualCell->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
 				if (m_DataSet[neighbor]->distance == m_DataSet[actualCell->getMotherCell()]->distance - 1) {//ten warunek trzeba zmienic, gdy wprowadzimy koszty
@@ -101,6 +102,7 @@ void DijkstraBot::DijkstraAlgorithm() {
 		Q.erase(Q.cbegin());
 		for (auto neighbor : min->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
+				if (m_DataSet[min]->distance == INFINITE) continue;
 				unsigned int alt = m_DataSet[min]->distance + 1;//+waga(min, neighbor); tutaj zamiast 1 bedzie waga
 				if (alt < m_DataSet[neighbor]->distance) {
 					auto it = find_if(Q.begin(), Q.end(), comp(pair<Cell*, unsigned int>(neighbor, m_DataSet[neighbor]->distance)));
@@ -120,9 +122,9 @@ void DijkstraBot::DijkstraAlgorithm() {
 }
 
 void DijkstraBot::show() {
-#if defined(CONSOLE_VIEW_BUILD)
+	#if defined(CONSOLE_VIEW_BUILD)
 	cout << "D";
-#endif
+	#endif
 }
 
 DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
@@ -134,6 +136,6 @@ DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, n
 }
 
 DijkstraBot::~DijkstraBot() {
-	for (auto cell : m_pMaze->m_Cells) 
+	for (auto cell : m_pMaze->m_Cells)
 		delete m_DataSet[cell];
 }
