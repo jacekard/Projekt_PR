@@ -1,6 +1,12 @@
 #include "DijkstraBot.hpp"
 #include "Artifact.hpp"
 
+////////////////////////////////////////////////////////////
+/// Function move
+/// @brief This bot has his own fixed path.
+///     If path is empty, artifact is obtained or spawned
+///		bot runs DijkstraAlgorithm to update path.
+////////////////////////////////////////////////////////////
 void DijkstraBot::move() {
 	//trzeba zrobic jakas fancy uniwersalna funkcje, ktora handluje nam akcje gdy wejdzie na nastepne pole, a tutaj tylko okreslac pole
 	m_Timer.tick();
@@ -43,6 +49,12 @@ void DijkstraBot::move() {
 	m_Timer.tock();
 }
 
+////////////////////////////////////////////////////////////
+/// Function getPath
+/// @brief Creates path from distances achieved during 
+///		DjikstraAlgorithm. Starts from the closest of 
+///		Artifacts, then heads back to bot.
+////////////////////////////////////////////////////////////
 void DijkstraBot::getPath() {
 	Artifact* nearestArtifact = nullptr;
 	unsigned int minDistance = INFINITE;
@@ -75,6 +87,11 @@ void DijkstraBot::getPath() {
 	m_Path.pop();
 }
 
+////////////////////////////////////////////////////////////
+/// Struct comp
+/// @brief Comparator for pair<Cell*,unsigned int>, necessary
+///		in sorting vector.
+////////////////////////////////////////////////////////////
 struct comp {
 	comp(pair<Cell*, unsigned int> input) : _input(input) {}
 	bool operator()(pair<Cell*, unsigned int> iPair) {
@@ -83,6 +100,12 @@ struct comp {
 	pair<Cell*, unsigned int> _input;
 };
 
+////////////////////////////////////////////////////////////
+/// Function DijkstraAlgorithm
+/// @brief Starting from bot's position, it calculates 
+///		distance for every cell in maze (default INFINITE), 
+///		then runs getPath.
+////////////////////////////////////////////////////////////
 void DijkstraBot::DijkstraAlgorithm() {
 	//ten algorytm jest teraz praktycznie BFSem, zmieni to siê kiedy dodane zostan¹ wagi terenu
 	//zmieni³em go w taki sposob, ze tak naprawde naszym celem jest bot, a to artefakty chca sie do niego dostac
