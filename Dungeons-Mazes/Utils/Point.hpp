@@ -1,9 +1,10 @@
 #pragma once
-#define NOP Point(0, 0)
+#define CENTER Point(0, 0)
 #define UP Point(-1, 0)
 #define DOWN Point(1, 0)
 #define LEFT Point(0, -1)
 #define RIGHT Point(0, 1)
+
 class Point {
 public:
 	int x, y;

@@ -3,8 +3,10 @@
 
 class Player : public AbstractPlayer {
 public:
+	Point m_Direction;
+	void checkInputStatus();
 	void show() override;
 	void move();
-	Player(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {};
+	Player(Point p, string name, Maze* maze);
 	~Player();
 };

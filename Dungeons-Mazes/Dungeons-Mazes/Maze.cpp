@@ -299,6 +299,9 @@ void Maze::spawnBot(string type) {
 	else if (type == "Dijkstra") {
 		bot = new DijkstraBot(p, "Dijkstra Bot", this);
 	}
+	else if (type == "Player") {
+		bot = new Player(p, "Player", this);
+	}
 	else if (type == "different")
 		;///...
 	this->m_Characters.push_back(bot);

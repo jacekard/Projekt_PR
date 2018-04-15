@@ -9,10 +9,11 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(20, 20, 5, 1); //(maxX, maxY, maxArtifacts, scale)
-	//Maze* maze = new Maze("xD", 8, 2);  //(mazeName, maxArtifacts, scale)
+	//Maze* maze = new Maze(40, 50, 40, 3); //(maxX, maxY, maxArtifacts, scale)
+	Maze* maze = new Maze("ETI", 20, 1);  //(mazeName, maxArtifacts, scale)
+
 	maze->spawnBot("Dijkstra");
-	maze->spawnBot("A*");
+	//maze->spawnBot("A*");
 	 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -40,12 +41,14 @@ int main() {
 	}
 	
 	cout << "Simulation ended with total time of " << mainTimer.end() / 1000.0 << "s" << endl;
-	for (auto character : maze->m_Characters) {
-		cout << *character;
+	for (auto pl : maze->m_Characters) {
+		cout << pl->m_Name << " has finished with total time of moving: " << (double)pl->m_Timer.time.first / 1000.0
+			<< "s and with average per move: " << pl->m_Timer.time.second << "ms." << endl;
+
 	}
 	
 	system("pause");
- 	return 0;
+	return 0;
 }
 #endif
 
