@@ -13,9 +13,9 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int sca
 
 	artifactHasJustSpawned = false;
 
-	initializeRandomMaze(0.0);
+	//initializeRandomMaze(1.0);
 	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
-	//initializeProceduralMaze();
+	initializeProceduralMaze();
 }
 
 Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {

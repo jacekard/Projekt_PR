@@ -9,7 +9,7 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(30, 40, 20, 3); //(maxX, maxY, maxArtifacts, scale)
+	Maze* maze = new Maze(30, 40, 20, 1); //(maxX, maxY, maxArtifacts, scale)
 	//Maze* maze = new Maze("xD", 8, 2);  //(mazeName, maxArtifacts, scale)
 
 	maze->spawnBot("Dijkstra");
