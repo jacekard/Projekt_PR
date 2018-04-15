@@ -50,9 +50,9 @@ inline double distance(Point a, Point b) {
 
 ////////////////////////////////////////////////////////////
 /// Function heuristic
-/// @brief SOME BLACK MAGICKFUCKERY
+/// @brief Euclidian distance between two points
 /// @in a, b - points to calculate distance between
 ////////////////////////////////////////////////////////////
-inline double heuristic(Point a, Point b) {
+inline uint8_t heuristic(Point a, Point b) {
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }

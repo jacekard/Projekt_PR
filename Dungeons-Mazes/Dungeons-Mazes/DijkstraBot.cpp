@@ -19,7 +19,7 @@ void DijkstraBot::move() {
 	m_Path.pop();
 	if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 		cout << "ZEBRALES ARTEFAKT!" << endl;
-		artifactsObtained++;
+		m_ArtifactsObtained++;
 
 		m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
 			m_pMaze->m_pMap[next.x][next.y].artifact));
