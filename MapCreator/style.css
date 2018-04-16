@@ -1,0 +1,66 @@
+body {
+	height: 100%;
+	margin:0px;
+	padding:0px;
+
+	display:flex;
+	justify-content: center;
+	align-items: center;
+
+	background:black;
+	font-family: 'Gentium Book Basic', serif;
+	cursor:context-menu;
+}
+
+footer {
+	position:absolute;
+	right:5px;
+	top:94%;
+	font-size:7px;
+	color:grey;
+}
+
+header {
+	margin:0;
+	padding:0;
+	position:absolute;
+	top:2%;
+	left:40%;
+	font-size:30px;
+	color:white;
+	line-height: 17px;
+	font-family:Courier;
+}
+
+h5 {
+	position:absolute;
+	font-size:12px;
+	color:black;
+	top: 15px;
+	left: 15px;
+	margin: 0px;
+}
+
+header::selection {
+	color:#191919;
+}
+
+#info:hover {
+	color:black;
+}
+
+.slider {
+	width: 200px;
+	height: 15px;
+}
+
+.slider-medium {
+	width: 300px;
+	height: 15px;
+}
+
+
+.slider-long {
+	width: 400px;
+	height: 15px;
+}

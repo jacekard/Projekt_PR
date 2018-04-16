@@ -41,9 +41,12 @@ vector<Cell*> AStarBot::reconstruct_path(Cell* current) {
 
 	if (path.size() >= 1)
 		path.erase(path.end() - 1);
-
+	
 	for (const auto &p : m_DataSet) {
 		p.second->m_pPrevious = nullptr;
+		p.second->m_F = 0.0;
+		p.second->m_G = 0.0;
+		p.second->m_H = 0.0;
 	}
 
 	return path;
@@ -125,11 +128,10 @@ vector<Cell*> AStarBot::A_Star_Algorithm(Cell *end) {
 			for (Cell* neighbor : neighbors) {
 				if (!(std::find(m_ClosedSet.begin(), m_ClosedSet.end(), neighbor) != m_ClosedSet.end())
 					&& !neighbor->m_IsWall) {
-					//&& m_pMaze->m_pMap[neighbor->m_Position.x][neighbor->m_Position.y].NPC != nullptr) {
-
 					
-					uint8_t	tmp_G = m_DataSet[current]->m_G + 1.0;
-
+					
+					//uint8_t	tmp_G = m_DataSet[current]->m_G + current->getTerrainType() + current->m_Position.getMoveWeight(neighbor->m_Position);
+					float tmp_G = m_DataSet[current]->m_G + 1.0;
 					bool newPath = false;
 					if (std::find(m_OpenSet.begin(), m_OpenSet.end(), neighbor) != m_OpenSet.end()) {
 						if (tmp_G < m_DataSet[neighbor]->m_G) {
@@ -147,14 +149,10 @@ vector<Cell*> AStarBot::A_Star_Algorithm(Cell *end) {
 						m_DataSet[neighbor]->m_H = heuristic(neighbor->m_Position, end->m_Position);
 						m_DataSet[neighbor]->m_F = m_DataSet[neighbor]->m_G + m_DataSet[neighbor]->m_H;
 						m_DataSet[neighbor]->m_pPrevious = current;
-						pathsize++;
 					}
 				}
 			}
 		}
-		//else { //keep searching for path
-		//	m_Path.clear();
-		//}
 	} while (!hasFoundPath);
 
 	return reconstruct_path(current);

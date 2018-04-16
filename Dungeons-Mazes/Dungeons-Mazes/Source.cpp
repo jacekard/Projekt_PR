@@ -9,11 +9,10 @@
 int main() {
 	HideCursor();
 
-	Maze* maze = new Maze(20, 20, 5, 1); //(maxX, maxY, maxArtifacts, scale)
-	//Maze* maze = new Maze("xD", 8, 2);  //(mazeName, maxArtifacts, scale)
-	maze->spawnBot("Dijkstra");
+	//Maze* maze = new Maze(20, 20, 5, 1); //(maxX, maxY, maxArtifacts, scale)
+	Maze* maze = new Maze("mapaTestowa", 8, 1);  //(mazeName, maxArtifacts, scale)
+	//maze->spawnBot("Dijkstra");
 	maze->spawnBot("A*");
-	 
 	Timer mainTimer = Timer();
 	mainTimer.start();
 	
@@ -25,8 +24,8 @@ int main() {
 	Sleep(2000);
 	
 	while (true) {
+		
 		maze->spawnArtifact(1.0);
-
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}

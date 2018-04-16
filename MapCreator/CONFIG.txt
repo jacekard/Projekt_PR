@@ -1,0 +1,5 @@
+WIDTH=
+HEIGHT=
+//draw by mouse
+//del or backspace for clearing
+//enter to save in txt file
