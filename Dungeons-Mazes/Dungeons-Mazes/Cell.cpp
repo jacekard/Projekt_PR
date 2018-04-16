@@ -21,6 +21,11 @@ void Cell::addNeighbors(Node** map) {
 
 Cell::Cell(Point p, Maze* maze, bool isWall) : GameObject(p, maze) {
 	m_IsWall = isWall ? true : false;
+	m_Terrain = FLOOR;
+}
+
+int Cell::getTerrainType() {
+	return m_Terrain;
 }
 
 Cell::~Cell() {

@@ -27,9 +27,14 @@ public:
 	}
 	Point operator- (const Point &other) const {
 		return Point(x - other.x, y - other.y);
-
 	}
-
+	float getMoveWeight(const Point &p) {
+		Point d = Point(x, y) - p;
+		//sqrt(2) for oblique vector
+		if (d.x * d.y > 0) return sqrt(2);
+		//1 for cross vector
+		else return 1.0;
+	}
 };
 
 inline bool operator== (const Point &p1, const Point &p2) {
@@ -45,7 +50,7 @@ inline bool operator!= (const Point &p1, const Point &p2) {
 /// @brief calculates distance from pitagorean algorithm
 /// @in a, b - points to calculate distance between
 ////////////////////////////////////////////////////////////
-inline double distance(Point a, Point b) {
+inline float distance(Point a, Point b) {
 	return sqrt(pow((a.x - b.x), 2) + pow(a.y - b.y, 2));
 }
 
@@ -54,6 +59,6 @@ inline double distance(Point a, Point b) {
 /// @brief Euclidian distance between two points
 /// @in a, b - points to calculate distance between
 ////////////////////////////////////////////////////////////
-inline uint8_t heuristic(Point a, Point b) {
+inline float heuristic(Point a, Point b) {
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }
