@@ -36,6 +36,12 @@
     <ClInclude Include="CameraClass.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureShaderClass.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsClass.cpp">
@@ -53,12 +59,24 @@
     <ClCompile Include="ModelClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureShaderClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Color.vs">
       <Filter>HLSL</Filter>
     </None>
     <None Include="Shaders\Colors.ps">
+      <Filter>HLSL</Filter>
+    </None>
+    <None Include="..\x64\Graphics\Shaders\TextureShader.vs">
+      <Filter>HLSL</Filter>
+    </None>
+    <None Include="..\x64\Graphics\Shaders\TextureShader.ps">
       <Filter>HLSL</Filter>
     </None>
   </ItemGroup>

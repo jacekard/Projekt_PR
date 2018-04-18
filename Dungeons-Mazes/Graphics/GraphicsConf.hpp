@@ -14,5 +14,7 @@ using namespace std;
 
 #include "D3DClass.hpp"
 #include "CameraClass.hpp"
+#include "TextureClass.hpp"
+#include "TextureShaderClass.hpp"
 #include "ModelClass.hpp"
 #include "ColorShaderClass.hpp"

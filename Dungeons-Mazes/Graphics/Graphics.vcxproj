@@ -33,6 +33,8 @@
     <ClInclude Include="GraphicsClass.hpp" />
     <ClInclude Include="GraphicsConf.hpp" />
     <ClInclude Include="ModelClass.hpp" />
+    <ClInclude Include="TextureClass.hpp" />
+    <ClInclude Include="TextureShaderClass.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraClass.cpp" />
@@ -40,8 +42,12 @@
     <ClCompile Include="D3DClass.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
     <ClCompile Include="ModelClass.cpp" />
+    <ClCompile Include="TextureClass.cpp" />
+    <ClCompile Include="TextureShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\x64\Graphics\Shaders\TextureShader.ps" />
+    <None Include="..\x64\Graphics\Shaders\TextureShader.vs" />
     <None Include="Shaders\Color.vs" />
     <None Include="Shaders\Colors.ps" />
   </ItemGroup>
