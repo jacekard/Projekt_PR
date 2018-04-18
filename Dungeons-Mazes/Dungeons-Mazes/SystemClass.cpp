@@ -140,11 +140,26 @@ bool SystemClass::Frame()
     }
 
     // Do the frame processing for the graphics object.
-    result = m_Graphics->Frame();
+    result = m_Graphics->BeginFrame();
     if (!result)
     {
         return false;
     }
+
+    m_Graphics->Render(0, 0);
+    for (int i = 1; i < 14; ++i)
+    {
+        m_Graphics->Render(0, i);
+        m_Graphics->Render(0, -i);
+    }
+    for (int i = 1; i <= 24; ++i)
+    {
+        m_Graphics->Render(i, 0);
+        m_Graphics->Render(-i, 0);
+    }
+
+    m_Graphics->EndFrame();
+
 
 #endif
     return true;
@@ -241,8 +256,8 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
     else
     {
         // If windowed then set it to 800x600 resolution.
-        screenWidth = 800;
-        screenHeight = 600;
+        screenWidth = 1600;
+        screenHeight = 900;
 
         // Place the window in the middle of the screen.
         posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;

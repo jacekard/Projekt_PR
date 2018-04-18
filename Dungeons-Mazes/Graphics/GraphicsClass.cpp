@@ -49,7 +49,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
     }
 
     // Set the initial position of the camera.
-    m_Camera->SetPosition(0.0f, 0.0f, -5.0f);
+    m_Camera->SetPosition(0.0f, 0.0f, -screenHeight / 32.0f);
 
     // Create the model object.
     m_Model = new ModelClass;
@@ -122,35 +122,34 @@ void GraphicsClass::Shutdown()
 }
 
 
-bool GraphicsClass::Frame()
+bool GraphicsClass::BeginFrame()
 {
-    bool result;
+  //  bool result;
 
 
-    // Render the graphics scene.
-    result = Render();
-    if (!result)
-    {
-        return false;
-    }
+  //  // Render the graphics scene.
+  //  result = Render();
+  //  if (!result)
+  //  {
+  //      return false;
+  //  }
 
+    // Clear the buffers to begin the scene.
+    m_pDirect3D->BeginScene(0.0f, 0.41f, 0.70f, 1.0f);
     return true;
 }
 
 
-bool GraphicsClass::Render()
+bool GraphicsClass::Render(int32_t x, int32_t y)
 {
     XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
     bool result;
 
-    // Clear the buffers to begin the scene.
-    m_pDirect3D->BeginScene(1.0f, 0.41f, 0.70f, 1.0f);
 
     // Generate the view matrix based on the camera's position.
     m_Camera->Render();
 
     // Get the world, view, and projection matrices from the camera and d3d objects.
-    m_pDirect3D->GetWorldMatrix(worldMatrix);
     m_Camera->GetViewMatrix(viewMatrix);
     m_pDirect3D->GetProjectionMatrix(projectionMatrix);
 
@@ -158,14 +157,20 @@ bool GraphicsClass::Render()
     m_Model->Render(m_pDirect3D->GetDeviceContext());
 
     // Render the model using the color shader.
+    worldMatrix = XMMatrixTranslation(x, y, 0.0);
     result = m_ColorShader->Render(m_pDirect3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
     if (!result)
     {
         return false;
     }
-    
-    // Present the rendered scene to the screen.
-    m_pDirect3D->EndScene();
+
 
     return true;
+}
+
+void GraphicsClass::EndFrame()
+{
+
+    // Present the rendered scene to the screen.
+    m_pDirect3D->EndScene();
 }
