@@ -24,10 +24,9 @@ public:
 
     __declspec(dllexport) bool Initialize(int, int, HWND);
     __declspec(dllexport) void Shutdown();
-    __declspec(dllexport) bool Frame();
-
-private:
-    bool Render();
+    __declspec(dllexport) bool BeginFrame();
+    __declspec(dllexport) void EndFrame();
+    __declspec(dllexport) bool Render(int32_t x, int32_t y);
 
 private:
 
