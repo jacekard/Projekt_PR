@@ -19,17 +19,16 @@ public:
 
     bool Initialize(ID3D11Device*, ID3D11DeviceContext*, char*);
     void Shutdown();
-    void Render(ID3D11DeviceContext*);
 
     int GetIndexCount();
 
     ID3D11ShaderResourceView* GetTexture();
+    void RenderBuffers(ID3D11DeviceContext*, float, float, float, float);
 
 
 private:
     bool InitializeBuffers(ID3D11Device*);
     void ShutdownBuffers();
-    void RenderBuffers(ID3D11DeviceContext*);
     
     bool LoadTexture(ID3D11Device*, ID3D11DeviceContext*, char*);
     void ReleaseTexture();

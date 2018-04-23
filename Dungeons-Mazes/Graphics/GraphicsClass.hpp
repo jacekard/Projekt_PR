@@ -26,7 +26,7 @@ public:
     __declspec(dllexport) void Shutdown();
     __declspec(dllexport) bool BeginFrame();
     __declspec(dllexport) void EndFrame();
-    __declspec(dllexport) bool Render(int32_t x, int32_t y);
+    __declspec(dllexport) bool Render(int32_t x, int32_t y, float tex_x_start, float tex_x_end, float tex_y_start, float tex_y_end);
 
 private:
 

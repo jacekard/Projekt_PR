@@ -146,16 +146,16 @@ bool SystemClass::Frame()
         return false;
     }
 
-    m_Graphics->Render(0, 0);
+    m_Graphics->Render(0, 0, 0.0, 1.0, 0.0, 1.0);
     for (int i = 1; i < 14; ++i)
     {
-        m_Graphics->Render(0, i);
-        m_Graphics->Render(0, -i);
+        m_Graphics->Render(0, i, 0.0, 0.5, 0.0, 0.5);
+        m_Graphics->Render(0, -i, 0.5, 1.0, 0.0, 0.5);
     }
     for (int i = 1; i <= 24; ++i)
     {
-        m_Graphics->Render(i, 0);
-        m_Graphics->Render(-i, 0);
+        m_Graphics->Render(i, 0, 0.0, 0.5, 0.5, 1.0);
+        m_Graphics->Render(-i, 0, 0.5, 1.0, 0.5, 1.0);
     }
 
     m_Graphics->EndFrame();

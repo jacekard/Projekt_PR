@@ -140,7 +140,7 @@ bool GraphicsClass::BeginFrame()
 }
 
 
-bool GraphicsClass::Render(int32_t x, int32_t y)
+bool GraphicsClass::Render(int32_t x, int32_t y, float tex_x_start, float tex_x_end, float tex_y_start, float tex_y_end)
 {
     XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
     bool result;
@@ -154,7 +154,7 @@ bool GraphicsClass::Render(int32_t x, int32_t y)
     m_pDirect3D->GetProjectionMatrix(projectionMatrix);
 
     // Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
-    m_Model->Render(m_pDirect3D->GetDeviceContext());
+    m_Model->RenderBuffers(m_pDirect3D->GetDeviceContext(), tex_x_start, tex_x_end, tex_y_start, tex_y_end);
 
     // Render the model using the color shader.
     worldMatrix = XMMatrixTranslation(x, y, 0.0);

@@ -50,14 +50,6 @@ void ModelClass::Shutdown()
     return;
 }
 
-void ModelClass::Render(ID3D11DeviceContext* deviceContext)
-{
-    // Put the vertex and index buffers on the graphics pipeline to prepare them for drawing.
-    RenderBuffers(deviceContext);
-
-    return;
-}
-
 int ModelClass::GetIndexCount()
 {
     return m_indexCount;
@@ -98,16 +90,16 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
     // Load the vertex array with data.
     vertices[0].position = XMFLOAT3(-0.5f, -0.5f, 0.0f);  // Bottom left.
-    vertices[0].texture = XMFLOAT2(0.0f, 1.0f);
+    vertices[0].texture = XMFLOAT2(0.5f, 0.5f);
 
     vertices[1].position = XMFLOAT3(0.5f, 0.5f, 0.0f);  // Top right.
     vertices[1].texture = XMFLOAT2(1.0f, 0.0f);
 
     vertices[2].position = XMFLOAT3(0.5f, -0.5f, 0.0f);  // top left.
-    vertices[2].texture = XMFLOAT2(0.0f, 0.0f);
+    vertices[2].texture = XMFLOAT2(0.5f, 0.0f);
 
     vertices[3].position = XMFLOAT3(-0.5f, 0.5f, 0.0f);  // botom right.
-    vertices[3].texture = XMFLOAT2(1.0f, 1.0f);
+    vertices[3].texture = XMFLOAT2(1.0f, 0.5f);
 
     // Load the index array with data.
     indices[0] = 0;  // Bottom left.
@@ -118,10 +110,10 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
     indices[5] = 0;
                      
     // Set up the description of the static vertex buffer.
-    vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
     vertexBufferDesc.ByteWidth = sizeof(VertexType) * m_vertexCount;
     vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vertexBufferDesc.CPUAccessFlags = 0;
+    vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     vertexBufferDesc.MiscFlags = 0;
     vertexBufferDesc.StructureByteStride = 0;
 
@@ -186,12 +178,28 @@ void ModelClass::ShutdownBuffers()
     return;
 }
 
-void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
+void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext, float x_start, float x_end, float y_start, float y_end)
 {
     unsigned int stride;
     unsigned int offset;
+    static D3D11_MAPPED_SUBRESOURCE resource;
+    static VertexType* vertices = new VertexType[m_vertexCount];
 
+    vertices[0].position = XMFLOAT3(-0.5f, -0.5f, 0.0f);  // Bottom left.
+    vertices[0].texture = XMFLOAT2( x_start, y_end);
 
+    vertices[1].position = XMFLOAT3(0.5f, 0.5f, 0.0f);  // bottom right.
+    vertices[1].texture = XMFLOAT2(x_end, y_start);
+
+    vertices[2].position = XMFLOAT3(0.5f, -0.5f, 0.0f);  // top left.
+    vertices[2].texture = XMFLOAT2(x_end, y_end);
+
+    vertices[3].position = XMFLOAT3(-0.5f, 0.5f, 0.0f);  // top right.
+    vertices[3].texture = XMFLOAT2(x_start, y_start);
+    deviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+    memcpy(resource.pData, &vertices[0], sizeof(VertexType) * m_vertexCount);
+    deviceContext->Unmap(m_vertexBuffer, 0);
+    
     // Set vertex buffer stride and offset.
     stride = sizeof(VertexType);
     offset = 0;

@@ -1,5 +1,5 @@
 #include "TextureClass.hpp"
-
+#include <assert.h>
 TextureClass::TextureClass()
 {
     m_targaData = 0;
@@ -58,7 +58,7 @@ bool TextureClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceC
     // Copy the targa image data into the texture.
     deviceContext->UpdateSubresource(m_texture, 0, NULL, m_targaData, rowPitch, 0);
 
-    	// Setup the shader resource view description.
+    // Setup the shader resource view description.
 	srvDesc.Format = textureDesc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
@@ -160,6 +160,7 @@ bool TextureClass::LoadTarga(char* filename, int& height, int& width)
     count = (unsigned int)fread(targaImage, 1, imageSize, filePtr);
     if (count != imageSize)
     {
+        assert(false);
         return false;
     }
 
