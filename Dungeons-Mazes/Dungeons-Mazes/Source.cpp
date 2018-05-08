@@ -10,8 +10,8 @@ int main() {
 	HideCursor();
 
 
-	//Maze* maze = new Maze(20, 20, 5, 1); //(maxX, maxY, maxArtifacts, scale)
-	Maze* maze = new Maze("mapaTestowa", 8, 1);  //(mazeName, maxArtifacts, scale)
+	Maze* maze = new Maze(40, 80, 5, 3); //(maxX, maxY, maxArtifacts, scale)
+	//Maze* maze = new Maze("mapaTestowa", 8, 1);  //(mazeName, maxArtifacts, scale)
 	//maze->spawnBot("Dijkstra");
 	maze->spawnBot("A*");
 
