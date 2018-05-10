@@ -43,4 +43,7 @@ public:
 		countCyclesDuration();
 		countCyclesAverage();
 	}
+	double getSecondsFromStart() {
+		return duration_cast<seconds>(high_resolution_clock::now() - now).count();
+	}
 };
