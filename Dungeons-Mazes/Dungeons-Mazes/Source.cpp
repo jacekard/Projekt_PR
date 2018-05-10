@@ -8,12 +8,25 @@
 #if defined(CONSOLE_VIEW_BUILD)
 int main() {
 	HideCursor();
+	///height, width, maximum artifacts at once, scale 
+	Maze* maze = new Maze(20, 40, 5, 1);
+	
+	double simulationTime = 20.0; /// in seconds
+	double artifactChance = 1.0; /// initial chance of spawning
+	double decreaseArtifactChance = 0.05; /// decrease a chance of spawning
 
+	/// Maze generation examples:
+	maze->MazeEmpty1(); 
+	//maze->MazeEmpty2();
+	//maze->MazeEmpty3();
+	//maze->MazeETI();
+	//maze->MazeFromFile("serduszko");
+	//maze->MazeWeighted();
 
-	Maze* maze = new Maze(40, 80, 5, 3); //(maxX, maxY, maxArtifacts, scale)
-	//Maze* maze = new Maze("mapaTestowa", 8, 1);  //(mazeName, maxArtifacts, scale)
-	//maze->spawnBot("Dijkstra");
-	maze->spawnBot("A*");
+	/// Bots options:
+	/// Bots(A*, Dijkstra, Tremaux)
+	//maze->Bots(1,1,0); 
+
 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -27,14 +40,18 @@ int main() {
 	
 	while (true) {
 		
-		maze->spawnArtifact(1.0);
+		maze->spawnArtifact(artifactChance, decreaseArtifactChance);
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
 		maze->Print();
 
-		if (maze->m_Artifacts.size() == 0) {
-			maze->Print();
+		if (simulationTime != 0.0) {
+			if (mainTimer.getSecondsFromStart() >= simulationTime) {
+				maze->endSimulation();
+				break;
+			}
+		} else if (maze->m_Artifacts.size() == 0) {
 			maze->endSimulation();
 			break;
 		}
@@ -42,9 +59,7 @@ int main() {
 	
 	cout << "Simulation ended with total time of " << mainTimer.end() / 1000.0 << "s" << endl;
 	for (auto pl : maze->m_Characters) {
-		cout << pl->m_Name << " has finished with total time of moving: " << (double)pl->m_Timer.time.first / 1000.0
-			<< "s and with average per move: " << pl->m_Timer.time.second << "ms." << endl;
-
+		cout << *pl;
 	}
 	
 	system("pause");

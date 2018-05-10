@@ -6,23 +6,49 @@
 #include "Player.hpp"
 #include "Artifact.hpp"
 
+#pragma region Examples
+void Maze::MazeEmpty1() {
+	initializeProceduralMaze();
+	scaleMaze();
+}
+void Maze::MazeEmpty2() {
+	initializeRandomMaze(0.3);
+}
+void Maze::MazeEmpty3() {
+	initializeProceduralMaze();
+	makeOurMazeNotPerfectAgain();
+}
+void Maze::MazeFromFile(string mazeName) {
+	initializeMazeFromFile(mazeName);
+}
+void Maze::MazeETI() {
+	initializeMazeFromFile("ETI");
+}
+void Maze::MazeWeighted() {
+	initializeMazeFromFile("mapaTestowa");
+}
+void Maze::Bots(bool aStar, bool dijkstra, bool tremaux) {
+	if (aStar) spawnBot("A*");
+	if (dijkstra) spawnBot("Dijkstra");
+	if (tremaux) spawnBot("Tremaux");
+}
+#pragma endregion Examples
+
 Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int scale)
-	: m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY), m_MaxArtifactCount(maxArtifactCount) {
+	: m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY), m_MaxArtifactCount(maxArtifactCount), m_Scale(scale) {
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
-
 	artifactHasJustSpawned = false;
-
-	//initializeRandomMaze(1.0);
-	//initializeIsleMaze(random((int)m_MapSizeX / 3, m_MapSizeX - random(m_MapSizeX)), 0.1);
-	initializeProceduralMaze();
 }
 
-Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {
-	artifactHasJustSpawned = false;
+/// Imho niepotrzebny
+//Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {
+//	artifactHasJustSpawned = false;
+//}
 
+void Maze::initializeMazeFromFile(string mazeName) {
 	fstream file;
-	file.open("Mazes/"+mazeName+".txt", ios::in);
+	file.open("Mazes/" + mazeName + ".txt", ios::in);
 	assert(file.good());
 
 	int mapSizeX, mapSizeY, offset;
@@ -30,8 +56,8 @@ Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifact
 	file >> mapSizeY;
 	file >> offset;
 
-	m_MapSizeX = mapSizeX+offset*2;
-	m_MapSizeY = mapSizeY+offset*2;
+	m_MapSizeX = mapSizeX + offset * 2;
+	m_MapSizeY = mapSizeY + offset * 2;
 	initializeMap(false);
 
 	while (!file.eof()) {
@@ -42,11 +68,9 @@ Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifact
 		x += offset;
 		m_pMap[x][y].cell->m_IsWall = true;
 	}
-
 	file.close();
-
-	scaleMaze(scale);
-}
+	scaleMaze();
+};
 
 void Maze::initializeMap(bool isWall) {
 	m_pMap = new Node*[m_MapSizeX];
@@ -70,10 +94,8 @@ void Maze::initializeMap(bool isWall) {
 
 void Maze::initializeProceduralMaze() {
 	initializeMap(true);
-	//Print();
 	Cell * tmp = m_Cells[random(0, m_Cells.size() - 1)];
 	tmp->m_IsWall = false;
-	//Print();
 	vector<Cell*> walls;
 	for (auto wall : tmp->m_pNeighbors)
 		if (wall->m_IsWall) {
@@ -92,12 +114,10 @@ void Maze::initializeProceduralMaze() {
 				continue;
 			}
 		wall->m_IsWall = false;
-		//Print();
 		walls.erase(std::find(walls.begin(), walls.end(), wall));
 		if (ifCoordExist(next.x, m_MapSizeX) && ifCoordExist(next.y, m_MapSizeY)) {
 			wall = m_pMap[next.x][next.y].cell;
 			wall->m_IsWall = false;
-			//Print();
 			for (auto neighbor : wall->m_pNeighbors) {
 				if (neighbor->m_IsWall) {
 					//coord exist nie bedzie tu ptozrebmny
@@ -108,21 +128,19 @@ void Maze::initializeProceduralMaze() {
 			}
 		}
 	}
-
-	//makeOurMazeNotPerfectAgain();
 }
 
-void Maze::scaleMaze(int scale) {
-	if (scale == 1) return;
-	Node **m_pScaleMap = new Node*[m_MapSizeX*scale];
-	for (int i = 0; i < m_MapSizeX*scale; i++) {
-		m_pScaleMap[i] = new Node[m_MapSizeY*scale];
+void Maze::scaleMaze() {
+	if (m_Scale == 1) return;
+	Node **m_pScaleMap = new Node*[m_MapSizeX*m_Scale];
+	for (int i = 0; i < m_MapSizeX*m_Scale; i++) {
+		m_pScaleMap[i] = new Node[m_MapSizeY*m_Scale];
 	}
 
 	m_Cells.clear();
 
-	for (int i = 0; i < m_MapSizeX*scale; i++) {
-		for (int j = 0; j < m_MapSizeY*scale; j++) {
+	for (int i = 0; i < m_MapSizeX*m_Scale; i++) {
+		for (int j = 0; j < m_MapSizeY*m_Scale; j++) {
 			m_pScaleMap[i][j].cell = new Cell(Point(i, j), this, false);
 			m_pScaleMap[i][j].NPC = nullptr;
 			m_pScaleMap[i][j].artifact = nullptr;
@@ -133,18 +151,18 @@ void Maze::scaleMaze(int scale) {
 	for (int i = 0; i < m_MapSizeX; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
 			if (m_pMap[i][j].cell->m_IsWall) {
-				for (int h = 0; h < scale; h++) {
-					for (int l = 0; l < scale; l++) {
-						m_pScaleMap[i*scale+h][j*scale+l].cell->m_IsWall = true;
+				for (int h = 0; h < m_Scale; h++) {
+					for (int l = 0; l < m_Scale; l++) {
+						m_pScaleMap[i*m_Scale +h][j*m_Scale +l].cell->m_IsWall = true;
 					}
 				}
 			}
 		}
 	}
 
-	m_MapSizeX *= scale;
-	m_MapSizeY *= scale;
-	m_pMap = m_pScaleMap; //wyciek xDDD
+	m_MapSizeX *= m_Scale;
+	m_MapSizeY *= m_Scale;
+	m_pMap = m_pScaleMap;
 
 	for (auto cell : m_Cells) {
 		cell->addNeighbors(m_pMap);
@@ -165,7 +183,7 @@ void Maze::makeOurMazeNotPerfectAgain() {
 					neigborsCount++;
 			}
 			if (neigborsCount == 3) {
-				if (random(100) < 50)
+				if (random(100) < 60)
 					cell->m_IsWall = false;
 			}
 		}
@@ -191,6 +209,7 @@ void Maze::initializeRandomMaze(double randomFactor) {
 				m_pMap[i][j].cell->m_IsWall = false;
 		}
 	}
+	Print();
 }
 
 ////////////////////////////////////////////////////////////
@@ -232,10 +251,11 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 void Maze::Print() {
 #if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
+	int offset = 2;
 
 	for (int i = 0; i < m_MapSizeX; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
-			gotoxy(j + 1, i + 1);
+			gotoxy(j + 1 + offset, i + 1 + offset);
 			if (m_pMap[i][j].artifact != nullptr)
 				(m_pMap[i][j].artifact)->show();
 			else if (m_pMap[i][j].NPC != nullptr)
@@ -248,7 +268,7 @@ void Maze::Print() {
 	for (int i = 0; i < m_MapSizeX + 2; i++) {
 		for (int j = 0; j < m_MapSizeY + 2; j++) {
 			if (i == 0 || j == 0 || i == m_MapSizeX + 1 || j == m_MapSizeY + 1) {
-				gotoxy(j, i);
+				gotoxy(j + offset, i + offset);
 				cout << (char)178;
 			}
 
@@ -262,23 +282,22 @@ bool Maze::ifCoordExist(int p, int mapSize) {
 	return (p >= 0 && p < mapSize) ? true : false;
 }
 
-void Maze::spawnArtifact(double randomFactor) {
+void Maze::spawnArtifact(double randomFactor, double decreasingFactor) {
 	artifactHasJustSpawned = false;
-
 	static double i = 0.00;
 	if (m_Artifacts.size() >= m_MaxArtifactCount
 		|| random() > randomFactor - i)
 		return;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
-		spawnArtifact(randomFactor - i);
+		spawnArtifact(randomFactor - i, decreasingFactor);
 		return;
 	}
 	Artifact* artifact = new Artifact(p, "", this);
 	m_pMap[p.x][p.y].artifact = artifact;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
-	i += 0.05;
+	i += decreasingFactor;
 
 	artifactHasJustSpawned = true;
 
@@ -287,7 +306,7 @@ void Maze::spawnArtifact(double randomFactor) {
 void Maze::spawnBot(string type) {
 	AbstractPlayer* bot;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
-	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
+	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr ) {
 		spawnBot(type);
 		return;
 	}
@@ -302,7 +321,7 @@ void Maze::spawnBot(string type) {
 	else if (type == "Player") {
 		bot = new Player(p, "Player", this);
 	}
-	else if (type == "different")
+	else if (type == "Tremaux")
 		;///...
 	this->m_Characters.push_back(bot);
 	m_pMap[p.x][p.y].NPC = bot;

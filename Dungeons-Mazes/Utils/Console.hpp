@@ -9,10 +9,10 @@ inline void gotoxy(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 inline void HideCursor() {
-	HANDLE hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO hCCI;
-	GetConsoleCursorInfo(hConsoleOut, &hCCI);
-	hCCI.bVisible = FALSE;
-	SetConsoleCursorInfo(hConsoleOut, &hCCI);
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO info;
+	info.dwSize = 100;
+	info.bVisible = FALSE;
+	SetConsoleCursorInfo(consoleHandle, &info);
 }
 #endif

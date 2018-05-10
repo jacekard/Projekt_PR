@@ -22,6 +22,8 @@ public:
 	vector<Artifact*> m_Artifacts;
 	vector<AbstractPlayer*> m_Characters;
 	bool artifactHasJustSpawned;
+	int m_Scale;
+	Maze();
 	Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t m_MaximumArtifactCount, int scale);
 	Maze(string mazeName, uint8_t m_MaximumArtifactCount, int scale);
 	~Maze();
@@ -29,12 +31,23 @@ public:
 	void initializeRandomMaze(double randomFactor);
 	void initializeIsleMaze(int isleCount, double randomFactor);
 	void initializeProceduralMaze();
-	void scaleMaze(int scale);
+	void initializeMazeFromFile(string mazeName);
+	void scaleMaze();
 	void makeOurMazeNotPerfectAgain();
 	bool ifCoordExist(int p, int mapSize);
 	void recursiveWallPlacing(Cell *cell, double randomFactor);
-	void spawnArtifact(double randomFactor);
+	void spawnArtifact(double randomFactor, double decreasingFactor);
 	void spawnBot(string type);
 	void endSimulation();
 	void Print();
+
+#pragma region Examples
+	void MazeEmpty1();
+	void MazeEmpty2();
+	void MazeEmpty3();
+	void MazeFromFile(string mazeName);
+	void MazeETI();
+	void MazeWeighted();
+	void Bots(bool aStar, bool dijkstra, bool tremaux);
+#pragma endregion Examples
 };
