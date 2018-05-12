@@ -21,7 +21,6 @@ SystemClass::~SystemClass()
 bool SystemClass::Initialize()
 {
 #if defined (DIRECTX_VIEW_BUILD)
-    int screenWidth, screenHeight;
     bool result;
 
 
@@ -56,6 +55,25 @@ bool SystemClass::Initialize()
         return false;
     }
 
+
+    maze = new Maze(screenWidth / 32 - 4, screenHeight / 32 - 4, 10, 1);
+
+    simulationTime = 0.0; /// in seconds
+    MaxArtifactsCountOnMap = 1;
+    artifactChance = 1.0; /// initial chance of spawning
+    decreaseArtifactChance = 0.00; /// decrease a chance of spawning
+
+    //maze->MazeEmpty1();
+    //maze->MazeEmpty2();
+    maze->MazeEmpty3();
+    //maze->MazeETI();
+    //maze->MazeFromFile("test_lab");
+    //maze->MazeWeighted();
+
+    /// Bots options:
+    /// Bots(A*, Dijkstra, Tremaux
+    maze->Bots(1, 0, 0);
+    maze->WAForFuckedUpLinkingToDisplayWalls();
 #endif
     return true;
 }
@@ -113,6 +131,17 @@ void SystemClass::Run()
         }
         else
         {
+            maze->spawnArtifact(MaxArtifactsCountOnMap, artifactChance, decreaseArtifactChance);
+
+            for (auto character : maze->m_Characters) {
+                character->move();
+            }
+
+            if (maze->m_MaxArtifactCount == 0 && maze->m_Artifacts.size() == 0) {
+                maze->endSimulation();
+                break;
+            }
+
             // Otherwise do the frame processing.
             result = Frame();
             if (!result)
@@ -146,17 +175,24 @@ bool SystemClass::Frame()
         return false;
     }
 
-    m_Graphics->Render(0, 0, 0.0, 1.0, 0.0, 1.0);
-    for (int i = 1; i < 14; ++i)
-    {
-        m_Graphics->Render(0, i, 0.0, 0.5, 0.0, 0.5);
-        m_Graphics->Render(0, -i, 0.5, 1.0, 0.0, 0.5);
+    for (int i = 0; i < maze->m_MapSizeX; i++) {
+        for (int j = 0; j < maze->m_MapSizeY; j++) {
+            if (maze->m_pMap[i][j].isWall)
+            {
+                m_Graphics->Render(i - (screenWidth / 64) + 5, ((screenHeight / 64) - 2) - j, 0.0, 0.0, 0.0625, 0.0, 0.0625);
+            }
+            else
+            {
+                m_Graphics->Render(i - (screenWidth / 64) + 5, ((screenHeight / 64) - 2) - j, 0.0, 0.0625, 0.125, 0.0625, 0.125);
+            }
+
+            if (maze->m_pMap[i][j].artifact != nullptr)
+                m_Graphics->Render(i - (screenWidth / 64) + 5, ((screenHeight / 64) - 2) - j, -0.001, 0.125, 0.25, 0.875, 1.0);
+            else if (maze->m_pMap[i][j].NPC != nullptr)
+                m_Graphics->Render(i - (screenWidth / 64) + 5, ((screenHeight / 64) - 2) - j, -0.001, 0.0, 0.111328125, 0.900390625, 1.0);
+            }
     }
-    for (int i = 1; i <= 24; ++i)
-    {
-        m_Graphics->Render(i, 0, 0.0, 0.5, 0.5, 1.0);
-        m_Graphics->Render(-i, 0, 0.5, 1.0, 0.5, 1.0);
-    }
+    Sleep(1000);
 
     m_Graphics->EndFrame();
 
