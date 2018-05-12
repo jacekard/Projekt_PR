@@ -192,7 +192,6 @@ bool SystemClass::Frame()
                 m_Graphics->Render(i - (screenWidth / 64) + 5, ((screenHeight / 64) - 2) - j, -0.001, 0.0, 0.111328125, 0.900390625, 1.0);
             }
     }
-    Sleep(1000);
 
     m_Graphics->EndFrame();
 
