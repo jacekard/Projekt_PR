@@ -30,13 +30,14 @@ void Maze::MazeWeighted() {
 	m_pMap[6][2].cell->m_Terrain = SHREKSWAMP;
 	m_pMap[5][3].cell->m_Terrain = SHREKSWAMP;
 
-	this->m_MaxArtifactCount = 1;
+	
 	Point p = Point(7, 1);
 	Artifact* artifact = new Artifact(p, "", this);
 	m_pMap[p.x][p.y].artifact = artifact;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
 	artifactHasJustSpawned = true;
+	this->m_MaxArtifactCount = 0;
 }
 void Maze::Bots(bool aStar, bool dijkstra, bool tremaux) {
 	if (aStar) spawnBot("A*");

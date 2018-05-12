@@ -23,7 +23,7 @@ void symulacja() {
 
 	/// Bots options:
 	/// Bots(A*, Dijkstra, Tremaux)
-	maze->Bots(1, 0, 0);
+	maze->Bots(0, 1, 0);
 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -43,6 +43,7 @@ void symulacja() {
 			character->move();
 		}
 		maze->Print();
+		Sleep(500);
 
 		if (simulationTime > 0.0) {
 			if (mainTimer.getSecondsFromStart() >= simulationTime) {
