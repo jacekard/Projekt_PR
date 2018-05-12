@@ -24,7 +24,7 @@ void DijkstraBot::move() {
 	Point next = m_Path.top()->m_Position;
 	m_Path.pop();
 	if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
-		cout << "ZEBRALES ARTEFAKT!" << endl;
+		//cout << "ZEBRALES ARTEFAKT!" << endl;
 		m_ArtifactsObtained++;
 
 		m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
@@ -37,7 +37,7 @@ void DijkstraBot::move() {
 		DijkstraAlgorithm();
 	}
 	else if (m_pMaze->m_pMap[next.x][next.y].NPC != nullptr) {
-		cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
+		//cout << endl << endl << "SPOTKALISMY SIE. NIE MOGE PRZEJSC DALEJ";
 		//DijkstraAlgorithm(); ???
 	}
 	else {

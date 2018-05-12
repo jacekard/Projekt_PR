@@ -130,7 +130,7 @@ vector<Cell*> AStarBot::A_Star_Algorithm(Cell *end) {
 					&& !neighbor->m_IsWall) {
 					
 					
-					//uint8_t	tmp_G = m_DataSet[current]->m_G + current->getTerrainType() + current->m_Position.getMoveWeight(neighbor->m_Position);
+					//int	tmp_G = m_DataSet[current]->m_G + current->getTerrainType() + current->m_Position.getMoveWeight(neighbor->m_Position);
 					float tmp_G = m_DataSet[current]->m_G + 1.0;
 					bool newPath = false;
 					if (std::find(m_OpenSet.begin(), m_OpenSet.end(), neighbor) != m_OpenSet.end()) {

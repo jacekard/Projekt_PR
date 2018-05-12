@@ -15,8 +15,8 @@ struct Node {
 
 class Maze {
 public:
-	uint8_t m_MapSizeX, m_MapSizeY;
-	uint8_t m_MaxArtifactCount;
+	int m_MapSizeX, m_MapSizeY;
+	int m_MaxArtifactCount;
 	Node **m_pMap;
 	vector<Cell*> m_Cells;
 	vector<Artifact*> m_Artifacts;
@@ -24,8 +24,8 @@ public:
 	bool artifactHasJustSpawned;
 	int m_Scale;
 	Maze();
-	Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t m_MaximumArtifactCount, int scale);
-	Maze(string mazeName, uint8_t m_MaximumArtifactCount, int scale);
+	Maze(int mapSizeX, int mapSizeY, int m_MaximumArtifactCount, int scale);
+	Maze(string mazeName, int m_MaximumArtifactCount, int scale);
 	~Maze();
 	void initializeMap(bool isWall);
 	void initializeRandomMaze(double randomFactor);
