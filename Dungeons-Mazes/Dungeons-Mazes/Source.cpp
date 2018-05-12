@@ -5,7 +5,7 @@
 #include "Console.hpp"
 
 void symulacja() {
-	Maze* maze = new Maze(1000, 1000, 10, 1);
+	Maze* maze = new Maze(300, 300, 10, 1);
 
 	double simulationTime = 0.0; /// in seconds
 	int MaxArtifactsCountOnMap = 1;
@@ -13,17 +13,17 @@ void symulacja() {
 	double decreaseArtifactChance = 0.00; /// decrease a chance of spawning
 
 										  /// Maze generation examples:
-	maze->MazeEmpty1();
+	//maze->MazeEmpty1();
 	//maze->MazeEmpty2();
 	//maze->MazeEmpty3();
 	//maze->MazeETI();
-	//maze->MazeFromFile("test_lab");
-	//maze->MazeWeighted();
+	//maze->MazeFromFile("serduszko");
+	maze->MazeWeighted();
 
 
 	/// Bots options:
-	/// Bots(A*, Dijkstra, Tremaux
-	maze->Bots(1, 0, 0);
+	/// Bots(A*, Dijkstra, Tremaux)
+	maze->Bots(0, 1, 0);
 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -32,8 +32,9 @@ void symulacja() {
 		character->m_Timer.start();
 	}
 
-	//maze->Print();
-	//Sleep(1000);
+	maze->Print();
+	Sleep(2000);
+
 
 	while (true) {
 		maze->spawnArtifact(MaxArtifactsCountOnMap, artifactChance, decreaseArtifactChance);
@@ -41,7 +42,8 @@ void symulacja() {
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
-		//maze->Print();
+		maze->Print();
+		Sleep(500);
 
 		if (simulationTime > 0.0) {
 			if (mainTimer.getSecondsFromStart() >= simulationTime) {
@@ -65,7 +67,7 @@ void symulacja() {
 int main() {
 	HideCursor();
 	///height, width, maximum artifacts at once, scale 
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < 1; i++) {
 		symulacja();
 	}
 	system("pause");

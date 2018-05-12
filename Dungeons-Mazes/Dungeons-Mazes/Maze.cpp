@@ -26,6 +26,18 @@ void Maze::MazeETI() {
 }
 void Maze::MazeWeighted() {
 	initializeMazeFromFile("mapaTestowa");
+
+	m_pMap[6][2].cell->m_Terrain = SHREKSWAMP;
+	m_pMap[5][3].cell->m_Terrain = SHREKSWAMP;
+
+	
+	Point p = Point(7, 1);
+	Artifact* artifact = new Artifact(p, "", this);
+	m_pMap[p.x][p.y].artifact = artifact;
+	m_pMap[p.x][p.y].cell->m_IsWall = false;
+	m_Artifacts.push_back(artifact);
+	artifactHasJustSpawned = true;
+	this->m_MaxArtifactCount = 0;
 }
 void Maze::Bots(bool aStar, bool dijkstra, bool tremaux) {
 	if (aStar) spawnBot("A*");
@@ -34,7 +46,7 @@ void Maze::Bots(bool aStar, bool dijkstra, bool tremaux) {
 }
 #pragma endregion Examples
 
-Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int scale)
+Maze::Maze(int mapSizeX, int mapSizeY, int maxArtifactCount, int scale)
 	: m_MapSizeX(mapSizeX), m_MapSizeY(mapSizeY), m_MaxArtifactCount(maxArtifactCount), m_Scale(scale) {
 	assert(mapSizeX > 0);
 	assert(mapSizeY > 0);
@@ -42,7 +54,7 @@ Maze::Maze(uint8_t mapSizeX, uint8_t mapSizeY, uint8_t maxArtifactCount, int sca
 }
 
 /// Imho niepotrzebny
-//Maze::Maze(string mazeName, uint8_t maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {
+//Maze::Maze(string mazeName, int maxArtifactCount, int scale) : m_MaxArtifactCount(maxArtifactCount) {
 //	artifactHasJustSpawned = false;
 //}
 
