@@ -4,64 +4,70 @@
 #include "Artifact.hpp"
 #include "Console.hpp"
 
+void symulacja() {
+	Maze* maze = new Maze(1000, 1000, 10, 1);
+
+	double simulationTime = 0.0; /// in seconds
+	int MaxArtifactsCountOnMap = 1;
+	double artifactChance = 1.0; /// initial chance of spawning
+	double decreaseArtifactChance = 0.00; /// decrease a chance of spawning
+
+										  /// Maze generation examples:
+	maze->MazeEmpty1();
+	//maze->MazeEmpty2();
+	//maze->MazeEmpty3();
+	//maze->MazeETI();
+	//maze->MazeFromFile("test_lab");
+	//maze->MazeWeighted();
+
+
+	/// Bots options:
+	/// Bots(A*, Dijkstra, Tremaux
+	maze->Bots(1, 0, 0);
+
+	Timer mainTimer = Timer();
+	mainTimer.start();
+
+	for (auto character : maze->m_Characters) {
+		character->m_Timer.start();
+	}
+
+	//maze->Print();
+	//Sleep(1000);
+
+	while (true) {
+		maze->spawnArtifact(MaxArtifactsCountOnMap, artifactChance, decreaseArtifactChance);
+
+		for (auto character : maze->m_Characters) {
+			character->move();
+		}
+		//maze->Print();
+
+		if (simulationTime > 0.0) {
+			if (mainTimer.getSecondsFromStart() >= simulationTime) {
+				maze->endSimulation();
+				break;
+			}
+		}
+		if (maze->m_MaxArtifactCount == 0 && maze->m_Artifacts.size() == 0) {
+			maze->endSimulation();
+			break;
+		}
+	}
+
+	cout << "Simulation ended with total time of " << mainTimer.end() / 1000.0 << "s" << endl;
+	for (auto pl : maze->m_Characters) {
+		cout << *pl;
+	}
+}
 
 #if defined(CONSOLE_VIEW_BUILD)
 int main() {
 	HideCursor();
 	///height, width, maximum artifacts at once, scale 
-	Maze* maze = new Maze(20, 40, 5, 1);
-	
-	double simulationTime = 20.0; /// in seconds
-	double artifactChance = 1.0; /// initial chance of spawning
-	double decreaseArtifactChance = 0.05; /// decrease a chance of spawning
-
-	/// Maze generation examples:
-	maze->MazeEmpty1(); 
-	//maze->MazeEmpty2();
-	//maze->MazeEmpty3();
-	//maze->MazeETI();
-	//maze->MazeFromFile("serduszko");
-	//maze->MazeWeighted();
-
-	/// Bots options:
-	/// Bots(A*, Dijkstra, Tremaux)
-	//maze->Bots(1,1,0); 
-
-
-	Timer mainTimer = Timer();
-	mainTimer.start();
-	
-	for (auto character : maze->m_Characters) {
-		character->m_Timer.start();
+	for (int i = 0; i < 12; i++) {
+		symulacja();
 	}
-
-	maze->Print();
-	Sleep(2000);
-	
-	while (true) {
-		
-		maze->spawnArtifact(artifactChance, decreaseArtifactChance);
-		for (auto character : maze->m_Characters) {
-			character->move();
-		}
-		maze->Print();
-
-		if (simulationTime != 0.0) {
-			if (mainTimer.getSecondsFromStart() >= simulationTime) {
-				maze->endSimulation();
-				break;
-			}
-		} else if (maze->m_Artifacts.size() == 0) {
-			maze->endSimulation();
-			break;
-		}
-	}
-	
-	cout << "Simulation ended with total time of " << mainTimer.end() / 1000.0 << "s" << endl;
-	for (auto pl : maze->m_Characters) {
-		cout << *pl;
-	}
-	
 	system("pause");
 	return 0;
 }

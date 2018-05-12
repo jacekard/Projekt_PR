@@ -72,6 +72,20 @@ void Maze::initializeMazeFromFile(string mazeName) {
 	scaleMaze();
 };
 
+void Maze::save() {
+	ofstream file;
+
+	file.open("Mazes/test_lab.txt");
+	file << (int)m_MapSizeX << " " << (int)m_MapSizeY << " " << 0 << endl;
+
+	for (auto c : m_Cells) {
+		if (c->m_IsWall) {
+			file << (int)c->m_Position.y << " " << (int)c->m_Position.x << endl;
+		}
+	}
+	file.close();
+}
+
 void Maze::initializeMap(bool isWall) {
 	m_pMap = new Node*[m_MapSizeX];
 	for (int i = 0; i < m_MapSizeX; i++) {
@@ -153,7 +167,7 @@ void Maze::scaleMaze() {
 			if (m_pMap[i][j].cell->m_IsWall) {
 				for (int h = 0; h < m_Scale; h++) {
 					for (int l = 0; l < m_Scale; l++) {
-						m_pScaleMap[i*m_Scale +h][j*m_Scale +l].cell->m_IsWall = true;
+						m_pScaleMap[i*m_Scale + h][j*m_Scale + l].cell->m_IsWall = true;
 					}
 				}
 			}
@@ -282,15 +296,20 @@ bool Maze::ifCoordExist(int p, int mapSize) {
 	return (p >= 0 && p < mapSize) ? true : false;
 }
 
-void Maze::spawnArtifact(double randomFactor, double decreasingFactor) {
+void Maze::spawnArtifact(int MaxArtifactCountOnMap, double randomFactor, double decreasingFactor) {
 	artifactHasJustSpawned = false;
+
 	static double i = 0.00;
-	if (m_Artifacts.size() >= m_MaxArtifactCount
-		|| random() > randomFactor - i)
+	if (m_Artifacts.size() >= MaxArtifactCountOnMap)
+		//|| random() > randomFactor - i)
 		return;
+
+	if (m_MaxArtifactCount <= 0)
+		return;
+
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
-		spawnArtifact(randomFactor - i, decreasingFactor);
+		spawnArtifact(MaxArtifactCountOnMap, randomFactor - i, decreasingFactor);
 		return;
 	}
 	Artifact* artifact = new Artifact(p, "", this);
@@ -298,7 +317,7 @@ void Maze::spawnArtifact(double randomFactor, double decreasingFactor) {
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
 	m_Artifacts.push_back(artifact);
 	i += decreasingFactor;
-
+	m_MaxArtifactCount--;
 	artifactHasJustSpawned = true;
 
 }
@@ -306,7 +325,7 @@ void Maze::spawnArtifact(double randomFactor, double decreasingFactor) {
 void Maze::spawnBot(string type) {
 	AbstractPlayer* bot;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
-	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr ) {
+	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
 		spawnBot(type);
 		return;
 	}
