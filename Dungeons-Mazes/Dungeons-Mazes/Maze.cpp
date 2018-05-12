@@ -58,6 +58,15 @@ Maze::Maze(int mapSizeX, int mapSizeY, int maxArtifactCount, int scale)
 //	artifactHasJustSpawned = false;
 //}
 
+void Maze::WAForFuckedUpLinkingToDisplayWalls()
+{
+    for (int i = 0; i < m_MapSizeX; i++) {
+        for (int j = 0; j < m_MapSizeY; j++) {
+            m_pMap[i][j].isWall = m_pMap[i][j].cell->m_IsWall;
+        }
+    }
+}
+
 void Maze::initializeMazeFromFile(string mazeName) {
 	fstream file;
 	file.open("Mazes/" + mazeName + ".txt", ios::in);

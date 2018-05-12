@@ -11,6 +11,7 @@ struct Node {
 	Cell* cell;
 	AbstractPlayer* NPC;
 	Artifact * artifact;
+    bool isWall;
 };
 
 class Maze {
@@ -41,6 +42,8 @@ public:
 	void endSimulation();
 	void Print();
 	void save();
+
+    void WAForFuckedUpLinkingToDisplayWalls();
 
 #pragma region Examples
 	void MazeEmpty1();

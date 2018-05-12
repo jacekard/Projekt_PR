@@ -58,7 +58,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
     }
 
     // Initialize the model object.
-    result = m_Model->Initialize(m_pDirect3D->GetDevice(), m_pDirect3D->GetDeviceContext(), "../Graphics/Textures/stone01.tga");
+    result = m_Model->Initialize(m_pDirect3D->GetDevice(), m_pDirect3D->GetDeviceContext(), "../Graphics/Textures/textures2.tga");
     if (!result)
     {
         MessageBox(hwnd, "Could not initialize the model object.", "Error", MB_OK);
@@ -134,12 +134,12 @@ bool GraphicsClass::BeginFrame()
   //  }
 
     // Clear the buffers to begin the scene.
-    m_pDirect3D->BeginScene(0.0f, 0.41f, 0.70f, 1.0f);
+    m_pDirect3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
     return true;
 }
 
 
-bool GraphicsClass::Render(int32_t x, int32_t y, float tex_x_start, float tex_x_end, float tex_y_start, float tex_y_end)
+bool GraphicsClass::Render(int32_t x, int32_t y, float z, float tex_x_start, float tex_x_end, float tex_y_start, float tex_y_end)
 {
     XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
     bool result;
@@ -156,7 +156,7 @@ bool GraphicsClass::Render(int32_t x, int32_t y, float tex_x_start, float tex_x_
     m_Model->RenderBuffers(m_pDirect3D->GetDeviceContext(), tex_x_start, tex_x_end, tex_y_start, tex_y_end);
 
     // Render the model using the color shader.
-    worldMatrix = XMMatrixTranslation(x, y, 0.0);
+    worldMatrix = XMMatrixTranslation(x, y, z);
     result = m_TextureShader->Render(m_pDirect3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture());
     if (!result)
     {

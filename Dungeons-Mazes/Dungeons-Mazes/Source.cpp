@@ -2,6 +2,9 @@
 #include "Maze.hpp"
 #include "AStarBot.hpp"
 #include "Artifact.hpp"
+
+#if defined(CONSOLE_VIEW_BUILD)
+
 #include "Console.hpp"
 
 void symulacja() {
@@ -63,7 +66,6 @@ void symulacja() {
 	}
 }
 
-#if defined(CONSOLE_VIEW_BUILD)
 int main() {
 	HideCursor();
 	///height, width, maximum artifacts at once, scale 
@@ -76,7 +78,7 @@ int main() {
 #endif
 
 #if defined(DIRECTX_VIEW_BUILD)
-
+#include "SystemClass.hpp"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
     SystemClass* System;

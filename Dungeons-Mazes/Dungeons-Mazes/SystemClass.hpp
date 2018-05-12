@@ -1,9 +1,14 @@
 #pragma once
 
 #include "Config.hpp"
+#include "Maze.hpp"
+#include "AbstractPlayer.hpp"
+#include "GraphicsClass.hpp"
 
 class InputClass;
 class GraphicsClass;
+class Maze;
+class Cell;
 
 class SystemClass
 {
@@ -30,6 +35,15 @@ private:
 
    InputClass* m_Input;
    GraphicsClass* m_Graphics;
+   int screenWidth, screenHeight;
+
+   //Maze related
+   Maze* maze;
+
+   double simulationTime; /// in seconds
+   int MaxArtifactsCountOnMap;
+   double artifactChance; /// initial chance of spawning
+   double decreaseArtifactChance; /// decrease a chance of spawning
 };
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
