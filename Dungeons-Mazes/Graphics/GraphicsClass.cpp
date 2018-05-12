@@ -1,6 +1,6 @@
 #include "GraphicsClass.hpp"
 
-
+#if defined(DIRECTX_VIEW_BUILD)
 GraphicsClass::GraphicsClass()
 {
     m_pDirect3D = 0;
@@ -8,7 +8,6 @@ GraphicsClass::GraphicsClass()
     m_Model = 0;
     m_TextureShader = 0;
 }
-
 
 GraphicsClass::GraphicsClass(const GraphicsClass& other)
 {
@@ -174,3 +173,5 @@ void GraphicsClass::EndFrame()
     // Present the rendered scene to the screen.
     m_pDirect3D->EndScene();
 }
+
+#endif

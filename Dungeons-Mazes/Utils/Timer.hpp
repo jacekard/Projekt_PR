@@ -29,13 +29,13 @@ public:
 	}
 	void countCyclesDuration() {
 		if (cyclesDuration.size() == 0)
-			time.first = 0;
+			time.first = 0.0;
 		else time.first = (double)std::accumulate(cyclesDuration.begin(),
 			cyclesDuration.end(), 0.0);
 	}
 	void countCyclesAverage() {
 		if (cyclesDuration.size() == 0)
-			time.second = 0;
+			time.second = 0.0;
 		else time.second = (double)std::accumulate(cyclesDuration.begin(),
 			cyclesDuration.end(), 0.0) / cyclesDuration.size();
 	}

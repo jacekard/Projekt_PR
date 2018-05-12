@@ -36,10 +36,11 @@ public:
 	void makeOurMazeNotPerfectAgain();
 	bool ifCoordExist(int p, int mapSize);
 	void recursiveWallPlacing(Cell *cell, double randomFactor);
-	void spawnArtifact(double randomFactor, double decreasingFactor);
+	void spawnArtifact(int MaxArtifactCountOnMap, double randomFactor, double decreasingFactor);
 	void spawnBot(string type);
 	void endSimulation();
 	void Print();
+	void save();
 
 #pragma region Examples
 	void MazeEmpty1();
