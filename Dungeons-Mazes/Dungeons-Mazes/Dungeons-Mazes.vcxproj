@@ -230,6 +230,7 @@
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="MouseBot.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PledgeBot.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SystemClass.cpp" />
   </ItemGroup>
@@ -245,6 +246,7 @@
     <ClInclude Include="Maze.hpp" />
     <ClInclude Include="MouseBot.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="PledgeBot.hpp" />
     <ClInclude Include="SystemClass.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

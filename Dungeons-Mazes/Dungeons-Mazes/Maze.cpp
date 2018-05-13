@@ -3,6 +3,7 @@
 #include "AStarBot.hpp"
 #include "MouseBot.hpp"
 #include "DijkstraBot.hpp"
+#include "PledgeBot.hpp"
 #include "Player.hpp"
 #include "Artifact.hpp"
 
@@ -39,10 +40,10 @@ void Maze::MazeWeighted() {
 	artifactHasJustSpawned = true;
 	this->m_MaxArtifactCount = 0;
 }
-void Maze::Bots(bool aStar, bool dijkstra, bool tremaux) {
+void Maze::Bots(bool aStar, bool dijkstra, bool pledge) {
 	if (aStar) spawnBot("A*");
 	if (dijkstra) spawnBot("Dijkstra");
-	if (tremaux) spawnBot("Tremaux");
+	if (pledge) spawnBot("Pledge");
 }
 #pragma endregion Examples
 
@@ -361,8 +362,8 @@ void Maze::spawnBot(string type) {
 	else if (type == "Player") {
 		bot = new Player(p, "Player", this);
 	}
-	else if (type == "Tremaux")
-		;///...
+	else if (type == "Pledge")
+		bot = new PledgeBot(p, "Pledge Bot", this);
 	this->m_Characters.push_back(bot);
 	m_pMap[p.x][p.y].NPC = bot;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;

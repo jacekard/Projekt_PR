@@ -11,10 +11,14 @@ public:
 	Point() : x(0), y(0) {}
 	Point(int a, int b) : x(a), y(b) {}
 	Point(const Point& other) : x(other.x), y(other.y) {}
-	inline void turnRight() {
+	inline Point turnRight() {
 		int tmp = x;
-		x = y;
-		y = -tmp;
+		return Point(y, -tmp);
+	}
+	inline Point turnLeft() {
+		int tmp = x;
+		return Point(-y, tmp);
+
 	}
 	friend bool operator== (const Point &p1, const Point &p2);
 	friend bool operator!= (const Point &p1, const Point &p2);
