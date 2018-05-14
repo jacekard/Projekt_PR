@@ -14,7 +14,8 @@ void PledgeBot::move() {
 	if (m_pMaze->m_pMap[next.x][next.y].artifact != nullptr) {
 		//cout << "ZEBRALES ARTEFAKT!" << endl;
 		m_ArtifactsObtained++;
-
+		m_pMaze->m_Artifacts.erase(std::find(m_pMaze->m_Artifacts.begin(), m_pMaze->m_Artifacts.end(),
+			m_pMaze->m_pMap[next.x][next.y].artifact));
 		m_pMaze->m_pMap[m_Position.x][m_Position.y].NPC = nullptr;
 		m_pMaze->m_pMap[next.x][next.y].artifact = nullptr;
 		m_pMaze->m_pMap[next.x][next.y].NPC = this;

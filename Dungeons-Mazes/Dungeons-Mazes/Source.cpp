@@ -8,14 +8,15 @@
 #include "Console.hpp"
 
 void symulacja() {
-	Maze* maze = new Maze(30, 30, 10, 2);
+	///MapSizeX, MapSizeY, MaximumArtifactCount, Scale
+	Maze* maze = new Maze(500, 500, 10, 1);
 
 	double simulationTime = 0.0; /// in seconds
 	int MaxArtifactsCountOnMap = 1;
 	double artifactChance = 1.0; /// initial chance of spawning
 	double decreaseArtifactChance = 0.00; /// decrease a chance of spawning
 
-										  /// Maze generation examples:
+	/// Maze generation examples:
 	maze->MazeEmpty1();
 	//maze->MazeEmpty2();
 	//maze->MazeEmpty3();
@@ -26,7 +27,7 @@ void symulacja() {
 
 	/// Bots options:
 	/// Bots(A*, Dijkstra, Pledge)
-	maze->Bots(0, 0, 1);
+	maze->Bots(0, 1, 0);
 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -35,8 +36,8 @@ void symulacja() {
 		character->m_Timer.start();
 	}
 
-	maze->Print();
-	Sleep(2000);
+	//maze->Print();
+	//Sleep(2000);
 
 
 	while (true) {
@@ -45,7 +46,7 @@ void symulacja() {
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
-		maze->Print();
+		//maze->Print();
 		//Sleep(500);
 
 		if (simulationTime > 0.0) {
@@ -69,7 +70,7 @@ void symulacja() {
 int main() {
 	HideCursor();
 	///height, width, maximum artifacts at once, scale 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 15; i++) {
 		symulacja();
 	}
 	system("pause");
