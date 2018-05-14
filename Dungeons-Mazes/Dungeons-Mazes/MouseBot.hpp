@@ -9,6 +9,6 @@ public:
 	bool straight;
 	void move() override;
 	void show() override;
-	MouseBot(Point, string, Maze*);
+	MouseBot(Point, PlayerType, Maze*);
 	~MouseBot() {};
 };

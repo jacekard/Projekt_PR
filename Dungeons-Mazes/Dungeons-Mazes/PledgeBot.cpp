@@ -70,7 +70,7 @@ void PledgeBot::show() {
 	#endif
 }
 
-PledgeBot::PledgeBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+PledgeBot::PledgeBot(Point p, PlayerType playerType, Maze* maze) : AbstractPlayer(p, playerType, maze) {
 	m_Vector = randomVector();
 }
 

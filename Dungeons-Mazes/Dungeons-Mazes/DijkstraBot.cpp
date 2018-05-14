@@ -150,7 +150,7 @@ void DijkstraBot::show() {
 	#endif
 }
 
-DijkstraBot::DijkstraBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+DijkstraBot::DijkstraBot(Point p, PlayerType playerType, Maze* maze) : AbstractPlayer(p, playerType, maze) {
 	for (auto cell : m_pMaze->m_Cells) {
 		Data* data = new Data;
 		data->distance = INFINITE;

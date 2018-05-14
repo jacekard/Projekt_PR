@@ -40,10 +40,14 @@ void Maze::MazeWeighted() {
 	artifactHasJustSpawned = true;
 	this->m_MaxArtifactCount = 0;
 }
-void Maze::Bots(bool aStar, bool dijkstra, bool pledge) {
-	if (aStar) spawnBot("A*");
-	if (dijkstra) spawnBot("Dijkstra");
-	if (pledge) spawnBot("Pledge");
+void Maze::Bots(PlayerType bots[]) {
+	int i = 0;
+	while(bots[i] >= 0) {
+		spawnBot(bots[i]);
+		i++;
+	}
+
+
 }
 #pragma endregion Examples
 
@@ -287,7 +291,7 @@ void Maze::recursiveWallPlacing(Cell *cell, double randomFactor) {
 void Maze::Print() {
 #if defined(CONSOLE_VIEW_BUILD)
 	gotoxy(0, 0);
-	int offset = 2;
+	int offset = 0;
 
 	for (int i = 0; i < m_MapSizeX; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
@@ -344,30 +348,27 @@ void Maze::spawnArtifact(int MaxArtifactCountOnMap, double randomFactor, double 
 
 }
 
-void Maze::spawnBot(string type) {
+void Maze::spawnBot(PlayerType type) {
 	AbstractPlayer* bot;
 	Point p = Point(random(0, m_MapSizeX - 1), random(0, m_MapSizeY - 1));
 	if (m_pMap[p.x][p.y].cell->m_IsWall || m_pMap[p.x][p.y].NPC != nullptr || m_pMap[p.x][p.y].artifact != nullptr) {
 		spawnBot(type);
 		return;
 	}
-	if (type == "A*")
-		bot = new AStarBot(p, "A* Bot", this);
-	else if (type == "Mouse") {
-		bot = new MouseBot(p, "Mouse Bot", this);
+	if (type == ASTAR)
+		bot = new AStarBot(p, ASTAR, this);
+	else if (type == DIJKSTRA) {
+		bot = new DijkstraBot(p, DIJKSTRA, this);
 	}
-	else if (type == "Dijkstra") {
-		bot = new DijkstraBot(p, "Dijkstra Bot", this);
+	else if (type == PLAYER) {
+		bot = new Player(p, PLAYER, this);
 	}
-	else if (type == "Player") {
-		bot = new Player(p, "Player", this);
-	}
-	else if (type == "Pledge")
-		bot = new PledgeBot(p, "Pledge Bot", this);
-	this->m_Characters.push_back(bot);
+	else if (type == PLEDGE)
+		bot = new PledgeBot(p, PLEDGE, this);
+
+	m_Characters.push_back(bot);
 	m_pMap[p.x][p.y].NPC = bot;
 	m_pMap[p.x][p.y].cell->m_IsWall = false;
-	//usuwa ewentualna sciane na miejscu bota
 }
 
 void Maze::endSimulation() {
@@ -377,7 +378,7 @@ void Maze::endSimulation() {
 }
 
 Maze::~Maze() {
-	for (int i = 0; i < m_MapSizeY; i++) {///XD
+	for (int i = 0; i < m_MapSizeY; i++) {
 		for (int j = 0; j < m_MapSizeY; j++) {
 			delete m_pMap[i][j].cell;
 			delete m_pMap[i][j].NPC;

@@ -164,7 +164,7 @@ void AStarBot::show() {
 #endif
 }
 
-AStarBot::AStarBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+AStarBot::AStarBot(Point p, PlayerType playerType, Maze* maze) : AbstractPlayer(p, playerType, maze) {
 	for (auto cell : m_pMaze->m_Cells) {
 		if (!cell->m_IsWall) {
 			m_DataSet[cell] = new Data;

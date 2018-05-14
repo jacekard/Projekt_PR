@@ -57,7 +57,7 @@ void Player::show() {
 	#endif
 }
 
-Player::Player(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+Player::Player(Point p, PlayerType playerType, Maze* maze) : AbstractPlayer(p, playerType, maze) {
 	m_Direction = UP;
 }
 

@@ -23,6 +23,6 @@ public:
 	void updatePaths();
 	void show() override; //display
 	void move() override; //finding path
-	AStarBot(Point p, string name, Maze* maze);
+	AStarBot(Point, PlayerType, Maze*);
 	~AStarBot();
 };

@@ -17,13 +17,13 @@ public:
 	void start() { 
 		now = high_resolution_clock::now(); 
 	}
-	double end() { return duration_cast<milliseconds>(high_resolution_clock::now() - now).count(); }
+	double end() { return (double)duration_cast<milliseconds>(high_resolution_clock::now() - now).count(); }
 
 	void tick() {
 		cycle = high_resolution_clock::now();
 	}
 	double tock() { 
-		double millis = duration_cast<milliseconds>(high_resolution_clock::now() - cycle).count();
+		double millis = (double)duration_cast<milliseconds>(high_resolution_clock::now() - cycle).count();
 		cyclesDuration.push_back(millis);
 		return millis;
 	}
@@ -44,6 +44,6 @@ public:
 		countCyclesAverage();
 	}
 	double getSecondsFromStart() {
-		return duration_cast<seconds>(high_resolution_clock::now() - now).count();
+		return (double)duration_cast<seconds>(high_resolution_clock::now() - now).count();
 	}
 };

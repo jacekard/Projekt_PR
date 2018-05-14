@@ -14,6 +14,6 @@ public:
 	void getPath();
 	void show() override;
 	void move() override;
-	DijkstraBot(Point p, string name, Maze* maze);
+	DijkstraBot(Point, PlayerType, Maze*);
 	~DijkstraBot();
 };

@@ -35,7 +35,7 @@ public:
 	float getMoveWeight(const Point &p) {
 		Point d = Point(x, y) - p;
 		//sqrt(2) for oblique vector
-		if (d.x * d.y > 0) return sqrt(2);
+		if (d.x * d.y > 0) return (float)sqrt(2);
 		//1 for cross vector
 		else return 1.0;
 	}
@@ -55,7 +55,7 @@ inline bool operator!= (const Point &p1, const Point &p2) {
 /// @in a, b - points to calculate distance between
 ////////////////////////////////////////////////////////////
 inline float distance(Point a, Point b) {
-	return sqrt(pow((a.x - b.x), 2) + pow(a.y - b.y, 2));
+	return (float)sqrt(pow((a.x - b.x), 2) + pow(a.y - b.y, 2));
 }
 
 ////////////////////////////////////////////////////////////
@@ -64,5 +64,5 @@ inline float distance(Point a, Point b) {
 /// @in a, b - points to calculate distance between
 ////////////////////////////////////////////////////////////
 inline float heuristic(Point a, Point b) {
-	return abs(a.x - b.x) + abs(a.y - b.y);
+	return  (float)abs(a.x - b.x) + abs(a.y - b.y);
 }

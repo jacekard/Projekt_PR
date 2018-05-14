@@ -53,7 +53,7 @@ void MouseBot::show() {
 	cout << "~";
 }
 
-MouseBot::MouseBot(Point p, string name, Maze* maze) : AbstractPlayer(p, name, maze) {
+MouseBot::MouseBot(Point p, PlayerType playerType, Maze* maze) : AbstractPlayer(p, playerType, maze) {
 	m_Vector = UP;
 	straight = false;
 };

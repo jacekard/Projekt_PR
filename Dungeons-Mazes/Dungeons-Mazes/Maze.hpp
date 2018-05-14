@@ -1,7 +1,7 @@
 #pragma once
 #include "Config.hpp"
 
-
+enum PlayerType;
 class GameObject;
 class AbstractPlayer;
 class Artifact;
@@ -38,7 +38,7 @@ public:
 	bool ifCoordExist(int p, int mapSize);
 	void recursiveWallPlacing(Cell *cell, double randomFactor);
 	void spawnArtifact(int MaxArtifactCountOnMap, double randomFactor, double decreasingFactor);
-	void spawnBot(string type);
+	void spawnBot(PlayerType type);
 	void endSimulation();
 	void Print();
 	void save();
@@ -52,6 +52,6 @@ public:
 	void MazeFromFile(string mazeName);
 	void MazeETI();
 	void MazeWeighted();
-	void Bots(bool aStar, bool dijkstra, bool tremaux);
+	void Bots(PlayerType bots[]);
 #pragma endregion Examples
 };

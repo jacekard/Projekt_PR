@@ -7,6 +7,6 @@ public:
 	void checkInputStatus();
 	void show() override;
 	void move();
-	Player(Point p, string name, Maze* maze);
+	Player(Point, PlayerType, Maze*);
 	~Player();
 };

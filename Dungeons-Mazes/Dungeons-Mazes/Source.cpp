@@ -7,12 +7,14 @@
 
 #include "Console.hpp"
 
-void symulacja() {
+int main() {
+	HideCursor();
+
 	///MapSizeX, MapSizeY, MaximumArtifactCount, Scale
-	Maze* maze = new Maze(500, 500, 10, 1);
+	Maze* maze = new Maze(10, 10, 4, 1);
 
 	double simulationTime = 0.0; /// in seconds
-	int MaxArtifactsCountOnMap = 1;
+	int MaxArtifactsCountOnMap = 1; ///maximum artifacts available at once
 	double artifactChance = 1.0; /// initial chance of spawning
 	double decreaseArtifactChance = 0.00; /// decrease a chance of spawning
 
@@ -23,11 +25,12 @@ void symulacja() {
 	//maze->MazeETI();
 	//maze->MazeFromFile("serduszko");
 	//maze->MazeWeighted();
-				
+
 
 	/// Bots options:
 	/// Bots(A*, Dijkstra, Pledge)
-	maze->Bots(0, 1, 0);
+	PlayerType bots[] = { ASTAR, DIJKSTRA };
+	maze->Bots(bots);
 
 	Timer mainTimer = Timer();
 	mainTimer.start();
@@ -46,8 +49,8 @@ void symulacja() {
 		for (auto character : maze->m_Characters) {
 			character->move();
 		}
-		//maze->Print();
-		//Sleep(500);
+		maze->Print();
+		Sleep(100);
 
 		if (simulationTime > 0.0) {
 			if (mainTimer.getSecondsFromStart() >= simulationTime) {
@@ -65,14 +68,7 @@ void symulacja() {
 	for (auto pl : maze->m_Characters) {
 		cout << *pl;
 	}
-}
 
-int main() {
-	HideCursor();
-	///height, width, maximum artifacts at once, scale 
-	for (int i = 0; i < 15; i++) {
-		symulacja();
-	}
 	system("pause");
 	return 0;
 }
