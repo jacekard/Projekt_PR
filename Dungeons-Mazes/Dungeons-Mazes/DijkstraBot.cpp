@@ -74,15 +74,19 @@ void DijkstraBot::getPath() {
 	Cell* actualCell = nearestArtifact->getMotherCell();
 	m_Path.push(actualCell);
 	while (actualCell != getMotherCell()) {
+		Cell* closestNeighbor = NULL;
+		int minDistance = m_DataSet[actualCell]->distance;
 		for (auto neighbor : actualCell->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
-				if (m_DataSet[neighbor]->distance == m_DataSet[actualCell->getMotherCell()]->distance - 1) {//ten warunek trzeba zmienic, gdy wprowadzimy koszty
-					m_Path.push(neighbor);
-					actualCell = neighbor;
-					break;
+				if (m_DataSet[neighbor]->distance < minDistance) {
+					closestNeighbor = neighbor;
+					minDistance = m_DataSet[neighbor]->distance;
 				}
 			}
 		}
+		assert(closestNeighbor);
+		m_Path.push(closestNeighbor);
+		actualCell = closestNeighbor;
 	}
 	m_Path.pop();
 }
@@ -126,7 +130,7 @@ void DijkstraBot::DijkstraAlgorithm() {
 		for (auto neighbor : min->m_pNeighbors) {
 			if (!neighbor->m_IsWall) {
 				if (m_DataSet[min]->distance == INFINITE) continue;
-				unsigned int alt = m_DataSet[min]->distance + 1;//+waga(min, neighbor); tutaj zamiast 1 bedzie waga
+				unsigned int alt = m_DataSet[min]->distance + neighbor->getTerrainType() + min->m_Position.getMoveWeight(neighbor->m_Position);//+waga(min, neighbor); tutaj zamiast 1 bedzie waga
 				if (alt < m_DataSet[neighbor]->distance) {
 					auto it = find_if(Q.begin(), Q.end(), comp(pair<Cell*, unsigned int>(neighbor, m_DataSet[neighbor]->distance)));
 					if (it != Q.end()) {
