@@ -29,7 +29,7 @@ int main() {
 
 	/// Bots options:
 	/// Bots(A*, Dijkstra, Pledge)
-	PlayerType bots[] = { ASTAR, DIJKSTRA };
+	PlayerType bots[] = { ASTAR, ASTAR, ASTAR };
 	maze->Bots(bots);
 
 	Timer mainTimer = Timer();
